@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orquídea Privé — Comunidad exclusiva</title>
+<meta name="description" content="Comunidad privada y verificada para conversar con creadoras colombianas. Solo mayores de 18 años. Chat y llamadas seguras dentro de la plataforma.">
+<meta name="theme-color" content="#0b0709">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  ==========================================================================
+  GUÍA RÁPIDA PARA PERSONALIZAR
+  --------------------------------------------------------------------------
+  1. FONDOS POR SECCIÓN: cada <section> tiene un atributo data-bg="".
+     Pon ahí la ruta de tu imagen o GIF, ej: data-bg="img/fondo-hero.jpg".
+     Se aplica automáticamente con un velo oscuro para que el texto se lea.
+  2. VIDEO DE PORTADA: en el hero, rellena el src del <video id="heroVideo">.
+  3. FOTOS DE PERFILES: en cada .card cambia style="--photo:url('...')".
+  4. PRECIOS: edita el objeto PLANS en el <script> al final.
+  5. ACTIVIDAD EN VIVO: DEMO_MODE=true muestra datos de ejemplo. Antes del
+     lanzamiento público conéctalo a suscripciones reales (ver README.md).
+  ==========================================================================
+-->
+<style>
+:root{
+  --bg:#0b0709;
+  --bg-2:#120c0f;
+  --surface:#18111499;
+  --surface-solid:#1a1215;
+  --line:#ffffff14;
+  --line-strong:#ffffff26;
+  --text:#f6efe9;
+  --muted:#b9aca6;
+  --dim:#8a7d78;
+  --gold:#d9b779;
+  --gold-2:#f1d9a6;
+  --rose:#c9677f;
+  --rose-2:#e48aa0;
+  --ok:#4fd18b;
+  --radius:22px;
+  --radius-sm:14px;
+  --max:1240px;
+  --shadow:0 30px 80px -30px #000c;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 16px}
+@media(min-width:720px){.wrap{padding:0 32px}}
+body.locked{overflow:hidden}
+
+/* ---------- Tipografía ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.01em}
+h1{font-size:clamp(44px,8vw,96px)}
+h2{font-size:clamp(34px,5.4vw,62px)}
+h3{font-size:clamp(22px,2.4vw,28px)}
+h1 em,h2 em{font-style:italic;color:var(--gold-2)}
+.lead{color:var(--muted);font-size:clamp(16px,1.6vw,19px);max-width:620px}
+.sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:48px}
+.sec-head.center{align-items:center;text-align:center}
+.sec-head.center .lead{margin:0 auto}
+
+/* ---------- Botones ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;border-radius:999px;font-weight:600;font-size:15px;letter-spacing:.02em;transition:transform .25s,box-shadow .25s,background .25s;white-space:nowrap;overflow:hidden}
+.btn:active{transform:scale(.98)}
+.btn-gold{background:linear-gradient(135deg,#f3dcaa 0%,#d9b779 45%,#b38d4f 100%);color:#1a1008;box-shadow:0 12px 40px -12px #d9b779aa,inset 0 1px 0 #fff8}
+.btn-gold::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#ffffff80 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 50px -12px #d9b779cc,inset 0 1px 0 #fff8}
+.btn-gold:hover::after{transform:translateX(120%)}
+.btn-ghost{border:1px solid var(--line-strong);background:#ffffff08;backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:#ffffff14;border-color:#ffffff40}
+.btn-sm{height:42px;padding:0 20px;font-size:14px}
+.btn-block{width:100%}
+
+/* ---------- Fondos por sección ---------- */
+.bg-section{position:relative;isolation:isolate}
+.bg-section[data-bg-set]::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--sec-bg) center/cover no-repeat}
+.bg-section[data-bg-set]::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--bg) 0%,#0b0709d9 18%,#0b0709d9 82%,var(--bg) 100%)}
+
+/* ---------- Barra superior ---------- */
+.topbar{background:linear-gradient(90deg,#2a1219,#3a1b22,#2a1219);font-size:13px;text-align:center;padding:9px 16px;color:var(--gold-2);letter-spacing:.02em}
+.topbar b{color:#fff}
+.nav{position:sticky;top:0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:#0b0709e6;backdrop-filter:blur(18px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:16px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:26px;letter-spacing:.02em}
+.logo-mark{width:36px;height:36px;flex:none}
+.logo small{font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--gold);display:block;margin-top:-4px}
+.nav-links{display:none;gap:34px;font-size:14px;color:var(--muted)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.nav-cta .login{display:none}
+@media(min-width:980px){.nav-links{display:flex}.nav-cta .login{display:inline-flex}}
+
+/* ---------- Hero ---------- */
+.hero{min-height:calc(100svh - 110px);display:flex;align-items:center;padding:64px 0 96px;overflow:hidden}
+.hero-media{position:absolute;inset:0;z-index:-3;overflow:hidden}
+.hero-media video{width:100%;height:100%;object-fit:cover;opacity:.45}
+.hero-glow{position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(60% 50% at 78% 30%,#c9677f40,transparent 70%),
+    radial-gradient(45% 45% at 15% 80%,#d9b77926,transparent 70%),
+    radial-gradient(80% 60% at 50% 120%,#3a1520,transparent 70%)}
+.hero .wrap{display:grid;gap:56px;align-items:center}
+@media(min-width:1020px){.hero .wrap{grid-template-columns:1.05fr .95fr}}
+.hero-copy{display:flex;flex-direction:column;gap:26px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:18px 28px;color:var(--muted);font-size:13px;margin-top:6px}
+.hero-trust span{display:flex;align-items:center;gap:8px}
+.hero-trust svg{color:var(--gold)}
+.avatars{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--muted)}
+.avatars .stack{display:flex}
+.avatars .stack i{width:36px;height:36px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;background:var(--g)}
+.avatars .stack i:first-child{margin-left:0}
+.avatars b{color:var(--text)}
+
+.hero-stage{position:relative;height:560px;max-width:520px;width:100%;margin:0 auto}
+.hero-stage .card{position:absolute;width:62%;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.hero-stage .card:nth-child(1){left:0;top:40px;transform:rotate(-7deg)}
+.hero-stage .card:nth-child(2){right:0;top:0;transform:rotate(6deg);z-index:2}
+.hero-stage .card:nth-child(3){left:19%;top:150px;z-index:3;transform:rotate(-1deg)}
+.hero-stage:hover .card:nth-child(1){transform:rotate(-10deg) translateX(-14px)}
+.hero-stage:hover .card:nth-child(2){transform:rotate(9deg) translateX(14px)}
+.hero-stage .card .ph{display:none}
+@media(max-width:560px){.hero-stage{height:440px}.hero-stage .card:nth-child(3){top:110px}}
+
+/* ---------- Tarjetas de perfil ---------- */
+.card{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/4;background:var(--surface-solid);box-shadow:var(--shadow);isolation:isolate;border:1px solid var(--line)}
+.card .photo{position:absolute;inset:0;z-index:-2;background:var(--photo,none) center/cover,var(--g,linear-gradient(160deg,#4a2230,#1a0e12));transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.card .photo .ph{position:absolute;inset:0;display:grid;place-items:center;opacity:.5}
+.card[style*="--photo"] .photo .ph{display:none}
+.card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0000 40%,#0b0709 100%)}
+.card:hover .photo{transform:scale(1.06)}
+.card-top{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:#0b0709a6;backdrop-filter:blur(10px);font-size:12px;font-weight:600;border:1px solid var(--line)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #4fd18b33;animation:pulse 2s infinite}
+.chip.gold{color:var(--gold-2)}
+@keyframes pulse{50%{box-shadow:0 0 0 6px #4fd18b00}}
+.card-body{position:absolute;left:0;right:0;bottom:0;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card-name{font-family:var(--serif);font-size:30px;line-height:1;display:flex;align-items:center;gap:8px}
+.card-name .verified{width:20px;height:20px;flex:none;color:var(--gold)}
+.card-meta{font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap}
+.card-tags span{font-size:11px;padding:4px 9px;border-radius:999px;background:#ffffff12;color:#e9dfda}
+.card-actions{display:flex;gap:8px;margin-top:6px;opacity:.95}
+.card-actions .btn{height:44px;flex:1;font-size:14px;padding:0 14px}
+.card-actions .icon-btn{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);background:#ffffff0d;transition:background .2s,color .2s}
+.card-actions .icon-btn:hover{background:var(--rose);border-color:var(--rose)}
+.card-actions .icon-btn.liked{background:var(--rose);border-color:var(--rose)}
+.card .lock{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gold-2)}
+
+/* ---------- Ticker ---------- */
+.ticker{border-block:1px solid var(--line);background:#0f0a0c;overflow:hidden;padding:20px 0}
+.ticker-track{display:flex;gap:56px;width:max-content;animation:scroll 40s linear infinite}
+.ticker-item{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:24px;color:var(--muted);white-space:nowrap}
+.ticker-item svg{color:var(--gold)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- Secciones ---------- */
+section{padding:110px 0}
+@media(max-width:720px){section{padding:80px 0}}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+@media(min-width:860px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--bg-2);padding:34px 26px}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(38px,4.6vw,58px);font-weight:500;line-height:1;color:var(--gold-2)}
+.stat>span{color:var(--muted);font-size:14px}
+
+/* Grid perfiles */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filter{height:40px;padding:0 18px;border-radius:999px;border:1px solid var(--line-strong);font-size:14px;color:var(--muted);transition:all .2s}
+.filter:hover{color:var(--text)}
+.filter.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.grid-profiles{display:grid;gap:20px;grid-template-columns:1fr}
+@media(min-width:600px){.grid-profiles{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1020px){.grid-profiles{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1280px){.grid-profiles{grid-template-columns:repeat(4,1fr)}}
+.grid-profiles .card.feature{grid-row:span 1}
+@media(min-width:1020px){.grid-profiles .card.feature{grid-column:span 2;aspect-ratio:auto}}
+.card.is-hidden{display:none}
+.sample-note{margin-top:22px;color:var(--dim);font-size:13px;text-align:center}
+
+/* Cómo funciona */
+.steps{display:grid;gap:18px;grid-template-columns:1fr;counter-reset:s}
+@media(min-width:760px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{position:relative;padding:32px 28px 30px;border-radius:var(--radius);background:linear-gradient(180deg,#1b1316,#130d10);border:1px solid var(--line);counter-increment:s;overflow:hidden}
+.step::before{content:"0" counter(s);position:absolute;right:20px;top:8px;font-family:var(--serif);font-size:84px;color:#ffffff08;line-height:1}
+.step .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:#d9b7791a;color:var(--gold);margin-bottom:22px}
+.step h3{margin-bottom:8px}
+.step p{color:var(--muted);font-size:15px}
+
+/* Beneficios */
+.benefits{display:grid;gap:56px;align-items:center}
+@media(min-width:1020px){.benefits{grid-template-columns:1fr 1fr}}
+.benefit-list{display:grid;gap:14px}
+.benefit{display:flex;gap:18px;padding:20px;border-radius:var(--radius-sm);border:1px solid transparent;transition:background .3s,border-color .3s}
+.benefit:hover{background:#ffffff06;border-color:var(--line)}
+.benefit .ic{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#d9b77933,#c9677f22);color:var(--gold-2)}
+.benefit h4{font-size:17px;font-weight:600;margin-bottom:4px}
+.benefit p{color:var(--muted);font-size:15px}
+.phone-mock{position:relative;max-width:360px;margin:0 auto;border-radius:44px;padding:12px;background:linear-gradient(160deg,#2c2024,#120c0e);box-shadow:var(--shadow),inset 0 0 0 1px #ffffff1a}
+.phone-screen{border-radius:34px;overflow:hidden;background:#0f0a0c;height:640px;display:flex;flex-direction:column}
+.chat-head{display:flex;align-items:center;gap:12px;padding:18px 18px 14px;border-bottom:1px solid var(--line)}
+.chat-head .av{width:42px;height:42px;border-radius:50%;background:var(--g)}
+.chat-head b{display:block;font-size:15px}
+.chat-head small{color:var(--ok);font-size:12px}
+.chat-head .call{margin-left:auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#1a1008}
+.chat-body{flex:1;padding:18px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.msg{max-width:80%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.45;opacity:0;transform:translateY(8px);transition:all .5s}
+.msg.show{opacity:1;transform:none}
+.msg.in{background:#231a1d;border-bottom-left-radius:6px}
+.msg.out{background:linear-gradient(135deg,#d9b779,#b38d4f);color:#1a1008;align-self:flex-end;border-bottom-right-radius:6px}
+.msg.sys{align-self:center;background:#ffffff0a;font-size:12px;color:var(--muted);text-align:center;border-radius:12px}
+.typing{display:flex;gap:4px;padding:12px 14px;background:#231a1d;border-radius:18px;width:max-content;opacity:0;transition:opacity .3s}
+.typing.show{opacity:1}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{50%{opacity:.25}}
+.chat-input{margin:12px;height:46px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;padding:0 16px;color:var(--dim);font-size:14px}
+
+/* Planes */
+.billing{display:inline-flex;padding:5px;border-radius:999px;border:1px solid var(--line-strong);background:#ffffff06;gap:4px;margin:0 auto 14px}
+.billing button{height:40px;padding:0 18px;border-radius:999px;font-size:14px;color:var(--muted);transition:all .25s}
+.billing button.active{background:var(--text);color:var(--bg)}
+.billing .save{font-size:11px;color:var(--ok);margin-left:6px;font-weight:700}
+.currency{display:flex;justify-content:center;gap:14px;font-size:13px;color:var(--dim);margin-bottom:44px}
+.currency button{color:var(--dim);border-bottom:1px solid transparent;padding-bottom:2px}
+.currency button.active{color:var(--gold-2);border-color:var(--gold)}
+.plans{display:grid;gap:20px;grid-template-columns:1fr;align-items:stretch}
+@media(min-width:720px){.plans{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1180px){.plans{grid-template-columns:repeat(4,1fr)}}
+.plan{position:relative;display:flex;flex-direction:column;gap:22px;padding:34px 28px;border-radius:var(--radius);background:linear-gradient(180deg,#19111499,#110b0d99);border:1px solid var(--line);backdrop-filter:blur(8px);transition:transform .35s,border-color .35s}
+.plan:hover{transform:translateY(-6px);border-color:var(--line-strong)}
+.plan.popular{background:linear-gradient(180deg,#2a1820,#150d10);border:1px solid #d9b77966;box-shadow:0 40px 90px -40px #c9677f80}
+.plan.vip{background:linear-gradient(180deg,#1c1710,#0e0b08);border:1px solid #d9b77940}
+.plan .badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:6px 14px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#f3dcaa,#d9b779);color:#1a1008;white-space:nowrap}
+.plan-name{font-family:var(--serif);font-size:30px;line-height:1}
+.plan-desc{color:var(--muted);font-size:14px;min-height:44px}
+.price{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.price b{font-family:var(--serif);font-size:50px;font-weight:500;line-height:1}
+.price small{color:var(--muted);font-size:14px}
+.price-old{font-size:13px;color:var(--dim);text-decoration:line-through;min-height:20px}
+.plan ul{list-style:none;display:grid;gap:12px;font-size:14px;flex:1}
+.plan li{display:flex;gap:10px;align-items:flex-start;color:#e6dbd5}
+.plan li svg{flex:none;margin-top:3px;color:var(--gold)}
+.plan li.off{color:var(--dim)}
+.plan li.off svg{color:var(--dim)}
+.plan .per-day{font-size:12px;color:var(--dim);text-align:center}
+.guarantee{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 32px;margin-top:40px;color:var(--muted);font-size:14px}
+.guarantee span{display:flex;align-items:center;gap:8px}
+.guarantee svg{color:var(--gold)}
+
+/* Tabla comparativa */
+.compare{margin-top:64px;border:1px solid var(--line);border-radius:var(--radius);overflow:auto}
+.compare table{width:100%;border-collapse:collapse;min-width:640px;font-size:14px}
+.compare th,.compare td{padding:16px 20px;text-align:center;border-bottom:1px solid var(--line)}
+.compare th:first-child,.compare td:first-child{text-align:left;color:var(--muted)}
+.compare thead th{font-family:var(--serif);font-size:20px;font-weight:500;background:#ffffff05}
+.compare thead th.hl{color:var(--gold-2)}
+.compare td.hl{background:#d9b7790a}
+.compare tr:last-child td{border-bottom:0}
+
+/* Seguridad */
+.trust-grid{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:720px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.trust-grid{grid-template-columns:repeat(3,1fr)}}
+.trust-item{padding:30px;border-radius:var(--radius);border:1px solid var(--line);background:#ffffff04}
+.trust-item .ic{color:var(--gold);margin-bottom:18px}
+.trust-item h3{font-size:24px;margin-bottom:8px}
+.trust-item p{color:var(--muted);font-size:15px}
+.seals{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px}
+.seal{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.seal svg{color:var(--gold)}
+
+/* Galería / media */
+.media-grid{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
+@media(min-width:900px){.media-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:220px}}
+.media{position:relative;border-radius:var(--radius-sm);overflow:hidden;background:var(--g);border:1px solid var(--line)}
+.media.tall{grid-row:span 2}
+.media.wide{grid-column:span 2}
+.media img,.media video{width:100%;height:100%;object-fit:cover}
+.media .label{position:absolute;left:14px;bottom:14px;font-size:12px;padding:6px 12px;border-radius:999px;background:#0b0709b3;backdrop-filter:blur(8px)}
+.media .play{position:absolute;inset:0;display:grid;place-items:center}
+.media .play span{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ffffff26;backdrop-filter:blur(10px);border:1px solid #ffffff40;transition:transform .3s}
+.media:hover .play span{transform:scale(1.1)}
+
+/* Testimonios */
+.testis{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:900px){.testis{grid-template-columns:repeat(3,1fr)}}
+.testi{padding:30px;border-radius:var(--radius);background:linear-gradient(180deg,#1a1215,#120c0f);border:1px solid var(--line);display:flex;flex-direction:column;gap:18px}
+.stars{color:var(--gold);letter-spacing:3px}
+.testi q{font-family:var(--serif);font-size:22px;line-height:1.35;quotes:none}
+.testi .who{display:flex;align-items:center;gap:12px;margin-top:auto;font-size:14px}
+.testi .who i{width:40px;height:40px;border-radius:50%;background:var(--g)}
+.testi .who small{display:block;color:var(--dim)}
+
+/* Creadoras */
+.creators{border-radius:32px;overflow:hidden;border:1px solid #d9b77933;background:radial-gradient(70% 90% at 100% 0%,#c9677f33,transparent 60%),radial-gradient(60% 80% at 0% 100%,#d9b7791f,transparent 60%),#140d10;padding:56px 24px}
+@media(min-width:900px){.creators{padding:80px 72px}}
+.creators-grid{display:grid;gap:48px;align-items:center}
+@media(min-width:1020px){.creators-grid{grid-template-columns:1.1fr .9fr}}
+.creator-perks{display:grid;gap:12px;margin:28px 0 34px}
+.creator-perks li{list-style:none;display:flex;gap:12px;align-items:flex-start;color:#eadfd9}
+.creator-perks svg{flex:none;color:var(--gold);margin-top:3px}
+.earn{padding:30px;border-radius:var(--radius);background:#0b0709b3;border:1px solid var(--line-strong);backdrop-filter:blur(10px)}
+.earn h3{margin-bottom:6px}
+.earn p{color:var(--muted);font-size:14px;margin-bottom:22px}
+.earn label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:10px}
+.earn label b{color:var(--text)}
+.earn input[type=range]{width:100%;accent-color:var(--gold);margin-bottom:22px}
+.earn .total{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;align-items:baseline}
+.earn .total b{font-family:var(--serif);font-size:42px;color:var(--gold-2);font-weight:500}
+.earn .fine{font-size:12px;color:var(--dim);margin-top:10px}
+
+/* FAQ */
+.faq{max-width:860px;margin:0 auto;display:grid;gap:12px}
+.faq details{border:1px solid var(--line);border-radius:var(--radius-sm);background:#ffffff04;transition:background .3s}
+.faq details[open]{background:#ffffff08}
+.faq summary{list-style:none;cursor:pointer;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pm{width:28px;height:28px;flex:none;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;transition:transform .3s}
+.faq details[open] .pm{transform:rotate(45deg);background:var(--gold);color:#1a1008;border-color:var(--gold)}
+.faq details p{padding:0 24px 22px;color:var(--muted)}
+
+/* CTA final */
+.final{text-align:center;padding:140px 0}
+.final .wrap{display:flex;flex-direction:column;align-items:center;gap:26px}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);font-size:14px}
+.foot{display:grid;gap:40px;grid-template-columns:1fr}
+@media(min-width:860px){.foot{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.foot h5{color:var(--text);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.foot ul{list-style:none;display:grid;gap:10px}
+.foot a:hover{color:var(--text)}
+.legal{margin-top:48px;padding-top:28px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;font-size:12px;color:var(--dim)}
+.pay{display:flex;gap:8px;flex-wrap:wrap}
+.pay span{padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:11px;letter-spacing:.06em}
+
+/* Notificaciones en vivo */
+.toast{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);width:340px;padding:12px 16px 12px 12px;border-radius:16px;background:#1a1215f2;border:1px solid var(--line-strong);backdrop-filter:blur(14px);box-shadow:var(--shadow);transform:translateY(140%);opacity:0;transition:all .6s cubic-bezier(.2,.7,.2,1)}
+.toast.show{transform:none;opacity:1}
+.toast .av{width:42px;height:42px;flex:none;border-radius:12px;background:var(--g);display:grid;place-items:center;font-weight:700;color:#1a1008}
+.toast p{font-size:13px;line-height:1.4}
+.toast p b{color:var(--gold-2)}
+.toast small{display:block;color:var(--dim);font-size:11px;margin-top:2px}
+.sticky-cta{position:fixed;left:16px;right:16px;bottom:16px;z-index:55;display:none}
+@media(max-width:720px){.sticky-cta.on{display:block}.toast{bottom:84px}}
+
+/* Modales */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:#050304cc;backdrop-filter:blur(16px);opacity:0;pointer-events:none;transition:opacity .35s}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-box{position:relative;width:100%;max-width:480px;max-height:calc(100svh - 32px);overflow:auto;padding:36px 28px;border-radius:28px;background:linear-gradient(180deg,#1d1418,#110b0d);border:1px solid var(--line-strong);box-shadow:var(--shadow);transform:translateY(20px) scale(.98);transition:transform .35s}
+.modal.open .modal-box{transform:none}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line)}
+.modal h3{font-size:32px;margin-bottom:8px}
+.modal p.sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;color:var(--muted)}
+.field input,.field select{height:50px;border-radius:12px;border:1px solid var(--line-strong);background:#0b0709;color:var(--text);padding:0 14px;font:inherit;font-size:15px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
+.check{display:flex;gap:10px;font-size:13px;color:var(--muted);margin:6px 0 18px;align-items:flex-start}
+.check input{margin-top:3px;accent-color:var(--gold)}
+.summary{display:flex;justify-content:space-between;align-items:center;padding:16px;border-radius:14px;background:#ffffff08;margin-bottom:18px;font-size:14px}
+.summary b{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--gold-2)}
+.secure-line{display:flex;justify-content:center;gap:8px;align-items:center;font-size:12px;color:var(--dim);margin-top:14px}
+.age-box{text-align:center}
+.age-box .logo{justify-content:center;margin-bottom:22px}
+.age-box .btns{display:grid;gap:10px;margin-top:24px}
+.age-box .fine{font-size:12px;color:var(--dim);margin-top:18px}
+
+/* Revelado al hacer scroll */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- Íconos SVG reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M7 7l10 10M17 7L7 17"/></symbol>
+  <symbol id="i-verified" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5l2.6 2 3.3-.3.9 3.2 2.8 1.8-1.2 3.1 1.2 3.1-2.8 1.8-.9 3.2-3.3-.3-2.6 2-2.6-2-3.3.3-.9-3.2L2.4 14.4l1.2-3.1-1.2-3.1 2.8-1.8.9-3.2 3.3.3z"/><path fill="none" stroke="#1a1008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12l2.7 2.7L16 9.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M8 10.5V7.5a4 4 0 018 0v3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M5 3.5h3.5l1.8 4.6-2.3 1.6a12 12 0 006.3 6.3l1.6-2.3 4.6 1.8V19a2 2 0 01-2.2 2A17 17 0 013 5.7a2 2 0 012-2.2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 016.5 3h11A2.5 2.5 0 0120 5.5v8a2.5 2.5 0 01-2.5 2.5H10l-4.5 4v-4h0A1.5 1.5 0 014 14.5z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 20s-7.5-4.4-7.5-10.2A4.3 4.3 0 0112 7a4.3 4.3 0 017.5 2.8C19.5 15.6 12 20 12 20z"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M4 21c1.4-4 4.4-6 8-6s6.6 2 8 6"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M2.5 10h19"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></symbol>
+  <symbol id="i-refund" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 108-8 8.2 8.2 0 00-6 2.7M4 3.5v3.7h3.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M12 8v4l2.5 2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="9" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4 18l5-5 4 4 3-3 4 4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 6v12M6 12h12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<!-- ===================== VERIFICACIÓN DE EDAD ===================== -->
+<div class="modal open" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+  <div class="modal-box age-box">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg>
+      <div>Orquídea<small>PRIVÉ</small></div>
+    </div>
+    <h3 id="ageTitle">Solo para mayores de 18 años</h3>
+    <p class="sub">Esta es una comunidad privada para adultos. Al entrar confirmas que tienes 18 años o más y aceptas nuestros Términos y la Política de privacidad.</p>
+    <div class="btns">
+      <button class="btn btn-gold btn-block" id="ageYes">Tengo 18 años o más — Entrar</button>
+      <a class="btn btn-ghost btn-block" href="https://www.google.com">Salir</a>
+    </div>
+    <p class="fine">Todas las creadoras son mayores de edad con identidad verificada. Tolerancia cero con contenido de menores: se reporta a las autoridades.</p>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dcaa"/><stop offset="1" stop-color="#b38d4f"/></linearGradient></defs>
+  <symbol id="logo" viewBox="0 0 40 40"><path fill="none" stroke="url(#lg)" stroke-width="1.6" d="M20 4c3.5 5 3.5 11 0 16-3.5-5-3.5-11 0-16zM20 20c5-3.5 11-3.5 16 0-5 3.5-11 3.5-16 0zM20 20c-5-3.5-11-3.5-16 0 5 3.5 11 3.5 16 0zM20 20c3.5 5 3.5 11 0 16-3.5-5-3.5-11 0-16z"/><circle cx="20" cy="20" r="2.4" fill="url(#lg)"/></symbol>
+</svg>
+
+<div class="topbar">Lanzamiento privado · <b>Membresías fundadoras con 30% de descuento</b> — cupos limitados</div>
+
+<!-- ===================== NAVEGACIÓN ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#" class="logo" aria-label="Orquídea Privé, inicio">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg>
+      <div>Orquídea<small>PRIVÉ</small></div>
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#perfiles">Creadoras</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#planes">Membresías</a>
+      <a href="#seguridad">Seguridad</a>
+      <a href="#creadoras">Trabaja con nosotros</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm login" data-open="login">Ingresar</a>
+      <a href="#planes" class="btn btn-gold btn-sm">Suscribirme</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ===================== HERO ===================== -->
+<section class="hero bg-section" data-bg="">
+  <div class="hero-media">
+    <!-- Pon aquí tu video de portada (mp4, sin audio, 10–20 s en loop) -->
+    <video id="heroVideo" autoplay muted loop playsinline preload="none" poster=""></video>
+  </div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Comunidad privada · Colombia</span>
+      <h1>Conversaciones <em>reales</em> con las mujeres más encantadoras de Colombia</h1>
+      <p class="lead">Un club exclusivo y verificado donde conectas por chat y llamada con creadoras de Medellín, Cartagena, Cali y Bogotá. Privado, seguro y sin intermediarios dudosos: todo ocurre dentro de la plataforma.</p>
+      <div class="hero-actions">
+        <a href="#planes" class="btn btn-gold">Ver membresías <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+        <a href="#perfiles" class="btn btn-ghost">Explorar perfiles</a>
+      </div>
+      <div class="avatars">
+        <div class="stack">
+          <i style="--g:linear-gradient(135deg,#d9b779,#8a5a3a)"></i>
+          <i style="--g:linear-gradient(135deg,#c9677f,#5a2335)"></i>
+          <i style="--g:linear-gradient(135deg,#e7c9b0,#9a6b55)"></i>
+          <i style="--g:linear-gradient(135deg,#a3546a,#3a1520)"></i>
+        </div>
+        <span><b data-count="2480">0</b>+ miembros en lista de acceso anticipado</span>
+      </div>
+      <div class="hero-trust">
+        <span><svg width="18" height="18"><use href="#i-shield"/></svg>Perfiles 100% verificados</span>
+        <span><svg width="18" height="18"><use href="#i-lock"/></svg>Cargo discreto en tu tarjeta</span>
+        <span><svg width="18" height="18"><use href="#i-phone"/></svg>Tu número nunca se comparte</span>
+      </div>
+    </div>
+
+    <div class="hero-stage reveal">
+      <article class="card" style="--g:linear-gradient(160deg,#7a3b4a 0%,#2a1219 70%)">
+        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
+        <div class="card-top"><span class="chip"><span class="dot"></span>En línea</span></div>
+        <div class="card-body"><div class="card-name">Valentina <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">Medellín · 24</div></div>
+      </article>
+      <article class="card" style="--g:linear-gradient(160deg,#a87a4c 0%,#2b1a10 70%)">
+        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
+        <div class="card-top"><span class="chip gold"><svg width="14" height="14"><use href="#i-crown"/></svg>Top</span></div>
+        <div class="card-body"><div class="card-name">Isabella <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">Cartagena · 26</div></div>
+      </article>
+      <article class="card" style="--g:linear-gradient(160deg,#b65a72 0%,#3a1520 65%)">
+        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
+        <div class="card-top"><span class="chip"><span class="dot"></span>En línea</span><span class="chip gold">Nueva</span></div>
+        <div class="card-body">
+          <div class="card-name">Mariana <svg class="verified"><use href="#i-verified"/></svg></div>
+          <div class="card-meta">Cali · 23 · Habla inglés</div>
+          <div class="card-actions"><a href="#planes" class="btn btn-gold"><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TICKER ===================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- ===================== CIFRAS ===================== -->
+<section class="bg-section" data-bg="" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b><span data-count="100">0</span>%</b><span>Creadoras con identidad verificada</span></div>
+      <div class="stat"><b><span data-count="6">0</span></b><span>Ciudades de Colombia</span></div>
+      <div class="stat"><b>24/7</b><span>Soporte y moderación humana</span></div>
+      <div class="stat"><b><span data-count="0">0</span></b><span>Números personales expuestos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PERFILES ===================== -->
+<section id="perfiles" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Las creadoras</span>
+      <h2>Conoce a quienes <em>te esperan</em></h2>
+      <p class="lead">Mujeres auténticas, cultas y carismáticas. Cada perfil pasa por verificación de identidad y videollamada con nuestro equipo antes de publicarse.</p>
+    </div>
+    <div class="filters reveal" role="tablist" aria-label="Filtrar por ciudad">
+      <button class="filter active" data-f="all">Todas</button>
+      <button class="filter" data-f="online">En línea ahora</button>
+      <button class="filter" data-f="Medellín">Medellín</button>
+      <button class="filter" data-f="Cartagena">Cartagena</button>
+      <button class="filter" data-f="Cali">Cali</button>
+      <button class="filter" data-f="Bogotá">Bogotá</button>
+      <button class="filter" data-f="Barranquilla">Barranquilla</button>
+    </div>
+    <div class="grid-profiles" id="grid"></div>
+    <p class="sample-note">Perfiles de muestra para la presentación. Las fotos y nombres reales se publican cuando cada creadora firma y completa su verificación.</p>
+  </div>
+</section>
+
+<!-- ===================== CÓMO FUNCIONA ===================== -->
+<section id="como-funciona" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>De la suscripción a tu primera <em>llamada</em> en minutos</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-crown"/></svg></div><h3>Elige tu membresía</h3><p>Escoge el plan que va contigo. Pago cifrado y cargo discreto en tu extracto.</p></div>
+      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-user"/></svg></div><h3>Verifica tu cuenta</h3><p>Confirmamos que eres mayor de edad. Así la comunidad es segura para todos.</p></div>
+      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-chat"/></svg></div><h3>Rompe el hielo</h3><p>Escríbele a la creadora que te guste. Chat privado, rápido y dentro de la plataforma.</p></div>
+      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg></div><h3>Llámala con un toque</h3><p>Llamada conectada por nuestra línea segura. Ninguno de los dos ve el número del otro.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BENEFICIOS ===================== -->
+<section id="beneficios" class="bg-section" data-bg="">
+  <div class="wrap benefits">
+    <div class="reveal">
+      <div class="sec-head" style="margin-bottom:28px">
+        <span class="eyebrow">Por qué suscribirte</span>
+        <h2>Exclusividad que <em>se siente</em></h2>
+        <p class="lead">No es otra app de citas llena de perfiles falsos. Es un club pequeño, curado y atendido por personas reales.</p>
+      </div>
+      <div class="benefit-list">
+        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-verified"/></svg></div><div><h4>Cero perfiles falsos</h4><p>Cada creadora es verificada con documento y videollamada. Si no es real, no está aquí.</p></div></div>
+        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-phone"/></svg></div><div><h4>Llamadas reales y privadas</h4><p>Hablas con ella de verdad, por voz, a través de nuestra línea enmascarada.</p></div></div>
+        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-spark"/></svg></div><div><h4>Contenido exclusivo</h4><p>Fotos, videos y mensajes de voz que solo ven los miembros. Nada se publica fuera.</p></div></div>
+        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-lock"/></svg></div><div><h4>Discreción total</h4><p>Cargo con nombre neutro, cuenta protegida y opción de borrar tu historial cuando quieras.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="phone-mock">
+        <div class="phone-screen">
+          <div class="chat-head">
+            <div class="av" style="--g:linear-gradient(135deg,#c9677f,#5a2335)"></div>
+            <div><b>Valentina ✦</b><small>● En línea · Medellín</small></div>
+            <div class="call"><svg width="18" height="18"><use href="#i-phone"/></svg></div>
+          </div>
+          <div class="chat-body" id="chat"></div>
+          <div class="chat-input">Escribe un mensaje…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PLANES ===================== -->
+<section id="planes" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head center reveal" style="margin-bottom:28px">
+      <span class="eyebrow">Membresías</span>
+      <h2>Elige cómo quieres <em>vivirlo</em></h2>
+      <p class="lead">Precios de lanzamiento para miembros fundadores. Cancela cuando quieras, sin permanencia.</p>
+    </div>
+    <div style="text-align:center" class="reveal">
+      <div class="billing" role="group" aria-label="Periodo de facturación">
+        <button class="active" data-bill="month">Mensual</button>
+        <button data-bill="quarter">Trimestral<span class="save">−20%</span></button>
+      </div>
+    </div>
+    <div class="currency reveal" role="group" aria-label="Moneda">
+      <button class="active" data-cur="COP">Pesos (COP)</button>
+      <button data-cur="USD">Dólares (USD)</button>
+    </div>
+    <div class="plans" id="plans"></div>
+
+    <div class="guarantee reveal">
+      <span><svg width="18" height="18"><use href="#i-refund"/></svg>Reembolso si no conectas en 7 días</span>
+      <span><svg width="18" height="18"><use href="#i-card"/></svg>Cargo discreto</span>
+      <span><svg width="18" height="18"><use href="#i-x"/></svg>Sin permanencia</span>
+    </div>
+
+    <div class="compare reveal">
+      <table>
+        <thead><tr><th>Incluye</th><th>Pase 7 días</th><th>Esencial</th><th class="hl">Premium</th><th>Black VIP</th></tr></thead>
+        <tbody>
+          <tr><td>Ver perfiles completos</td><td>✓</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+          <tr><td>Chat privado</td><td>3 creadoras</td><td>Ilimitado</td><td class="hl">Ilimitado</td><td>Ilimitado + prioridad</td></tr>
+          <tr><td>Minutos de llamada</td><td>10</td><td>30 / mes</td><td class="hl">120 / mes</td><td>400 / mes</td></tr>
+          <tr><td>Galerías y videos exclusivos</td><td>—</td><td>Básica</td><td class="hl">Completa</td><td>Completa + privados</td></tr>
+          <tr><td>Mensajes de voz</td><td>—</td><td>—</td><td class="hl">✓</td><td>✓</td></tr>
+          <tr><td>Acceso anticipado a nuevas creadoras</td><td>—</td><td>—</td><td class="hl">—</td><td>✓ 72 h antes</td></tr>
+          <tr><td>Concierge personal</td><td>—</td><td>—</td><td class="hl">—</td><td>✓ WhatsApp 24/7</td></tr>
+          <tr><td>Insignia de miembro</td><td>—</td><td>—</td><td class="hl">Oro</td><td>Black</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEGURIDAD ===================== -->
+<section id="seguridad" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Seguridad y confianza</span>
+      <h2>Real. Seguro. <em>Dentro</em> de la plataforma.</h2>
+      <p class="lead">Diseñamos cada detalle para evitar fraudes, suplantaciones y malos ratos, tanto para los miembros como para las creadoras.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-verified"/></svg><h3>Identidad verificada</h3><p>Documento oficial, prueba de vida y videollamada con nuestro equipo. Todas mayores de 18 años, sin excepción.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-phone"/></svg><h3>Números enmascarados</h3><p>Las llamadas pasan por nuestra central. Nadie ve el número de nadie, y cada minuto queda registrado.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-card"/></svg><h3>Pagos solo en la plataforma</h3><p>Nunca pagues por fuera. Si alguien te pide dinero por otro medio, repórtalo: lo bloqueamos de inmediato.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-eye"/></svg><h3>Moderación humana 24/7</h3><p>Un equipo revisa reportes en minutos. Botón de reporte y bloqueo en cada chat y llamada.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-lock"/></svg><h3>Datos cifrados</h3><p>Conexión cifrada, protección de datos según la Ley 1581 de Colombia y borrado de cuenta a solicitud.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-shield"/></svg><h3>Respeto ante todo</h3><p>Código de conducta claro. Solo conversación virtual: los encuentros presenciales no hacen parte del servicio.</p></div>
+    </div>
+    <div class="seals reveal">
+      <span class="seal"><svg width="16" height="16"><use href="#i-lock"/></svg>SSL 256 bits</span>
+      <span class="seal"><svg width="16" height="16"><use href="#i-card"/></svg>Pagos PCI-DSS</span>
+      <span class="seal"><svg width="16" height="16"><use href="#i-shield"/></svg>Solo +18 verificados</span>
+      <span class="seal"><svg width="16" height="16"><use href="#i-user"/></svg>Habeas Data · Ley 1581</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GALERÍA / MEDIA ===================== -->
+<section id="galeria" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">El club por dentro</span>
+      <h2>Un vistazo a la <em>experiencia</em></h2>
+      <p class="lead">Sesiones de fotos, detrás de cámaras y momentos exclusivos de nuestras creadoras.</p>
+    </div>
+    <!-- Reemplaza cada bloque por <img src="..."> o <video src="..." autoplay muted loop playsinline> -->
+    <div class="media-grid reveal">
+      <div class="media tall" style="--g:linear-gradient(170deg,#6a2f3d,#1a0e12)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Backstage Cartagena</span></div>
+      <div class="media" style="--g:linear-gradient(170deg,#9b7046,#21150c)"><span class="label">Foto · Sesión dorada</span></div>
+      <div class="media wide" style="--g:linear-gradient(120deg,#3a1520,#b65a72,#3a1520)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">GIF · Saludo de bienvenida</span></div>
+      <div class="media" style="--g:linear-gradient(170deg,#4a2a3a,#120a0e)"><span class="label">Foto · Medellín</span></div>
+      <div class="media tall" style="--g:linear-gradient(170deg,#c48a6a,#2a1510)"><span class="label">Foto · Editorial</span></div>
+      <div class="media wide" style="--g:linear-gradient(120deg,#1a0e12,#7a3b4a,#d9b77955)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Un día con Isabella</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIOS ===================== -->
+<section id="testimonios" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Experiencias</span>
+      <h2>Lo que dicen los <em>miembros</em></h2>
+    </div>
+    <div class="testis">
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Probé otras plataformas y siempre terminaba hablando con bots. Aquí la primera llamada fue con una persona real, encantadora y muy culta.</q><div class="who"><i style="--g:linear-gradient(135deg,#6b7c93,#2a3340)"></i><div>Daniel R.<small>Miembro Premium · Miami</small></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Lo que más valoro es la discreción. El cargo sale con nombre neutro y nunca tuve que dar mi número personal.</q><div class="who"><i style="--g:linear-gradient(135deg,#8a7a5a,#2f2818)"></i><div>Javier M.<small>Miembro Black VIP · Madrid</small></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Practico español hablando con ellas cada semana. El concierge me recomienda perfiles según mis intereses. Vale cada peso.</q><div class="who"><i style="--g:linear-gradient(135deg,#5a6b5a,#1f2a1f)"></i><div>Michael T.<small>Miembro Premium · Toronto</small></div></div></div>
+    </div>
+    <p class="sample-note">Testimonios ilustrativos para la presentación del proyecto.</p>
+  </div>
+</section>
+
+<!-- ===================== PARA CREADORAS ===================== -->
+<section id="creadoras" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="creators reveal">
+      <div class="creators-grid">
+        <div>
+          <span class="eyebrow">Para creadoras</span>
+          <h2 style="margin-top:16px">Tu talento, tus reglas, <em>tus ingresos</em></h2>
+          <p class="lead" style="margin-top:18px">Buscamos mujeres mayores de 18 años, carismáticas y profesionales que quieran generar ingresos en dólares desde casa, con total seguridad y respaldo.</p>
+          <ul class="creator-perks">
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Eliges tu horario, con quién hablas y qué compartes. Puedes bloquear a quien quieras.</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Tu número y datos personales nunca se revelan. Llamadas por línea enmascarada.</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Pagos quincenales garantizados y transparentes, con reporte de cada minuto.</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Sesión de fotos profesional, perfil producido por nuestra agencia y promoción internacional.</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Solo conversación virtual. Nunca se exigen encuentros presenciales.</li>
+          </ul>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-gold" data-open="apply">Postularme como creadora</a>
+            <a href="#faq" class="btn btn-ghost">Preguntas frecuentes</a>
+          </div>
+        </div>
+        <div class="earn">
+          <h3>Calcula tu ingreso estimado</h3>
+          <p>Simulación referencial según minutos de llamada y suscriptores que te eligen.</p>
+          <label>Horas de conexión por semana <b id="hVal">15 h</b></label>
+          <input type="range" id="hours" min="5" max="40" value="15">
+          <label>Suscriptores que te siguen <b id="sVal">40</b></label>
+          <input type="range" id="subs" min="10" max="200" value="40" step="5">
+          <div class="total"><span>Ingreso mensual estimado</span><b id="earnVal">$0</b></div>
+          <p class="fine">Estimación ilustrativa, no garantizada. Depende de tu actividad real y del modelo de comisiones acordado en tu contrato.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="bg-section" data-bg="">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Todo lo que <em>necesitas saber</em></h2>
+    </div>
+    <div class="faq reveal">
+      <details open><summary>¿Las mujeres son reales?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Sí. Cada creadora firma contrato, verifica su identidad con documento oficial y prueba de vida, y hace una videollamada con nuestro equipo. Todas son mayores de 18 años. Si un perfil no es auténtico, no se publica.</p></details>
+      <details><summary>¿Cómo funcionan las llamadas?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Desde el chat tocas “Llamar”. Nuestra central conecta ambos teléfonos con números enmascarados, así nadie ve el número del otro. Los minutos se descuentan de tu plan y puedes comprar minutos adicionales cuando quieras.</p></details>
+      <details><summary>¿Qué aparece en el extracto de mi tarjeta?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Un nombre comercial neutro, sin referencias al contenido de la plataforma.</p></details>
+      <details><summary>¿Puedo cancelar en cualquier momento?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Sí, sin permanencia. Cancelas con un clic desde tu cuenta y mantienes el acceso hasta el final del periodo pagado.</p></details>
+      <details><summary>¿Hay encuentros en persona?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>No. Orquídea Privé es una comunidad de conversación virtual por chat y llamada. Pedir encuentros, datos personales o pagos por fuera de la plataforma va contra las normas y conlleva el bloqueo de la cuenta.</p></details>
+      <details><summary>¿Qué medios de pago aceptan?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Tarjetas de crédito y débito internacionales, PSE, Nequi y PayPal. Todos los pagos se procesan con cifrado y nunca almacenamos los datos completos de tu tarjeta.</p></details>
+      <details><summary>Soy mujer, ¿cómo me uno como creadora?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Llena el formulario de postulación. Te contactamos en 48 horas para una entrevista virtual, verificación y sesión de fotos. Debes ser mayor de 18 años y residir en Colombia.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA FINAL ===================== -->
+<section class="final bg-section" data-bg="">
+  <div class="hero-glow"></div>
+  <div class="wrap reveal">
+    <span class="eyebrow">Cupos fundadores limitados</span>
+    <h2>Tu lugar en el club <em>te espera</em></h2>
+    <p class="lead">Únete hoy con precio de lanzamiento y consérvalo mientras mantengas tu membresía activa.</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a href="#planes" class="btn btn-gold">Elegir mi membresía <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="logo" style="margin-bottom:16px"><svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg><div>Orquídea<small>PRIVÉ</small></div></div>
+        <p style="max-width:320px">Comunidad privada de conversación virtual con creadoras colombianas verificadas. Solo para mayores de 18 años.</p>
+      </div>
+      <div><h5>Club</h5><ul><li><a href="#perfiles">Creadoras</a></li><li><a href="#planes">Membresías</a></li><li><a href="#como-funciona">Cómo funciona</a></li><li><a href="#faq">Preguntas</a></li></ul></div>
+      <div><h5>Creadoras</h5><ul><li><a href="#creadoras">Trabaja con nosotros</a></li><li><a href="#" data-open="apply">Postulación</a></li><li><a href="#seguridad">Seguridad</a></li></ul></div>
+      <div><h5>Legal</h5><ul><li><a href="#">Términos y condiciones</a></li><li><a href="#">Política de privacidad</a></li><li><a href="#">Código de conducta</a></li><li><a href="#">Política de reembolsos</a></li><li><a href="#">Reportar un problema</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="yr"></span> Orquídea Privé. Todos los derechos reservados. Sitio exclusivo para mayores de 18 años.</span>
+      <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span><span>PAYPAL</span></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Notificación de actividad -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="av" id="toastAv">A</div>
+  <div><p id="toastText"></p><small id="toastTime"></small></div>
+</div>
+
+<div class="sticky-cta" id="stickyCta"><a href="#planes" class="btn btn-gold btn-block">Suscribirme ahora</a></div>
+
+<!-- ===================== MODAL SUSCRIPCIÓN ===================== -->
+<div class="modal" id="checkout" role="dialog" aria-modal="true" aria-labelledby="coTitle">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
+    <span class="eyebrow">Paso 1 de 2</span>
+    <h3 id="coTitle" style="margin-top:12px">Activa tu membresía</h3>
+    <p class="sub">Crea tu cuenta privada. Tus datos están protegidos y nunca se comparten.</p>
+    <div class="summary"><span id="coPlan">Premium · Mensual</span><b id="coPrice">$0</b></div>
+    <form id="coForm">
+      <div class="field"><label for="coName">Nombre o alias</label><input id="coName" required autocomplete="nickname" placeholder="Cómo quieres que te llamen"></div>
+      <div class="field"><label for="coEmail">Correo electrónico</label><input id="coEmail" type="email" required autocomplete="email" placeholder="tu@correo.com"></div>
+      <div class="field"><label for="coCountry">País</label><select id="coCountry"><option>Colombia</option><option>Estados Unidos</option><option>España</option><option>México</option><option>Canadá</option><option>Otro</option></select></div>
+      <label class="check"><input type="checkbox" required> Confirmo que soy mayor de 18 años y acepto los Términos, el Código de conducta y la Política de privacidad.</label>
+      <button class="btn btn-gold btn-block" type="submit">Continuar al pago seguro</button>
+    </form>
+    <div class="secure-line"><svg width="14" height="14"><use href="#i-lock"/></svg>Pago cifrado · Cargo discreto · Cancela cuando quieras</div>
+  </div>
+</div>
+
+<!-- ===================== MODAL POSTULACIÓN ===================== -->
+<div class="modal" id="apply" role="dialog" aria-modal="true" aria-labelledby="apTitle">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
+    <span class="eyebrow">Postulación</span>
+    <h3 id="apTitle" style="margin-top:12px">Únete como creadora</h3>
+    <p class="sub">Te contactamos en menos de 48 horas. Toda la información es confidencial.</p>
+    <form id="apForm">
+      <div class="field"><label for="apName">Nombre</label><input id="apName" required></div>
+      <div class="field"><label for="apCity">Ciudad</label><select id="apCity"><option>Medellín</option><option>Bogotá</option><option>Cali</option><option>Cartagena</option><option>Barranquilla</option><option>Pereira</option><option>Otra</option></select></div>
+      <div class="field"><label for="apPhone">WhatsApp</label><input id="apPhone" type="tel" required autocomplete="tel" placeholder="+57"></div>
+      <div class="field"><label for="apIg">Instagram (opcional)</label><input id="apIg" placeholder="@usuario"></div>
+      <label class="check"><input type="checkbox" required> Confirmo que soy mayor de 18 años y que presentaré documento de identidad para la verificación.</label>
+      <button class="btn btn-gold btn-block" type="submit">Enviar postulación</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL INGRESAR ===================== -->
+<div class="modal" id="login" role="dialog" aria-modal="true" aria-labelledby="lgTitle">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
+    <h3 id="lgTitle">Bienvenido de nuevo</h3>
+    <p class="sub">Ingresa a tu cuenta privada.</p>
+    <form id="lgForm">
+      <div class="field"><label for="lgEmail">Correo</label><input id="lgEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="lgPass">Contraseña</label><input id="lgPass" type="password" required autocomplete="current-password"></div>
+      <button class="btn btn-gold btn-block" type="submit">Ingresar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIGURACIÓN
+   ========================================================================= */
+// Muestra notificaciones y cifras de ejemplo. Para el lanzamiento público
+// cámbialo a false o conéctalo a suscripciones reales (ver README.md).
+const DEMO_MODE = true;
+
+const USD_RATE = 4000; // COP por USD, solo para mostrar precios en dólares
+
+// Precios mensuales en COP. Trimestral aplica -20%.
+const PLANS = [
+  { id:'pass', name:'Pase 7 días', desc:'Para conocer el club sin compromiso.', price:39900, period:'7 días', once:true,
+    feats:[['Perfiles completos',1],['Chat con 3 creadoras',1],['10 minutos de llamada',1],['Galerías exclusivas',0],['Mensajes de voz',0]], cta:'Probar 7 días' },
+  { id:'essential', name:'Esencial', desc:'Chatea sin límites y llama cuando quieras.', price:89900,
+    feats:[['Chat ilimitado',1],['30 minutos de llamada al mes',1],['Galería básica',1],['Minutos extra con descuento',1],['Mensajes de voz',0]], cta:'Elegir Esencial' },
+  { id:'premium', name:'Premium', desc:'La experiencia completa. El favorito de los miembros.', price:179900, popular:true,
+    feats:[['Chat ilimitado',1],['120 minutos de llamada al mes',1],['Galerías y videos completos',1],['Mensajes de voz',1],['Insignia Oro en tu perfil',1]], cta:'Quiero Premium' },
+  { id:'vip', name:'Black VIP', desc:'Trato de primera clase y acceso antes que nadie.', price:449900, vip:true,
+    feats:[['Todo lo de Premium',1],['400 minutos de llamada al mes',1],['Contenido privado',1],['Acceso 72 h antes a nuevas creadoras',1],['Concierge personal 24/7',1]], cta:'Ser Black VIP' }
+];
+
+// Perfiles de muestra. Para usar fotos reales agrega photo:'img/nombre.jpg'
+const PROFILES = [
+  { name:'Valentina', city:'Medellín', age:24, tags:['Moda','Viajes','Inglés'], online:true, rating:4.9, g:'linear-gradient(160deg,#7a3b4a,#2a1219 70%)', feature:true },
+  { name:'Isabella', city:'Cartagena', age:26, tags:['Playa','Salsa','Cocina'], online:true, rating:5.0, g:'linear-gradient(160deg,#a87a4c,#2b1a10 70%)', top:true },
+  { name:'Mariana', city:'Cali', age:23, tags:['Baile','Fitness'], online:false, rating:4.8, g:'linear-gradient(160deg,#b65a72,#3a1520 65%)', isNew:true },
+  { name:'Camila', city:'Bogotá', age:27, tags:['Arte','Cine','Vino'], online:true, rating:4.9, g:'linear-gradient(160deg,#5a3a5e,#160d18 70%)' },
+  { name:'Sofía', city:'Barranquilla', age:25, tags:['Música','Carnaval'], online:false, rating:4.7, g:'linear-gradient(160deg,#c48a6a,#2a1510 70%)' },
+  { name:'Daniela', city:'Medellín', age:28, tags:['Negocios','Yoga','Inglés'], online:true, rating:5.0, g:'linear-gradient(160deg,#8a4a58,#1f0f14 70%)', top:true },
+  { name:'Luciana', city:'Cartagena', age:22, tags:['Modelaje','Playa'], online:true, rating:4.8, g:'linear-gradient(160deg,#9b6a7a,#24121a 70%)', isNew:true },
+  { name:'Gabriela', city:'Bogotá', age:29, tags:['Lectura','Café'], online:false, rating:4.9, g:'linear-gradient(160deg,#6a4a3a,#1a100a 70%)' },
+  { name:'Antonella', city:'Cali', age:24, tags:['Salsa','Viajes'], online:true, rating:4.9, g:'linear-gradient(160deg,#a3546a,#2a0f18 70%)' }
+];
+
+/* =========================================================================
+   UTILIDADES
+   ========================================================================= */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+let currency = 'COP', billing = 'month';
+
+function fmt(cop){
+  if(currency === 'USD') return 'US$' + Math.round(cop / USD_RATE);
+  return '$' + Math.round(cop).toLocaleString('es-CO');
+}
+function planPrice(p){
+  if(p.once) return { now:p.price, old:null, label:p.period };
+  if(billing === 'quarter') return { now:p.price * 0.8, old:p.price, label:'mes · pago trimestral' };
+  return { now:p.price, old:Math.round(p.price / 0.7 / 100) * 100, label:'mes' };
+}
+
+/* Fondos por sección (data-bg) */
+$$('[data-bg]').forEach(s => {
+  const url = s.dataset.bg.trim();
+  if(url){ s.style.setProperty('--sec-bg', `url("${url}")`); s.setAttribute('data-bg-set',''); }
+});
+
+/* Verificación de edad */
+const age = $('#ageGate');
+let ageOk = false;
+try { ageOk = localStorage.getItem('op_age') === '1'; } catch(e){}
+if(ageOk){ age.classList.remove('open'); document.body.classList.remove('locked'); }
+$('#ageYes').addEventListener('click', () => {
+  try { localStorage.setItem('op_age','1'); } catch(e){}
+  age.classList.remove('open'); document.body.classList.remove('locked');
+  startToasts();
+});
+
+/* Navegación */
+const nav = $('#nav'), sticky = $('#stickyCta');
+addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', scrollY > 30);
+  const plans = $('#planes').getBoundingClientRect();
+  sticky.classList.toggle('on', scrollY > 700 && !(plans.top < innerHeight && plans.bottom > 0));
+}, { passive:true });
+
+/* Ticker */
+const tickItems = ['Creadoras verificadas','Llamadas privadas','Medellín','Cartagena','Cali','Bogotá','Cargo discreto','Contenido exclusivo','Soporte 24/7'];
+$('#ticker').innerHTML = [...tickItems, ...tickItems].map(t => `<span class="ticker-item"><svg width="14" height="14"><use href="#i-spark"/></svg>${t}</span>`).join('');
+
+/* Perfiles */
+function cardHTML(p){
+  const photo = p.photo ? `--photo:url('${p.photo}');` : '';
+  return `<article class="card ${p.feature?'feature':''}" data-city="${p.city}" data-online="${p.online}" style="${photo}--g:${p.g}">
+    <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
+    <div class="card-top">
+      ${p.online ? '<span class="chip"><span class="dot"></span>En línea</span>' : '<span class="chip" style="color:var(--muted)">Vuelve pronto</span>'}
+      ${p.top ? '<span class="chip gold"><svg width="13" height="13"><use href="#i-crown"/></svg>Top</span>' : p.isNew ? '<span class="chip gold">Nueva</span>' : `<span class="chip"><svg width="12" height="12" style="color:var(--gold)"><use href="#i-star"/></svg>${p.rating.toFixed(1)}</span>`}
+    </div>
+    <div class="card-body">
+      <div class="card-name">${p.name} <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="card-meta"><span>${p.city}</span><span>·</span><span>${p.age} años</span></div>
+      <div class="card-tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+      <div class="lock"><svg width="13" height="13"><use href="#i-lock"/></svg>Suscríbete para chatear y llamar</div>
+      <div class="card-actions">
+        <a href="#planes" class="btn btn-gold"><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a>
+        <a href="#planes" class="icon-btn" aria-label="Llamar a ${p.name}"><svg width="18" height="18"><use href="#i-phone"/></svg></a>
+        <button class="icon-btn like" aria-label="Favorita"><svg width="18" height="18"><use href="#i-heart"/></svg></button>
+      </div>
+    </div>
+  </article>`;
+}
+$('#grid').innerHTML = PROFILES.map(cardHTML).join('');
+$('#grid').addEventListener('click', e => {
+  const b = e.target.closest('.like'); if(b) b.classList.toggle('liked');
+});
+$$('.filter').forEach(btn => btn.addEventListener('click', () => {
+  $$('.filter').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+  const f = btn.dataset.f;
+  $$('#grid .card').forEach(c => {
+    const show = f === 'all' || (f === 'online' ? c.dataset.online === 'true' : c.dataset.city === f);
+    c.classList.toggle('is-hidden', !show);
+    c.classList.toggle('feature', show && f === 'all' && c === $('#grid .card'));
+  });
+}));
+
+/* Planes */
+function renderPlans(){
+  $('#plans').innerHTML = PLANS.map(p => {
+    const pr = planPrice(p);
+    const daily = p.once ? '' : `Equivale a ${fmt(pr.now/30)} al día`;
+    return `<div class="plan ${p.popular?'popular':''} ${p.vip?'vip':''} reveal in">
+      ${p.popular ? '<span class="badge">Más elegido</span>' : p.vip ? '<span class="badge">Exclusivo</span>' : ''}
+      <div><div class="plan-name">${p.name}</div><p class="plan-desc">${p.desc}</p></div>
+      <div><div class="price-old">${pr.old ? fmt(pr.old) : '&nbsp;'}</div><div class="price"><b>${fmt(pr.now)}</b><small>/ ${pr.label}</small></div></div>
+      <ul>${p.feats.map(([t,on]) => `<li class="${on?'':'off'}"><svg width="16" height="16"><use href="#i-${on?'check':'x'}"/></svg>${t}</li>`).join('')}</ul>
+      <button class="btn ${p.popular||p.vip?'btn-gold':'btn-ghost'} btn-block" data-plan="${p.id}">${p.cta}</button>
+      <div class="per-day">${daily || 'Pago único · no se renueva'}</div>
+    </div>`;
+  }).join('');
+}
+renderPlans();
+$$('[data-bill]').forEach(b => b.addEventListener('click', () => {
+  $$('[data-bill]').forEach(x => x.classList.remove('active')); b.classList.add('active');
+  billing = b.dataset.bill; renderPlans();
+}));
+$$('[data-cur]').forEach(b => b.addEventListener('click', () => {
+  $$('[data-cur]').forEach(x => x.classList.remove('active')); b.classList.add('active');
+  currency = b.dataset.cur; renderPlans(); calcEarn();
+}));
+
+/* Modales */
+function openModal(id){ $('#'+id).classList.add('open'); document.body.classList.add('locked'); }
+function closeModal(m){ m.classList.remove('open'); if(!$('.modal.open')) document.body.classList.remove('locked'); }
+$('#plans').addEventListener('click', e => {
+  const b = e.target.closest('[data-plan]'); if(!b) return;
+  const p = PLANS.find(x => x.id === b.dataset.plan), pr = planPrice(p);
+  $('#coPlan').textContent = `${p.name} · ${p.once ? p.period : billing === 'quarter' ? 'Trimestral' : 'Mensual'}`;
+  $('#coPrice').textContent = fmt(billing === 'quarter' && !p.once ? pr.now * 3 : pr.now);
+  openModal('checkout');
+});
+$$('[data-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openModal(a.dataset.open); }));
+$$('.modal').forEach(m => m.addEventListener('click', e => {
+  if(m.id !== 'ageGate' && (e.target === m || e.target.closest('[data-close]'))) closeModal(m);
+}));
+addEventListener('keydown', e => { if(e.key === 'Escape') $$('.modal.open').forEach(m => m.id !== 'ageGate' && closeModal(m)); });
+// Formularios: conectar a tu pasarela de pago / CRM (ver README.md)
+[['coForm','¡Listo! Te redirigimos a la pasarela de pago segura.'],['apForm','¡Gracias! Te escribiremos por WhatsApp en menos de 48 horas.'],['lgForm','Ingreso disponible en el lanzamiento.']].forEach(([id,msg]) => {
+  $('#'+id).addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]'); btn.textContent = msg; btn.disabled = true;
+    setTimeout(() => { closeModal(e.target.closest('.modal')); btn.disabled = false; btn.textContent = id==='apForm'?'Enviar postulación':id==='coForm'?'Continuar al pago seguro':'Ingresar'; e.target.reset(); }, 2200);
+  });
+});
+
+/* Calculadora de creadoras (referencial) */
+function calcEarn(){
+  const h = +$('#hours').value, s = +$('#subs').value;
+  $('#hVal').textContent = h + ' h'; $('#sVal').textContent = s;
+  const cop = h * 4.3 * 60 * 0.45 * 450 + s * 18000; // minutos efectivos × tarifa + participación
+  $('#earnVal').textContent = fmt(Math.round(cop / 1000) * 1000);
+}
+$('#hours').addEventListener('input', calcEarn); $('#subs').addEventListener('input', calcEarn); calcEarn();
+
+/* Chat animado */
+const convo = [
+  ['sys','Llamada segura disponible · número enmascarado'],
+  ['in','¡Hola! Qué bueno verte por aquí 😊 ¿De dónde me escribes?'],
+  ['out','Hola Valentina, desde Miami. Me encantaron tus fotos de Guatapé.'],
+  ['in','Ay, es mi lugar favorito. ¿Ya conoces Medellín?'],
+  ['out','Todavía no, cuéntame todo 🙌'],
+  ['in','Mejor te lo cuento por llamada, ¿te parece? Tengo libre en 10 min ✨'],
+  ['sys','Valentina te envió una invitación de llamada']
+];
+const chat = $('#chat'); let chatStarted = false;
+function playChat(){
+  if(chatStarted) return; chatStarted = true;
+  let i = 0;
+  const next = () => {
+    if(i >= convo.length){ setTimeout(() => { chat.innerHTML=''; i=0; next(); }, 5000); return; }
+    const [type, text] = convo[i++];
+    if(type === 'in'){
+      const t = document.createElement('div'); t.className='typing'; t.innerHTML='<i></i><i></i><i></i>';
+      chat.appendChild(t); requestAnimationFrame(() => t.classList.add('show'));
+      setTimeout(() => { t.remove(); add(type,text); setTimeout(next, 1300); }, 1300);
+    } else { add(type,text); setTimeout(next, 1300); }
+  };
+  const add = (type,text) => {
+    const m = document.createElement('div'); m.className = 'msg ' + type; m.textContent = text;
+    chat.appendChild(m); requestAnimationFrame(() => m.classList.add('show'));
+  };
+  next();
+}
+
+/* Animación al hacer scroll + contadores */
+const io = new IntersectionObserver(entries => entries.forEach(en => {
+  if(!en.isIntersecting) return;
+  en.target.classList.add('in');
+  if(en.target.closest('#beneficios')) playChat();
+  io.unobserve(en.target);
+}), { threshold:.15 });
+$$('.reveal').forEach(el => io.observe(el));
+
+const countIO = new IntersectionObserver(entries => entries.forEach(en => {
+  if(!en.isIntersecting) return;
+  const el = en.target, end = +el.dataset.count, t0 = performance.now();
+  const tick = now => { const k = Math.min((now - t0) / 1600, 1); el.textContent = Math.round(end * (1 - Math.pow(1-k, 3))).toLocaleString('es-CO'); if(k < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick); countIO.unobserve(el);
+}), { threshold:.5 });
+$$('[data-count]').forEach(el => countIO.observe(el));
+
+/* Notificaciones de actividad (DEMO) */
+const names = ['Andrés','Michael','Javier','Daniel','Carlos','James','Luis','Roberto','David','Thomas'];
+const places = ['Miami','Madrid','Bogotá','Toronto','Ciudad de México','Nueva York','Medellín','Houston','Barcelona','Panamá'];
+const actions = [
+  n => `<b>${n}</b> se suscribió a <b>Premium</b>`,
+  n => `<b>${n}</b> se unió como <b>Black VIP</b>`,
+  n => `<b>${n}</b> activó el <b>Pase 7 días</b>`,
+  n => `<b>${n}</b> inició una llamada con <b>${PROFILES[Math.floor(Math.random()*PROFILES.length)].name}</b>`
+];
+const grads = ['linear-gradient(135deg,#f3dcaa,#b38d4f)','linear-gradient(135deg,#e48aa0,#8a3a50)','linear-gradient(135deg,#cfc2b8,#7a6a60)'];
+let toastsOn = false;
+function startToasts(){
+  if(!DEMO_MODE || toastsOn) return; toastsOn = true;
+  const toast = $('#toast');
+  const show = () => {
+    const n = names[Math.floor(Math.random()*names.length)], p = places[Math.floor(Math.random()*places.length)];
+    $('#toastAv').textContent = n[0]; $('#toastAv').style.setProperty('--g', grads[Math.floor(Math.random()*grads.length)]);
+    $('#toastText').innerHTML = actions[Math.floor(Math.random()*actions.length)](n) + ` · ${p}`;
+    $('#toastTime').textContent = `hace ${1 + Math.floor(Math.random()*9)} min · demostración`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4800);
+    setTimeout(show, 9000 + Math.random()*7000);
+  };
+  setTimeout(show, 3500);
+}
+if(ageOk) startToasts();
+
+$('#yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
