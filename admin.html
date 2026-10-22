@@ -83,6 +83,31 @@ body{font-size:14px}
 .linkbox input{flex:1;min-width:0;height:38px;border-radius:10px;border:1px solid var(--line-strong);background:#0b0709;color:var(--muted);padding:0 10px;font:inherit;font-size:12px}
 .panel-foot{position:sticky;bottom:0;display:flex;gap:10px;justify-content:space-between;padding:14px 20px;background:#120c0ff2;backdrop-filter:blur(12px);border-top:1px solid var(--line)}
 
+/* Galería del perfil */
+.gal-drop{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:22px;border:1.5px dashed var(--line-strong);border-radius:14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:14px}
+.gal-drop:hover,.gal-drop.over{border-color:var(--gold);background:#d9b7790a}
+.gal-drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.gal-drop b{font-size:14px}
+.gal-drop small{color:var(--dim);font-size:12px}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.gal-item{position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#1a1215 center/cover;border:1px solid var(--line);cursor:grab;transition:transform .2s,opacity .2s}
+.gal-item.dragging{opacity:.4}
+.gal-item.target{outline:2px solid var(--gold);outline-offset:2px}
+.gal-item .tags{position:absolute;top:6px;left:6px;right:6px;display:flex;justify-content:space-between;gap:4px;pointer-events:none}
+.gal-item .tags span{font-size:10px;font-weight:700;padding:3px 7px;border-radius:999px;background:#000b;color:#fff}
+.gal-item .tags .cover{background:linear-gradient(135deg,#f3dcaa,#b38d4f);color:#1a1008}
+.gal-item .tags .exc{background:linear-gradient(135deg,#c9677f,#8a3a50)}
+.gal-item .bar{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:2px;padding:6px;background:linear-gradient(transparent,#000d 40%)}
+.gal-item .bar button{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#ffffff1f;font-size:13px;color:#fff;transition:background .2s}
+.gal-item .bar button:hover{background:#ffffff3a}
+.gal-item .bar button.on{background:var(--rose)}
+.gal-item .bar button.del:hover{background:#ff5d5d}
+.gal-item.up{display:grid;place-items:center;cursor:default}
+.gal-item.up .ring{width:34px;height:34px;border-radius:50%;border:3px solid #ffffff22;border-top-color:var(--gold);animation:spin .8s linear infinite}
+.gal-item.up small{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
+.gal-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--dim)}
+.gal-locked{padding:18px;border-radius:12px;border:1px dashed var(--line-strong);color:var(--dim);font-size:13px;text-align:center}
+
 /* Medios de la landing */
 .slots{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 .slot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#ffffff04}
@@ -370,6 +395,11 @@ async function openModel(id){
     </div>
 
     <div class="block">
+      <h3>Galería del perfil</h3>
+      <div id="gallery"></div>
+    </div>
+
+    <div class="block">
       <h3>Datos personales (privados)</h3>
       <div class="field"><label>Nombre completo</label><input id="f_full_name" value="${v('full_name')}"></div>
       <div class="row two">
@@ -413,6 +443,9 @@ async function openModel(id){
   $('#drawer').classList.add('on'); document.body.style.overflow = 'hidden';
   $('#drawer .panel').scrollTop = 0;
   $('#f_photo').addEventListener('change', e => uploadPhoto(e.target.files[0]));
+  current.gallery = Array.isArray(m.gallery) ? m.gallery.map(g => ({ ...g })) : [];
+  renderGallery();
+  $('#f_status').addEventListener('change', e => { current.status = e.target.value; renderGallery(); });
   if(!isNew){
     renderModelContracts(m);
     $('#newContract').addEventListener('click', () => createContract(m));
@@ -432,6 +465,141 @@ async function loadDocs(m){
     return u ? `<a href="${esc(u)}" target="_blank" rel="noopener" style="background-image:url('${esc(u)}')"><span>${l}</span></a>` : '';
   }).join('');
 }
+
+/* ---------------- Galería del perfil ---------------- */
+const GALLERY_STATUSES = ['verificada','contrato_enviado','firmado','activa'];
+const GALLERY_MAX = 30;
+const uploading = [];
+
+// Versión diminuta para mostrar difuminada al público (fotos exclusivas)
+async function blurBlob(file){
+  const bmp = await createImageBitmap(file);
+  const w = 36, h = Math.max(1, Math.round(bmp.height * w / bmp.width));
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  cv.getContext('2d').drawImage(bmp, 0, 0, w, h);
+  return new Promise(r => cv.toBlob(r, 'image/jpeg', .7));
+}
+
+function renderGallery(){
+  const box = $('#gallery'); if(!box || !current) return;
+  if(current.isNew){ box.innerHTML = '<div class="gal-locked">Guarda la modelo primero para agregar fotos a su galería.</div>'; return; }
+  if(!GALLERY_STATUSES.includes(current.status)){
+    box.innerHTML = '<div class="gal-locked">🔒 La galería se habilita cuando la modelo está <b>Verificada</b>. Revisa sus documentos y cambia el estado.</div>'; return;
+  }
+  const g = current.gallery, n = g.length, exc = g.filter(x => x.exclusive).length;
+  box.innerHTML = `
+    <label class="gal-drop" id="galDrop">
+      <input type="file" id="galInput" accept="image/*" multiple>
+      <b>Arrastra fotos aquí o toca para elegir</b>
+      <small>Varias a la vez · JPG, PNG o WEBP · máximo ${GALLERY_MAX} fotos</small>
+    </label>
+    <div class="gal-grid" id="galGrid">
+      ${g.map((it, i) => `
+        <div class="gal-item" draggable="true" data-i="${i}" style="background-image:url('${esc(it.url)}')">
+          <div class="tags">${it.url === current.photo_url ? '<span class="cover">PORTADA</span>' : '<span style="visibility:hidden">.</span>'}${it.exclusive ? '<span class="exc">🔒 EXCLUSIVA</span>' : ''}</div>
+          <div class="bar">
+            <button type="button" data-g="left" title="Mover a la izquierda">‹</button>
+            <button type="button" data-g="cover" title="Usar como portada de la tarjeta">★</button>
+            <button type="button" data-g="exclusive" class="${it.exclusive ? 'on' : ''}" title="Exclusiva para miembros (el público la ve difuminada)">🔒</button>
+            <button type="button" data-g="del" class="del" title="Eliminar">✕</button>
+            <button type="button" data-g="right" title="Mover a la derecha">›</button>
+          </div>
+        </div>`).join('')}
+      ${uploading.filter(u => u.model === current.id).map(u => `<div class="gal-item up"><div class="ring"></div><small>${esc(u.name)}</small></div>`).join('')}
+    </div>
+    <div class="gal-meta"><span>${n} foto(s) · ${n - exc} públicas · ${exc} exclusivas</span><span>Arrastra para ordenar · ★ portada · 🔒 exclusiva</span></div>`;
+
+  $('#galInput').addEventListener('change', e => { addGalleryFiles([...e.target.files]); e.target.value = ''; });
+  const drop = $('#galDrop');
+  ['dragenter','dragover'].forEach(t => drop.addEventListener(t, e => { if(e.dataTransfer.types.includes('Files')){ e.preventDefault(); drop.classList.add('over'); } }));
+  ['dragleave','drop'].forEach(t => drop.addEventListener(t, () => drop.classList.remove('over')));
+  drop.addEventListener('drop', e => { if(e.dataTransfer.files.length){ e.preventDefault(); addGalleryFiles([...e.dataTransfer.files]); } });
+
+  let from = null;
+  $$('#galGrid .gal-item[data-i]').forEach(el => {
+    el.addEventListener('dragstart', () => { from = +el.dataset.i; el.classList.add('dragging'); });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    el.addEventListener('dragover', e => { if(from !== null){ e.preventDefault(); el.classList.add('target'); } });
+    el.addEventListener('dragleave', () => el.classList.remove('target'));
+    el.addEventListener('drop', e => {
+      e.preventDefault(); el.classList.remove('target');
+      const to = +el.dataset.i; if(from === null || from === to) return;
+      const [it] = current.gallery.splice(from, 1); current.gallery.splice(to, 0, it); from = null;
+      saveGallery();
+    });
+  });
+}
+
+async function saveGallery(extra = {}){
+  const id = current.id, gallery = current.gallery;
+  renderGallery();
+  const { error } = await db.from('models').update({ gallery, ...extra }).eq('id', id);
+  if(error) return toast('No se pudo guardar la galería: ' + error.message, 5000);
+  const m = models.find(x => x.id === id); if(m) Object.assign(m, { gallery, ...extra });
+}
+
+async function addGalleryFiles(list){
+  const imgs = list.filter(f => f.type.startsWith('image/'));
+  const room = GALLERY_MAX - current.gallery.length - uploading.length;
+  if(!imgs.length) return;
+  if(imgs.length > room) toast(`Solo caben ${Math.max(0, room)} foto(s) más (máximo ${GALLERY_MAX}).`, 4000);
+  const model = current.id;
+  const jobs = imgs.slice(0, Math.max(0, room)).map(file => {
+    const job = { model, name: file.name }; uploading.push(job); return { file, job };
+  });
+  renderGallery();
+  // Subidas de 3 en 3 para no saturar la conexión del celular
+  for(let i = 0; i < jobs.length; i += 3){
+    await Promise.all(jobs.slice(i, i + 3).map(async ({ file, job }) => {
+      try{
+        const f = await shrinkImage(file, 2000, .88), key = `galerias/${model}/${crypto.randomUUID()}`;
+        const bucket = db.storage.from('landing');
+        const [a, b] = await Promise.all([
+          bucket.upload(`${key}.jpg`, f, { contentType: f.type }),
+          blurBlob(f).then(bl => bucket.upload(`${key}-blur.jpg`, bl, { contentType:'image/jpeg' }))
+        ]);
+        if(a.error || b.error) throw new Error((a.error || b.error).message);
+        const item = { path:`${key}.jpg`, url: bucket.getPublicUrl(`${key}.jpg`).data.publicUrl,
+                       blur: bucket.getPublicUrl(`${key}-blur.jpg`).data.publicUrl, exclusive:false };
+        const target = current && current.id === model ? current : models.find(x => x.id === model);
+        target.gallery = [...(target.gallery || []), item];
+        if(target !== current){ await db.from('models').update({ gallery: target.gallery }).eq('id', model); }
+      }catch(err){ toast('No se pudo subir ' + file.name + ': ' + err.message, 5000); }
+      finally{ uploading.splice(uploading.indexOf(job), 1); }
+    }));
+    if(current && current.id === model) await saveGallery(!current.photo_url && current.gallery[0] ? { photo_url: (current.photo_url = current.gallery[0].url) } : {});
+  }
+  if(current && current.id === model){
+    const pv = $('#pPrev'); if(pv && current.photo_url){ pv.style.backgroundImage = `url('${current.photo_url}')`; pv.textContent = ''; }
+    toast('Fotos agregadas a la galería ✓');
+  }
+}
+
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-g]'); if(!b || !current) return;
+  const i = +b.closest('.gal-item').dataset.i, g = current.gallery, it = g[i];
+  const act = b.dataset.g;
+  if(act === 'left' && i > 0){ [g[i - 1], g[i]] = [g[i], g[i - 1]]; return saveGallery(); }
+  if(act === 'right' && i < g.length - 1){ [g[i + 1], g[i]] = [g[i], g[i + 1]]; return saveGallery(); }
+  if(act === 'exclusive'){
+    if(!it.exclusive && it.url === current.photo_url) return toast('La portada no puede ser exclusiva: elige otra portada primero.', 4000);
+    it.exclusive = !it.exclusive; return saveGallery();
+  }
+  if(act === 'cover'){
+    if(it.exclusive) return toast('Una foto exclusiva no puede ser portada. Quítale el 🔒 primero.', 4000);
+    current.photo_url = it.url;
+    const pv = $('#pPrev'); pv.style.backgroundImage = `url('${it.url}')`; pv.textContent = '';
+    toast('Portada actualizada ✓'); return saveGallery({ photo_url: it.url });
+  }
+  if(act === 'del'){
+    if(!confirm('¿Eliminar esta foto de la galería?')) return;
+    g.splice(i, 1);
+    db.storage.from('landing').remove([it.path, it.path.replace(/\.jpg$/, '-blur.jpg')]);
+    const extra = it.url === current.photo_url ? { photo_url: (current.photo_url = (g.find(x => !x.exclusive) || {}).url || null) } : {};
+    if('photo_url' in extra){ const pv = $('#pPrev'); pv.style.backgroundImage = extra.photo_url ? `url('${extra.photo_url}')` : ''; pv.textContent = extra.photo_url ? '' : '+'; }
+    return saveGallery(extra);
+  }
+});
 
 async function uploadPhoto(file){
   if(!file) return;
@@ -455,7 +623,8 @@ $('#dSave').addEventListener('click', async () => {
     tags: g('tags').value.split(',').map(t => t.trim()).filter(Boolean).slice(0, 6),
     photo_url: current.photo_url || null, published: g('published').checked, featured: g('featured').checked,
     online: g('online').checked, is_new: g('is_new').checked, top: g('top').checked,
-    sort: parseInt(g('sort').value, 10) || 100, notes: g('notes').value.trim() || null
+    sort: parseInt(g('sort').value, 10) || 100, notes: g('notes').value.trim() || null,
+    gallery: current.gallery || []
   };
   if(!row.full_name || !row.doc_number || !row.phone) return toast('Nombre, documento y WhatsApp son obligatorios.', 4000);
   const a = ageFrom(row.birth_date);
@@ -475,6 +644,8 @@ $('#dDelete').addEventListener('click', async () => {
   if(!confirm(`¿Eliminar a ${current.full_name}? Se borran sus datos, documentos y contratos. No se puede deshacer.`)) return;
   const paths = [current.doc_front_path, current.doc_back_path, current.selfie_path, ...(current.extra_photos || [])].filter(Boolean);
   if(paths.length) await db.storage.from('documentos').remove(paths);
+  const gal = (current.gallery || []).flatMap(it => [it.path, it.path.replace(/\.jpg$/, '-blur.jpg')]);
+  if(gal.length) await db.storage.from('landing').remove(gal);
   const { error } = await db.from('models').delete().eq('id', current.id);
   if(error) return toast('No se pudo eliminar: ' + error.message, 5000);
   toast('Modelo eliminada'); closeDrawer(); loadAll();

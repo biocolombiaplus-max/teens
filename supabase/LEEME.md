@@ -15,6 +15,8 @@ Todo funciona con **Supabase** (gratis para empezar): guarda las modelos, los do
 2. Abre el archivo `supabase/schema.sql` de este repositorio, copia **todo** su contenido y pégalo.
 3. Pulsa **Run**. Debe decir *Success*.
 
+> Si actualizas el sitio más adelante y cambia `schema.sql`, vuelve a ejecutarlo completo: no borra tus datos.
+
 ## 3. Conectar la página
 1. En Supabase entra a **Project Settings → API**.
 2. Copia **Project URL** y la llave **anon public**.
@@ -53,7 +55,10 @@ En **Authentication → URL Configuration**, en **Site URL**, pon tu dirección 
 2. **Verificación:** en el panel, en **Modelos**, revisas sus documentos y cambias el estado a **Verificada**.
 3. **Contrato:** pulsas **Generar contrato y enviar por WhatsApp**. Se abre WhatsApp con el enlace listo para enviárselo.
 4. **Firma:** ella lee el contrato, marca qué contenido autoriza y firma con el dedo. El contrato firmado queda guardado con su firma, documento, fecha, hora y dispositivo, y ella puede descargarlo en PDF.
-5. **Publicación:** subes la foto de su tarjeta, cambias el estado a **Activa** y marcas **Publicada**. Aparece en la landing al instante.
+5. **Galería:** cuando está **Verificada**, se habilita su galería en la ficha. Subes varias fotos a la vez (o las arrastras), las ordenas arrastrándolas, eliges la **portada** con ★ y marcas como **exclusivas** con 🔒 las que solo verán los miembros.
+6. **Publicación:** cambias el estado a **Activa** y marcas **Publicada**. Aparece en la landing al instante; al tocar su tarjeta se abre su perfil con todas sus fotos, y las exclusivas salen difuminadas con candado.
+
+> Las fotos exclusivas nunca se envían al público: la landing solo recibe una versión diminuta difuminada.
 
 Cuando hay al menos una modelo publicada, la landing muestra solo las modelos reales y oculta las de muestra.
 

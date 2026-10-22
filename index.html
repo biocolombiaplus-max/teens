@@ -406,6 +406,59 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 .zinli>p{font-size:15px;margin-bottom:12px}
 .zacc{font-family:var(--serif);font-size:26px;color:var(--gold-2);padding:14px;border:1px dashed #d9b77966;border-radius:14px;margin-bottom:12px;word-break:break-all}
 
+/* Perfil con galería */
+.card{cursor:pointer}
+.chip.count{gap:5px}
+.card .open-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);opacity:0;transition:all .35s;padding:10px 16px;border-radius:999px;background:#0b0709b3;backdrop-filter:blur(10px);border:1px solid var(--line-strong);font-size:13px;font-weight:600;white-space:nowrap;pointer-events:none}
+@media(hover:hover){.card:hover .open-hint{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.pmodal{padding:0;place-items:stretch}
+@media(min-width:900px){.pmodal{padding:28px;place-items:center}}
+.pbox{position:relative;width:100%;height:100%;display:flex;flex-direction:column;background:#0f0a0c;overflow:auto;transform:translateY(24px);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.pmodal.open .pbox{transform:none}
+@media(min-width:900px){.pbox{max-width:1180px;height:min(780px,calc(100svh - 56px));flex-direction:row;border-radius:28px;border:1px solid var(--line-strong);box-shadow:var(--shadow);overflow:hidden}}
+.pclose{position:absolute;top:14px;right:14px;z-index:5;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#0b0709b3;backdrop-filter:blur(10px);border:1px solid var(--line-strong)}
+.pmedia{position:relative;flex:none;height:min(68svh,620px);background:#000}
+@media(min-width:900px){.pmedia{flex:1.25;height:auto}}
+.ptrack{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth}
+.ptrack::-webkit-scrollbar{display:none}
+.pslide{position:relative;flex:0 0 100%;height:100%;scroll-snap-align:center;overflow:hidden;background:var(--g,#1a1215)}
+.pslide img{width:100%;height:100%;object-fit:cover}
+.pslide .ph{position:absolute;inset:0;display:grid;place-items:center;color:#ffffff55}
+.pslide.locked .blur{position:absolute;inset:-30px;background:var(--b,none) center/cover,var(--g,#2a1219);filter:blur(22px) saturate(1.2);transform:scale(1.15)}
+.pslide.locked .veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;background:radial-gradient(circle at center,#0b070955,#0b0709b3)}
+.pslide.locked .veil .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ffffff1a;border:1px solid #ffffff40;backdrop-filter:blur(8px);color:var(--gold-2)}
+.pslide.locked .veil b{font-family:var(--serif);font-size:28px;font-weight:500}
+.pslide.locked .veil small{color:var(--muted);max-width:280px}
+.pnav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#0b0709a6;backdrop-filter:blur(10px);border:1px solid var(--line-strong);z-index:3;transition:opacity .2s}
+.pnav:disabled{opacity:0;pointer-events:none}
+.pnav.prev{left:14px}.pnav.next{right:14px}
+.pnav.prev svg{transform:rotate(180deg)}
+@media(hover:none){.pnav{display:none}}
+.pcount{position:absolute;left:16px;bottom:16px;z-index:3;padding:6px 12px;border-radius:999px;background:#0b0709b3;backdrop-filter:blur(8px);font-size:12px;font-weight:600}
+.pdots{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;gap:5px;z-index:3;pointer-events:none}
+.pdots i{width:6px;height:6px;border-radius:50%;background:#ffffff55;transition:all .3s}
+.pdots i.on{width:18px;border-radius:4px;background:#fff}
+.pinfo{flex:1;display:flex;flex-direction:column;gap:18px;padding:26px 20px 30px}
+@media(min-width:900px){.pinfo{flex:0 0 420px;overflow:auto;padding:40px 34px}}
+.pinfo .chips{display:flex;gap:8px;flex-wrap:wrap}
+.pname{font-family:var(--serif);font-size:clamp(40px,5vw,54px);line-height:1;display:flex;align-items:center;gap:10px}
+.pname .verified{width:26px;height:26px;color:var(--gold)}
+.pmeta{color:var(--muted);font-size:15px}
+.pbio{font-size:16px;color:#e9dfda}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.pstats div{padding:14px 10px;text-align:center;border-right:1px solid var(--line)}
+.pstats div:last-child{border-right:0}
+.pstats b{display:block;font-family:var(--serif);font-size:28px;font-weight:500;color:var(--gold-2);line-height:1.1}
+.pstats span{font-size:11px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase}
+.pthumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pthumbs button{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--g,#1a1215) center/cover;border:2px solid transparent;transition:border-color .2s,opacity .2s;opacity:.7}
+.pthumbs button.on{border-color:var(--gold);opacity:1}
+.pthumbs button.lk::after{content:"";position:absolute;inset:0;backdrop-filter:blur(6px);background:#0b070966}
+.pthumbs button .l{position:absolute;inset:0;display:grid;place-items:center;z-index:1;color:var(--gold-2)}
+.pactions{display:grid;gap:10px;margin-top:auto}
+.pactions .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pnote{display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:var(--dim)}
+
 /* Revelado al hacer scroll */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
@@ -853,6 +906,39 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
   </div>
 </div>
 
+<!-- ===================== PERFIL DE MODELO ===================== -->
+<div class="modal pmodal" id="profile" role="dialog" aria-modal="true" aria-labelledby="pName">
+  <div class="pbox">
+    <button class="pclose" data-close aria-label="Cerrar"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+    <div class="pmedia">
+      <div class="ptrack" id="pTrack"></div>
+      <button class="pnav prev" id="pPrev" aria-label="Foto anterior"><svg width="20" height="20"><use href="#i-arrow"/></svg></button>
+      <button class="pnav next" id="pNext" aria-label="Foto siguiente"><svg width="20" height="20"><use href="#i-arrow"/></svg></button>
+      <span class="pcount" id="pCount"></span>
+      <div class="pdots" id="pDots"></div>
+    </div>
+    <div class="pinfo">
+      <div class="chips" id="pChips"></div>
+      <div>
+        <div class="pname"><span id="pName"></span><svg class="verified"><use href="#i-verified"/></svg></div>
+        <div class="pmeta" id="pMeta"></div>
+      </div>
+      <p class="pbio" id="pBio"></p>
+      <div class="card-tags" id="pTags"></div>
+      <div class="pstats" id="pStats"></div>
+      <div class="pthumbs" id="pThumbs"></div>
+      <div class="pactions">
+        <a href="#planes" class="btn btn-gold btn-block" data-close><svg width="18" height="18"><use href="#i-lock"/></svg>Desbloquear todo su contenido</a>
+        <div class="row">
+          <a href="#planes" class="btn btn-ghost" data-close><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a>
+          <a href="#planes" class="btn btn-ghost" data-close><svg width="16" height="16"><use href="#i-live"/></svg>En vivo</a>
+        </div>
+        <div class="pnote"><svg width="13" height="13"><use href="#i-shield"/></svg>Perfil verificado · Contenido protegido con marca de agua</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== PAGO RECIBIDO ===================== -->
 <div class="modal" id="paid" role="dialog" aria-modal="true" aria-labelledby="paidTitle">
   <div class="modal-box" style="text-align:center">
@@ -988,13 +1074,20 @@ function badgeChip(p){
   if(p.rating) return `<span class="chip"><svg width="12" height="12" style="color:var(--gold)"><use href="#i-star"/></svg>${p.rating.toFixed(1)}</span>`;
   return '<span class="chip gold"><svg width="12" height="12"><use href="#i-verified"/></svg>Verificada</span>';
 }
+// Galería de muestra para los perfiles de demostración
+function sampleGallery(p){
+  return Array.from({ length: 8 }, (_, i) => i < 3 ? { url: i === 0 ? p.photo : null, exclusive:false } : { blur: p.photo, exclusive:true });
+}
+const galleryOf = p => (p.gallery && p.gallery.length) ? p.gallery : sampleGallery(p);
 function cardHTML(p){
   const photo = p.photo ? `--photo:url('${encodeURI(p.photo)}');` : '';
-  return `<article class="card ${p.feature?'feature':''}" data-city="${esc(p.city)}" data-online="${!!p.online}" style="${photo}--g:${p.g}">
+  const n = galleryOf(p).length;
+  return `<article class="card ${p.feature?'feature':''}" data-idx="${PROFILES.indexOf(p)}" data-city="${esc(p.city)}" data-online="${!!p.online}" style="${photo}--g:${p.g}">
     <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
+    <span class="open-hint">Ver perfil y fotos</span>
     <div class="card-top">
       ${p.online ? '<span class="chip"><span class="dot"></span>En línea</span>' : '<span class="chip" style="color:var(--muted)">Vuelve pronto</span>'}
-      ${badgeChip(p)}
+      <span style="display:flex;gap:6px">${badgeChip(p)}<span class="chip count"><svg width="13" height="13"><use href="#i-camera"/></svg>${n}</span></span>
     </div>
     <div class="card-body">
       <div class="card-name">${esc(p.name)} <svg class="verified"><use href="#i-verified"/></svg></div>
@@ -1012,7 +1105,7 @@ function cardHTML(p){
 }
 function heroHTML(list){
   const pick = [...list].sort((a, b) => (!!b.photo - !!a.photo)).slice(0, 3);
-  return pick.map((p, i) => `<article class="card" style="${p.photo ? `--photo:url('${encodeURI(p.photo)}');` : ''}--g:${p.g}">
+  return pick.map((p, i) => `<article class="card" data-idx="${PROFILES.indexOf(p)}" style="${p.photo ? `--photo:url('${encodeURI(p.photo)}');` : ''}--g:${p.g}">
     <div class="photo"><div class="ph"></div></div>
     <div class="card-top">${p.online ? '<span class="chip"><span class="dot"></span>En línea</span>' : ''}${badgeChip(p)}</div>
     <div class="card-body"><div class="card-name">${esc(p.name)} <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">${esc(p.city)} · ${p.age}</div>
@@ -1032,7 +1125,8 @@ if(OP.db){
   OP.db.rpc('list_public_models').then(({ data }) => {
     if(!data || !data.length) return;
     const real = data.map((m, i) => ({ name:m.stage_name, city:m.city || 'Colombia', age:m.age, tags:m.tags || [], bio:m.bio,
-      online:m.online, photo:m.photo_url, feature:m.featured && i === 0, top:m.top, isNew:m.is_new, g:GRADS[i % GRADS.length] }));
+      online:m.online, photo:m.photo_url, feature:m.featured && i === 0, top:m.top, isNew:m.is_new, g:GRADS[i % GRADS.length],
+      gallery:(m.gallery || []).map(x => ({ url:x.url || null, blur:x.blur, exclusive:!!x.exclusive })) }));
     PROFILES.splice(0, PROFILES.length, ...real);
     renderProfiles(PROFILES);
     $$('.sample-note')[0].style.display = 'none';
@@ -1041,6 +1135,60 @@ if(OP.db){
 
 $('#grid').addEventListener('click', e => {
   const b = e.target.closest('.like'); if(b) b.classList.toggle('liked');
+});
+
+/* Perfil con galería */
+document.addEventListener('click', e => {
+  const card = e.target.closest('#grid .card[data-idx], #heroStage .card[data-idx]');
+  if(!card || e.target.closest('a,button')) return;
+  openProfile(PROFILES[+card.dataset.idx]);
+});
+let pIndex = 0, pItems = [];
+function openProfile(p){
+  if(!p) return;
+  pItems = galleryOf(p);
+  const pub = pItems.filter(x => !x.exclusive).length, exc = pItems.length - pub;
+  $('#pName').textContent = p.name;
+  $('#pMeta').textContent = `${p.city} · ${p.age} años`;
+  $('#pBio').textContent = p.bio || 'Creadora verificada de Orquídea Privé. Suscríbete para conocerla, ver todo su contenido y hablar con ella en privado.';
+  $('#pTags').innerHTML = (p.tags || []).map(t => `<span>${esc(t)}</span>`).join('');
+  $('#pChips').innerHTML = (p.online ? '<span class="chip"><span class="dot"></span>En línea ahora</span>' : '<span class="chip" style="color:var(--muted)">Vuelve pronto</span>') + badgeChip(p);
+  $('#pStats').innerHTML = `<div><b>${pItems.length}</b><span>Fotos</span></div><div><b>${pub}</b><span>Públicas</span></div><div><b>${exc}</b><span>Exclusivas</span></div>`;
+  const g = `--g:${p.g}`;
+  $('#pTrack').innerHTML = pItems.map((it, i) => it.exclusive
+    ? `<div class="pslide locked" style="${g};${it.blur ? `--b:url('${encodeURI(it.blur)}')` : ''}"><div class="blur"></div>
+        <div class="veil"><div class="ic"><svg width="26" height="26"><use href="#i-lock"/></svg></div><b>Contenido exclusivo</b>
+        <small>Disponible para miembros. Desbloquea sus fotos, videos y transmisiones en vivo.</small>
+        <a href="#planes" class="btn btn-gold btn-sm" data-close>Suscribirme</a></div></div>`
+    : `<div class="pslide" style="${g}">${it.url ? `<img src="${encodeURI(it.url)}" alt="${esc(p.name)}, foto ${i + 1}" ${i > 1 ? 'loading="lazy"' : ''}>` : '<div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div>'}</div>`).join('');
+  $('#pThumbs').innerHTML = pItems.slice(0, 10).map((it, i) => {
+    const bg = it.exclusive ? it.blur : it.url;
+    return `<button class="${it.exclusive ? 'lk' : ''}" data-go="${i}" style="${g};${bg ? `background-image:url('${encodeURI(bg)}')` : ''}" aria-label="Foto ${i + 1}">${it.exclusive ? '<span class="l"><svg width="16" height="16"><use href="#i-lock"/></svg></span>' : ''}</button>`;
+  }).join('');
+  $('#pDots').innerHTML = pItems.length <= 12 ? pItems.map(() => '<i></i>').join('') : '';
+  openModal('profile');
+  $('#pTrack').style.scrollBehavior = 'auto'; $('#pTrack').scrollLeft = 0; $('#pTrack').style.scrollBehavior = '';
+  setSlide(0);
+}
+function setSlide(i){
+  pIndex = Math.max(0, Math.min(pItems.length - 1, i));
+  $('#pCount').textContent = `${pIndex + 1} / ${pItems.length}`;
+  $$('#pDots i').forEach((d, k) => d.classList.toggle('on', k === pIndex));
+  $$('#pThumbs button').forEach((t, k) => t.classList.toggle('on', k === pIndex));
+  $('#pPrev').disabled = pIndex === 0; $('#pNext').disabled = pIndex === pItems.length - 1;
+}
+function goSlide(i){ const t = $('#pTrack'); t.scrollTo({ left: t.clientWidth * i }); setSlide(i); }
+$('#pTrack').addEventListener('scroll', () => {
+  const t = $('#pTrack'), i = Math.round(t.scrollLeft / t.clientWidth);
+  if(i !== pIndex) setSlide(i);
+}, { passive:true });
+$('#pPrev').addEventListener('click', () => goSlide(pIndex - 1));
+$('#pNext').addEventListener('click', () => goSlide(pIndex + 1));
+$('#pThumbs').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(b) goSlide(+b.dataset.go); });
+addEventListener('keydown', e => {
+  if(!$('#profile').classList.contains('open')) return;
+  if(e.key === 'ArrowRight') goSlide(pIndex + 1);
+  if(e.key === 'ArrowLeft') goSlide(pIndex - 1);
 });
 $('.filters').addEventListener('click', e => {
   const btn = e.target.closest('.filter'); if(!btn) return;

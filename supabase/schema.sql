@@ -58,6 +58,10 @@ create table if not exists public.models (
   notes text
 );
 
+-- Galería del perfil: [{path, url, blur, exclusive}] en el orden en que se muestra.
+-- Las fotos exclusivas solo se entregan al público en versión difuminada (blur).
+alter table public.models add column if not exists gallery jsonb not null default '[]'::jsonb;
+
 -- Solo mayores de 18 años: se valida en la base de datos, no solo en el formulario.
 create or replace function public.enforce_adult()
 returns trigger language plpgsql as $$
@@ -156,14 +160,22 @@ begin
   return v_id;
 end $$;
 
--- Perfiles publicados en la landing (solo datos públicos, nunca documentos)
-create or replace function public.list_public_models()
+-- Perfiles publicados en la landing (solo datos públicos, nunca documentos).
+-- De las fotos exclusivas solo sale la versión difuminada.
+drop function if exists public.list_public_models();
+create function public.list_public_models()
 returns table (id uuid, stage_name text, city text, age int, tags text[], bio text, photo_url text,
-               featured boolean, online boolean, is_new boolean, top boolean)
+               featured boolean, online boolean, is_new boolean, top boolean, gallery jsonb)
 language sql stable security definer set search_path = public as $$
   select m.id, coalesce(m.stage_name, split_part(m.full_name, ' ', 1)), m.city,
          date_part('year', age(m.birth_date))::int, m.tags, m.bio, m.photo_url,
-         m.featured, m.online, m.is_new, m.top
+         m.featured, m.online, m.is_new, m.top,
+         coalesce((select jsonb_agg(
+                    case when coalesce((g->>'exclusive')::boolean, false)
+                         then jsonb_build_object('exclusive', true, 'blur', g->>'blur')
+                         else jsonb_build_object('exclusive', false, 'url', g->>'url', 'blur', g->>'blur') end
+                    order by o)
+                   from jsonb_array_elements(m.gallery) with ordinality as t(g, o)), '[]'::jsonb)
   from public.models m
   where m.published and m.status = 'activa'
   order by m.featured desc, m.sort, m.created_at;
