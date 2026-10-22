@@ -6,7 +6,7 @@
 window.OP_CONFIG = {
   // Supabase → Project Settings → API (Project URL y "anon public" key)
   supabaseUrl: 'https://wumyntjppcolowqhpzlz.supabase.co',
-  supabaseAnonKey: '',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1bXludGpwcGNvbG93cWhwemx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MTA3NzAsImV4cCI6MjEwODI4Njc3MH0.0o1a8UNAbc0BZogkWZnNzuRanPqWA1guCVzKsW2iRFY',
 
   // WhatsApp que recibe las postulaciones de modelos (con indicativo, sin +)
   whatsapp: '573126014769',
