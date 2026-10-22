@@ -13,10 +13,10 @@
   ==========================================================================
   GUÍA RÁPIDA PARA PERSONALIZAR
   --------------------------------------------------------------------------
-  1. FONDOS POR SECCIÓN: cada <section> tiene un atributo data-bg="".
-     Pon ahí la ruta de tu imagen o GIF, ej: data-bg="img/fondo-hero.jpg".
-     Se aplica automáticamente con un velo oscuro para que el texto se lea.
-  2. VIDEO DE PORTADA: en el hero, rellena el src del <video id="heroVideo">.
+  1. FONDOS POR SECCIÓN: sube la imagen a img/fondos/ con el nombre que
+     indica el data-bg de cada <section> (lista en img/LEEME.md). Si el
+     archivo no existe, la sección conserva el fondo oscuro por defecto.
+  2. VIDEO DE PORTADA: sube img/video/portada.mp4.
   3. FOTOS DE PERFILES: en cada .card cambia style="--photo:url('...')".
   4. PRECIOS: edita el objeto PLANS en el <script> al final.
   5. ACTIVIDAD EN VIVO: DEMO_MODE=true muestra datos de ejemplo. Antes del
@@ -459,10 +459,10 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 
 <main>
 <!-- ===================== HERO ===================== -->
-<section class="hero bg-section" data-bg="">
+<section class="hero bg-section" data-bg="img/fondos/portada.jpg">
   <div class="hero-media">
     <!-- Pon aquí tu video de portada (mp4, sin audio, 10–20 s en loop) -->
-    <video id="heroVideo" autoplay muted loop playsinline preload="none" poster=""></video>
+    <video id="heroVideo" autoplay muted loop playsinline preload="none" data-src="img/video/portada.mp4"></video>
   </div>
   <div class="hero-glow"></div>
   <div class="wrap">
@@ -532,7 +532,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== PERFILES ===================== -->
-<section id="perfiles" class="bg-section" data-bg="">
+<section id="perfiles" class="bg-section" data-bg="img/fondos/creadoras.jpg">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Las creadoras</span>
@@ -554,7 +554,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== CÓMO FUNCIONA ===================== -->
-<section id="como-funciona" class="bg-section" data-bg="">
+<section id="como-funciona" class="bg-section" data-bg="img/fondos/como-funciona.jpg">
   <div class="wrap">
     <div class="sec-head center reveal">
       <span class="eyebrow">Cómo funciona</span>
@@ -570,7 +570,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== BENEFICIOS ===================== -->
-<section id="beneficios" class="bg-section" data-bg="">
+<section id="beneficios" class="bg-section" data-bg="img/fondos/beneficios.jpg">
   <div class="wrap benefits">
     <div class="reveal">
       <div class="sec-head" style="margin-bottom:28px">
@@ -602,7 +602,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== PLANES ===================== -->
-<section id="planes" class="bg-section" data-bg="">
+<section id="planes" class="bg-section" data-bg="img/fondos/membresias.jpg">
   <div class="wrap">
     <div class="sec-head center reveal" style="margin-bottom:28px">
       <span class="eyebrow">Membresías</span>
@@ -646,7 +646,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== SEGURIDAD ===================== -->
-<section id="seguridad" class="bg-section" data-bg="">
+<section id="seguridad" class="bg-section" data-bg="img/fondos/seguridad.jpg">
   <div class="wrap">
     <div class="sec-head center reveal">
       <span class="eyebrow">Seguridad y confianza</span>
@@ -671,7 +671,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== GALERÍA / MEDIA ===================== -->
-<section id="galeria" class="bg-section" data-bg="">
+<section id="galeria" class="bg-section" data-bg="img/fondos/galeria.jpg">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">El club por dentro</span>
@@ -680,18 +680,18 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
     </div>
     <!-- Reemplaza cada bloque por <img src="..."> o <video src="..." autoplay muted loop playsinline> -->
     <div class="media-grid reveal">
-      <div class="media tall" style="--g:linear-gradient(170deg,#6a2f3d,#1a0e12)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Backstage Cartagena</span></div>
-      <div class="media" style="--g:linear-gradient(170deg,#9b7046,#21150c)"><span class="label">Foto · Sesión dorada</span></div>
-      <div class="media wide" style="--g:linear-gradient(120deg,#3a1520,#b65a72,#3a1520)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">GIF · Saludo de bienvenida</span></div>
-      <div class="media" style="--g:linear-gradient(170deg,#4a2a3a,#120a0e)"><span class="label">Foto · Medellín</span></div>
-      <div class="media tall" style="--g:linear-gradient(170deg,#c48a6a,#2a1510)"><span class="label">Foto · Editorial</span></div>
-      <div class="media wide" style="--g:linear-gradient(120deg,#1a0e12,#7a3b4a,#d9b77955)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Un día con Isabella</span></div>
+      <div class="media tall" data-src="img/galeria/1.jpg" style="--g:linear-gradient(170deg,#6a2f3d,#1a0e12)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Backstage Cartagena</span></div>
+      <div class="media" data-src="img/galeria/2.jpg" style="--g:linear-gradient(170deg,#9b7046,#21150c)"><span class="label">Foto · Sesión dorada</span></div>
+      <div class="media wide" data-src="img/galeria/3.jpg" style="--g:linear-gradient(120deg,#3a1520,#b65a72,#3a1520)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">GIF · Saludo de bienvenida</span></div>
+      <div class="media" data-src="img/galeria/4.jpg" style="--g:linear-gradient(170deg,#4a2a3a,#120a0e)"><span class="label">Foto · Medellín</span></div>
+      <div class="media tall" data-src="img/galeria/5.jpg" style="--g:linear-gradient(170deg,#c48a6a,#2a1510)"><span class="label">Foto · Editorial</span></div>
+      <div class="media wide" data-src="img/galeria/6.jpg" style="--g:linear-gradient(120deg,#1a0e12,#7a3b4a,#d9b77955)"><div class="play"><span><svg width="24" height="24"><use href="#i-play"/></svg></span></div><span class="label">Video · Un día con Isabella</span></div>
     </div>
   </div>
 </section>
 
 <!-- ===================== TESTIMONIOS ===================== -->
-<section id="testimonios" class="bg-section" data-bg="">
+<section id="testimonios" class="bg-section" data-bg="img/fondos/testimonios.jpg">
   <div class="wrap">
     <div class="sec-head center reveal">
       <span class="eyebrow">Experiencias</span>
@@ -707,7 +707,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== PARA CREADORAS ===================== -->
-<section id="creadoras" class="bg-section" data-bg="">
+<section id="creadoras" class="bg-section" data-bg="img/fondos/trabaja-con-nosotros.jpg">
   <div class="wrap">
     <div class="creators reveal">
       <div class="creators-grid">
@@ -743,7 +743,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== FAQ ===================== -->
-<section id="faq" class="bg-section" data-bg="">
+<section id="faq" class="bg-section" data-bg="img/fondos/preguntas.jpg">
   <div class="wrap">
     <div class="sec-head center reveal">
       <span class="eyebrow">Preguntas frecuentes</span>
@@ -762,7 +762,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 </section>
 
 <!-- ===================== CTA FINAL ===================== -->
-<section class="final bg-section" data-bg="">
+<section class="final bg-section" data-bg="img/fondos/cierre.jpg">
   <div class="hero-glow"></div>
   <div class="wrap reveal">
     <span class="eyebrow">Cupos fundadores limitados</span>
@@ -905,11 +905,16 @@ function planPrice(p){
   return { now:p.price, old:Math.round(p.price / 0.7 / 100) * 100, label:'mes' };
 }
 
-/* Fondos por sección (data-bg) */
-$$('[data-bg]').forEach(s => {
-  const url = s.dataset.bg.trim();
-  if(url){ s.style.setProperty('--sec-bg', `url("${url}")`); s.setAttribute('data-bg-set',''); }
-});
+/* Imágenes opcionales: solo se aplican si el archivo existe en /img */
+function ifExists(url, cb){ if(!url) return; const im = new Image(); im.onload = () => cb(url); im.src = url; }
+$$('[data-bg]').forEach(s => ifExists(s.dataset.bg.trim(), url => {
+  s.style.setProperty('--sec-bg', `url("${url}")`); s.setAttribute('data-bg-set','');
+}));
+$$('.media[data-src]').forEach(m => ifExists(m.dataset.src, url => {
+  m.style.background = `url("${url}") center/cover`; const pl = m.querySelector('.play'); if(pl) pl.remove();
+}));
+const hv = $('#heroVideo');
+fetch(hv.dataset.src, { method:'HEAD' }).then(r => { if(r.ok){ hv.src = hv.dataset.src; hv.play().catch(()=>{}); } }).catch(()=>{});
 
 /* Verificación de edad */
 const age = $('#ageGate');
