@@ -108,6 +108,30 @@ body{font-size:14px}
 .gal-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--dim)}
 .gal-locked{padding:18px;border-radius:12px;border:1px dashed var(--line-strong);color:var(--dim);font-size:13px;text-align:center}
 
+/* Invitación de modelos */
+.invite{position:relative;overflow:hidden;border-radius:24px;border:1px solid #d9b77944;padding:28px 24px;margin-bottom:28px;
+  background:radial-gradient(60% 120% at 100% 0%,#c9677f33,transparent 60%),radial-gradient(50% 100% at 0% 100%,#d9b7791f,transparent 60%),linear-gradient(180deg,#1d1418,#130d10)}
+@media(min-width:760px){.invite{padding:34px 36px}}
+.invite.full{display:grid;gap:28px}
+@media(min-width:900px){.invite.full{grid-template-columns:1fr 230px;align-items:center}}
+.invite h2{font-size:clamp(28px,3.4vw,38px);margin:10px 0 6px}
+.invite p{color:var(--muted);max-width:560px}
+.inv-link{display:flex;align-items:center;gap:12px;margin:20px 0 16px;padding:14px 16px;border-radius:16px;background:#0b0709cc;border:1px solid var(--line-strong);cursor:pointer;transition:border-color .2s}
+.inv-link:hover{border-color:var(--gold)}
+.inv-link .ic{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;background:#d9b7791f;color:var(--gold)}
+.inv-link code{flex:1;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;color:var(--gold-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inv-link .tap{font-size:12px;color:var(--dim);white-space:nowrap}
+.inv-actions{display:flex;flex-wrap:wrap;gap:10px}
+.inv-actions .btn{height:48px}
+.inv-actions .btn.done{background:linear-gradient(135deg,#7ee2a8,#3fbf78);color:#06210f}
+.inv-qr{display:grid;justify-items:center;gap:10px;text-align:center}
+.inv-qr .qr{padding:14px;border-radius:18px;background:#fff;box-shadow:0 20px 50px -20px #000}
+.inv-qr .qr img,.inv-qr .qr canvas{display:block;width:180px;height:180px}
+.inv-qr small{color:var(--dim);font-size:12px}
+.tpls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tpls button{padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);font-size:13px;color:var(--muted)}
+.tpls button.on{background:#d9b7791f;border-color:var(--gold);color:var(--gold-2)}
+
 /* Medios de la landing */
 .slots{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 .slot{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#ffffff04}
@@ -163,7 +187,19 @@ body{font-size:14px}
   <main class="main">
     <!-- RESUMEN -->
     <section class="view on" id="v-resumen">
-      <div class="head"><div><span class="eyebrow">Panel</span><h1>Resumen</h1></div><button class="btn btn-gold btn-sm" data-goto="enlaces">Invitar modelo</button></div>
+      <div class="head"><div><span class="eyebrow">Panel</span><h1>Resumen</h1></div></div>
+      <div class="invite">
+        <span class="eyebrow">Invitar modelos</span>
+        <h2>Tu enlace de registro</h2>
+        <p>Cópialo y pégalo donde quieras: WhatsApp, Instagram o TikTok. Cada registro llega a este panel y a tu WhatsApp.</p>
+        <div class="inv-link" data-copylink title="Toca para copiar"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M10 14a4.5 4.5 0 006.4 0l3-3a4.5 4.5 0 00-6.4-6.4l-1 1M14 10a4.5 4.5 0 00-6.4 0l-3 3a4.5 4.5 0 006.4 6.4l1-1"/></svg></span><code data-reglink></code><span class="tap">Toca para copiar</span></div>
+        <div class="inv-actions">
+          <button class="btn btn-gold" data-copylink>Copiar enlace</button>
+          <button class="btn btn-ghost" data-copymsg>Copiar con mensaje</button>
+          <a class="btn btn-wa" data-wa target="_blank" rel="noopener">Enviar por WhatsApp</a>
+          <button class="btn btn-ghost" data-goto="enlaces">Código QR y más</button>
+        </div>
+      </div>
       <div class="kpis" id="kpis"></div>
       <div class="section-title">Últimas postulaciones</div>
       <div class="list" id="recent"></div>
@@ -197,16 +233,38 @@ body{font-size:14px}
     <!-- ENLACES -->
     <section class="view" id="v-enlaces">
       <div class="head"><div><span class="eyebrow">Reclutamiento</span><h1>Enlaces</h1></div></div>
-      <div class="share">
-        <div class="card-box">
-          <h2 style="margin-bottom:6px">Enlace de registro de modelos</h2>
-          <p class="muted" style="margin-bottom:14px">Envíalo a cualquier persona que quieras invitar. Su registro llega a este panel y a tu WhatsApp.</p>
-          <div class="linkbox"><input id="regLink" readonly><button class="btn btn-ghost btn-sm" data-copy="#regLink">Copiar</button></div>
-          <div class="field" style="margin-top:16px"><label for="inviteMsg">Mensaje de invitación</label><textarea id="inviteMsg"></textarea></div>
-          <div class="row two">
-            <div class="field"><label for="invitePhone">WhatsApp de la invitada (opcional)</label><input id="invitePhone" type="tel" placeholder="300 123 4567"></div>
-            <div class="field"><label>&nbsp;</label><a class="btn btn-wa" id="inviteBtn" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
+      <div class="invite full">
+        <div>
+          <span class="eyebrow">Enlace oficial</span>
+          <h2>Registro de modelos</h2>
+          <p>Envíalo a cualquier persona que quieras invitar. Solo pueden registrarse mayores de 18 años, y cada registro llega a este panel y a tu WhatsApp.</p>
+          <div class="inv-link" data-copylink title="Toca para copiar"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M10 14a4.5 4.5 0 006.4 0l3-3a4.5 4.5 0 00-6.4-6.4l-1 1M14 10a4.5 4.5 0 00-6.4 0l-3 3a4.5 4.5 0 006.4 6.4l1-1"/></svg></span><code data-reglink></code><span class="tap">Toca para copiar</span></div>
+          <div class="inv-actions">
+            <button class="btn btn-gold" data-copylink>Copiar enlace</button>
+            <button class="btn btn-ghost" data-copymsg>Copiar con mensaje</button>
+            <a class="btn btn-wa" data-wa target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <button class="btn btn-ghost" data-share hidden>Compartir…</button>
           </div>
+        </div>
+        <div class="inv-qr">
+          <div class="qr" id="qr"></div>
+          <small>Para escanear con la cámara del celular</small>
+          <button class="btn btn-ghost btn-sm" id="qrDownload">Descargar QR</button>
+        </div>
+      </div>
+
+      <div class="card-box" style="max-width:860px">
+        <h2 style="margin-bottom:6px">Mensaje de invitación</h2>
+        <p class="muted" style="margin-bottom:16px">Elige un estilo, ajústalo si quieres y envíalo directo a un número o cópialo.</p>
+        <div class="tpls" id="tpls">
+          <button class="on" data-tpl="pro">Profesional</button>
+          <button data-tpl="cercano">Cercano</button>
+          <button data-tpl="corto">Corto</button>
+        </div>
+        <div class="field"><textarea id="inviteMsg" rows="9"></textarea></div>
+        <div class="row two">
+          <div class="field"><label for="invitePhone">WhatsApp de la invitada (opcional)</label><input id="invitePhone" type="tel" placeholder="300 123 4567"></div>
+          <div class="field"><label>&nbsp;</label><a class="btn btn-wa" data-wa target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
         </div>
       </div>
     </section>
@@ -227,6 +285,7 @@ body{font-size:14px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="assets/core.js"></script>
 <script src="assets/contrato.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const { db, ageFrom, waLink, toast, esc, fmtDate, shrinkImage, intlPhone } = OP;
 const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -753,10 +812,9 @@ document.addEventListener('click', async e => {
 });
 
 /* ---------------- Enlaces ---------------- */
-function renderLinks(){
-  $('#regLink').value = url('registro.html');
-  if(!$('#inviteMsg').value) $('#inviteMsg').value =
-`Hola ✨ Te invitamos a ser parte de *Orquídea Privé*, una comunidad privada y exclusiva para creadoras colombianas.
+const regUrl = () => url('registro.html');
+const TEMPLATES = {
+  pro: l => `Hola ✨ Te invitamos a ser parte de *Orquídea Privé*, una comunidad privada y exclusiva para creadoras colombianas.
 
 • Ganas el 55% de cada venta, en pagos quincenales
 • Tú decides qué haces y con quién hablas
@@ -764,17 +822,79 @@ function renderLinks(){
 • Sesión de fotos profesional y promoción internacional
 
 Regístrate aquí en 3 minutos (solo mayores de 18 años):
-${url('registro.html')}`;
+${l}`,
+  cercano: l => `Hola, ¿cómo estás? 😊
+
+Te escribo porque estamos armando *Orquídea Privé*, un club privado donde las creadoras ganan en dólares desde casa, con total seguridad y discreción. Tú decides todo: horarios, con quién hablas y qué compartes, y te quedas con el 55% de cada venta.
+
+Si te interesa, el registro toma 3 minutos 👇
+${l}
+
+Cualquier duda me escribes por aquí 💛`,
+  corto: l => `✨ Únete a *Orquídea Privé*: gana el 55% de cada venta, con pagos quincenales y total privacidad. Solo +18.
+Regístrate aquí 👉 ${l}`
+};
+let tpl = 'pro', msgEdited = false;
+
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }
+  catch(e){
+    const t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select(); const ok = document.execCommand('copy'); t.remove(); return ok;
+  }
+}
+function flash(btn, label){
+  if(!btn.classList.contains('btn')) return;
+  const old = btn.dataset.label || btn.textContent; btn.dataset.label = old;
+  btn.textContent = label; btn.classList.add('done');
+  clearTimeout(btn._t); btn._t = setTimeout(() => { btn.textContent = old; btn.classList.remove('done'); }, 1800);
+}
+function inviteText(){ return $('#inviteMsg').value; }
+
+function renderLinks(){
+  const l = regUrl();
+  $$('[data-reglink]').forEach(c => c.textContent = l.replace(/^https?:\/\//, ''));
+  if(!msgEdited) $('#inviteMsg').value = TEMPLATES[tpl](l);
   updateInvite();
+  if(navigator.share) $$('[data-share]').forEach(b => b.hidden = false);
+  renderQR(l);
 }
 function updateInvite(){
-  const p = $('#invitePhone').value.replace(/\D/g, ''), t = encodeURIComponent($('#inviteMsg').value);
-  $('#inviteBtn').href = p.length >= 10 ? `https://wa.me/${intlPhone(p)}?text=${t}` : `https://wa.me/?text=${t}`;
+  const p = $('#invitePhone').value.replace(/\D/g, ''), t = encodeURIComponent(inviteText());
+  const href = p.length >= 10 ? `https://wa.me/${intlPhone(p)}?text=${t}` : `https://wa.me/?text=${t}`;
+  $$('[data-wa]').forEach(a => a.href = href);
 }
-['#inviteMsg', '#invitePhone'].forEach(s => $(s).addEventListener('input', updateInvite));
-$$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
-  await navigator.clipboard.writeText($(b.dataset.copy).value); toast('Enlace copiado');
-}));
+$('#inviteMsg').addEventListener('input', () => { msgEdited = true; updateInvite(); });
+$('#invitePhone').addEventListener('input', updateInvite);
+$('#tpls').addEventListener('click', e => {
+  const b = e.target.closest('[data-tpl]'); if(!b) return;
+  tpl = b.dataset.tpl; msgEdited = false;
+  $$('#tpls button').forEach(x => x.classList.toggle('on', x === b));
+  renderLinks();
+});
+document.addEventListener('click', async e => {
+  const cl = e.target.closest('[data-copylink]');
+  if(cl){
+    await copyText(regUrl()); toast('✓ Enlace copiado. Ya puedes pegarlo donde quieras.');
+    const btn = cl.classList.contains('btn') ? cl : cl.closest('.invite').querySelector('.btn[data-copylink]');
+    if(btn) flash(btn, '✓ ¡Copiado!');
+  }
+  const cm = e.target.closest('[data-copymsg]');
+  if(cm){ await copyText(inviteText()); toast('✓ Mensaje con enlace copiado'); flash(cm, '✓ ¡Copiado!'); }
+  const sh = e.target.closest('[data-share]');
+  if(sh){ try{ await navigator.share({ title:'Orquídea Privé', text: inviteText() }); }catch(err){} }
+});
+
+let qrFor = null;
+function renderQR(l){
+  if(qrFor === l || !window.QRCode) return;
+  qrFor = l; $('#qr').innerHTML = '';
+  new QRCode($('#qr'), { text: l, width: 360, height: 360, colorDark: '#1a1008', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+}
+$('#qrDownload').addEventListener('click', () => {
+  const c = $('#qr canvas'); if(!c) return toast('El código QR no está disponible sin conexión.');
+  const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'qr-registro-orquidea-prive.png'; a.click();
+});
 </script>
 </body>
 </html>

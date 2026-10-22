@@ -99,8 +99,9 @@ h1 em,h2 em{font-style:italic;color:var(--gold-2)}
 .nav-links a{transition:color .2s}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{display:flex;gap:10px;align-items:center}
-.nav-cta .login{display:none}
-@media(min-width:980px){.nav-links{display:flex}.nav-cta .login{display:inline-flex}}
+.nav-cta .login{padding:0;width:42px}
+.nav-cta .login span{display:none}
+@media(min-width:980px){.nav-links{display:flex}.nav-cta .login{width:auto;padding:0 20px}.nav-cta .login span{display:inline}.nav-cta .login svg{display:none}}
 
 /* ---------- Hero ---------- */
 .hero{min-height:calc(100svh - 110px);display:flex;align-items:center;padding:64px 0 96px;overflow:hidden}
@@ -532,7 +533,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <a href="#creadoras">Trabaja con nosotros</a>
     </nav>
     <div class="nav-cta">
-      <a href="#" class="btn btn-ghost btn-sm login" data-open="login">Ingresar</a>
+      <a href="#" class="btn btn-ghost btn-sm login" id="loginBtn" data-open="login" aria-label="Iniciar sesión"><svg width="18" height="18"><use href="#i-user"/></svg><span>Iniciar sesión</span></a>
       <a href="#planes" class="btn btn-gold btn-sm">Suscribirme</a>
     </div>
   </div>
@@ -955,12 +956,13 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 <div class="modal" id="login" role="dialog" aria-modal="true" aria-labelledby="lgTitle">
   <div class="modal-box">
     <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
-    <h3 id="lgTitle">Bienvenido de nuevo</h3>
-    <p class="sub">Ingresa a tu cuenta privada.</p>
+    <h3 id="lgTitle">Iniciar sesión</h3>
+    <p class="sub">Ingresa con tu correo y tu contraseña.</p>
     <form id="lgForm">
       <div class="field"><label for="lgEmail">Correo</label><input id="lgEmail" type="email" required autocomplete="email"></div>
       <div class="field"><label for="lgPass">Contraseña</label><input id="lgPass" type="password" required autocomplete="current-password"></div>
-      <button class="btn btn-gold btn-block" type="submit">Ingresar</button>
+      <p class="pay-note" id="lgErr" style="margin:0 0 12px"></p>
+      <button class="btn btn-gold btn-block" type="submit" id="lgBtn">Ingresar</button>
     </form>
   </div>
 </div>
@@ -1286,18 +1288,41 @@ if(qs.get('pago') || qs.get('ref_payco')){
   $('#paidWa').href = OP.waLink(CFG.whatsapp, 'Hola, acabo de pagar mi membresía. Referencia: ' + (qs.get('ref_payco') || ''));
   setTimeout(() => openModal('paid'), 400);
 }
-$$('[data-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openModal(a.dataset.open); }));
+$$('[data-open]').forEach(a => a.addEventListener('click', e => { if(!a.dataset.open) return; e.preventDefault(); openModal(a.dataset.open); }));
 $$('.modal').forEach(m => m.addEventListener('click', e => {
   if(m.id !== 'ageGate' && (e.target === m || e.target.closest('[data-close]'))) closeModal(m);
 }));
 addEventListener('keydown', e => { if(e.key === 'Escape') $$('.modal.open').forEach(m => m.id !== 'ageGate' && closeModal(m)); });
-// Formularios: conectar a tu pasarela de pago / CRM (ver README.md)
-[['lgForm','Ingreso disponible en el lanzamiento.']].forEach(([id,msg]) => {
-  $('#'+id).addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]'); btn.textContent = msg; btn.disabled = true;
-    setTimeout(() => { closeModal(e.target.closest('.modal')); btn.disabled = false; btn.textContent = 'Ingresar'; e.target.reset(); }, 2200);
+/* Iniciar sesión: los administradores entran directo al panel */
+function showPanelButton(){
+  const b = $('#loginBtn');
+  b.removeAttribute('data-open'); b.href = 'admin.html';
+  b.innerHTML = '<svg width="18" height="18"><use href="#i-crown"/></svg><span>Mi panel</span>';
+}
+if(OP.db){
+  OP.db.auth.getSession().then(async ({ data }) => {
+    if(!data.session) return;
+    const { data: isAdmin } = await OP.db.rpc('is_admin');
+    if(isAdmin) showPanelButton();
   });
+}
+$('#lgForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#lgErr'), btn = $('#lgBtn');
+  err.textContent = '';
+  if(!OP.db){ err.textContent = 'El inicio de sesión aún no está conectado.'; return; }
+  btn.disabled = true; btn.textContent = 'Ingresando…';
+  const { error } = await OP.db.auth.signInWithPassword({ email: $('#lgEmail').value.trim(), password: $('#lgPass').value });
+  if(error){
+    btn.disabled = false; btn.textContent = 'Ingresar';
+    err.textContent = /confirm/i.test(error.message) ? 'Tu correo aún no está confirmado.' : 'Correo o contraseña incorrectos.';
+    return;
+  }
+  const { data: isAdmin } = await OP.db.rpc('is_admin');
+  if(isAdmin){ btn.textContent = 'Entrando al panel…'; location.href = 'admin.html'; return; }
+  await OP.db.auth.signOut();
+  btn.disabled = false; btn.textContent = 'Ingresar';
+  err.textContent = 'Tu cuenta aún no tiene acceso. El área de miembros se habilitará muy pronto.';
 });
 
 /* Calculadora de creadoras (referencial) */
