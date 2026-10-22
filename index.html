@@ -17,7 +17,7 @@
      indica el data-bg de cada <section> (lista en img/LEEME.md). Si el
      archivo no existe, la sección conserva el fondo oscuro por defecto.
   2. VIDEO DE PORTADA: sube img/video/portada.mp4.
-  3. FOTOS DE PERFILES: en cada .card cambia style="--photo:url('...')".
+  3. MODELOS Y FOTOS: se administran desde admin.html (ver supabase/LEEME.md).
   4. PRECIOS: edita el objeto PLANS en el <script> al final.
   5. ACTIVIDAD EN VIVO: DEMO_MODE=true muestra datos de ejemplo. Antes del
      lanzamiento público conéctalo a suscripciones reales (ver README.md).
@@ -400,6 +400,12 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 .age-box .btns{display:grid;gap:10px;margin-top:24px}
 .age-box .fine{font-size:12px;color:var(--dim);margin-top:18px}
 
+.pay-opts{display:grid;gap:10px}
+.pay-note{font-size:13px;color:var(--rose-2);margin-top:10px;min-height:1px}
+.zinli{text-align:center}
+.zinli>p{font-size:15px;margin-bottom:12px}
+.zacc{font-family:var(--serif);font-size:26px;color:var(--gold-2);padding:14px;border:1px dashed #d9b77966;border-radius:14px;margin-bottom:12px;word-break:break-all}
+
 /* Revelado al hacer scroll */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
@@ -512,27 +518,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       </div>
     </div>
 
-    <div class="hero-stage reveal">
-      <article class="card" style="--g:linear-gradient(160deg,#7a3b4a 0%,#2a1219 70%)">
-        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
-        <div class="card-top"><span class="chip"><span class="dot"></span>En línea</span></div>
-        <div class="card-body"><div class="card-name">Valentina <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">Medellín · 24</div></div>
-      </article>
-      <article class="card" style="--g:linear-gradient(160deg,#a87a4c 0%,#2b1a10 70%)">
-        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
-        <div class="card-top"><span class="chip gold"><svg width="14" height="14"><use href="#i-crown"/></svg>Top</span></div>
-        <div class="card-body"><div class="card-name">Isabella <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">Cartagena · 26</div></div>
-      </article>
-      <article class="card" style="--g:linear-gradient(160deg,#b65a72 0%,#3a1520 65%)">
-        <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
-        <div class="card-top"><span class="chip"><span class="dot"></span>En línea</span><span class="chip gold">Nueva</span></div>
-        <div class="card-body">
-          <div class="card-name">Mariana <svg class="verified"><use href="#i-verified"/></svg></div>
-          <div class="card-meta">Cali · 23 · Habla inglés</div>
-          <div class="card-actions"><a href="#planes" class="btn btn-gold"><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a></div>
-        </div>
-      </article>
-    </div>
+    <div class="hero-stage reveal" id="heroStage"></div>
   </div>
 </section>
 
@@ -564,11 +550,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
     <div class="filters reveal" role="tablist" aria-label="Filtrar por ciudad">
       <button class="filter active" data-f="all">Todas</button>
       <button class="filter" data-f="online">En línea ahora</button>
-      <button class="filter" data-f="Medellín">Medellín</button>
-      <button class="filter" data-f="Cartagena">Cartagena</button>
-      <button class="filter" data-f="Cali">Cali</button>
-      <button class="filter" data-f="Bogotá">Bogotá</button>
-      <button class="filter" data-f="Barranquilla">Barranquilla</button>
+      <span id="cityFilters" style="display:contents"></span>
     </div>
     <div class="grid-profiles" id="grid"></div>
     <p class="sample-note">Perfiles de muestra para la presentación. Las fotos y nombres reales se publican cuando cada creadora firma y completa su verificación.</p>
@@ -760,7 +742,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Solo conversación virtual. Nunca se exigen encuentros presenciales.</li>
           </ul>
           <div class="hero-actions">
-            <a href="#" class="btn btn-gold" data-open="apply">Postularme como creadora</a>
+            <a href="registro.html" class="btn btn-gold">Postularme como creadora</a>
             <a href="#faq" class="btn btn-ghost">Preguntas frecuentes</a>
           </div>
         </div>
@@ -823,7 +805,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
         <p style="max-width:320px">Comunidad privada de conversación virtual con creadoras colombianas verificadas. Solo para mayores de 18 años.</p>
       </div>
       <div><h5>Club</h5><ul><li><a href="#perfiles">Creadoras</a></li><li><a href="#planes">Membresías</a></li><li><a href="#como-funciona">Cómo funciona</a></li><li><a href="#faq">Preguntas</a></li></ul></div>
-      <div><h5>Creadoras</h5><ul><li><a href="#creadoras">Trabaja con nosotros</a></li><li><a href="#" data-open="apply">Postulación</a></li><li><a href="#seguridad">Seguridad</a></li></ul></div>
+      <div><h5>Creadoras</h5><ul><li><a href="#creadoras">Trabaja con nosotros</a></li><li><a href="registro.html">Registro de creadoras</a></li><li><a href="#seguridad">Seguridad</a></li></ul></div>
       <div><h5>Legal</h5><ul><li><a href="#">Términos y condiciones</a></li><li><a href="#">Política de privacidad</a></li><li><a href="#">Código de conducta</a></li><li><a href="#">Política de reembolsos</a></li><li><a href="#">Reportar un problema</a></li></ul></div>
     </div>
     <div class="legal">
@@ -845,7 +827,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 <div class="modal" id="checkout" role="dialog" aria-modal="true" aria-labelledby="coTitle">
   <div class="modal-box">
     <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
-    <span class="eyebrow">Paso 1 de 2</span>
+    <span class="eyebrow">Pago seguro</span>
     <h3 id="coTitle" style="margin-top:12px">Activa tu membresía</h3>
     <p class="sub">Crea tu cuenta privada. Tus datos están protegidos y nunca se comparten.</p>
     <div class="summary"><span id="coPlan">Privé Live · Mensual</span><b id="coPrice">$0</b></div>
@@ -854,27 +836,32 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <div class="field"><label for="coEmail">Correo electrónico</label><input id="coEmail" type="email" required autocomplete="email" placeholder="tu@correo.com"></div>
       <div class="field"><label for="coCountry">País</label><select id="coCountry"><option>Colombia</option><option>Estados Unidos</option><option>España</option><option>México</option><option>Canadá</option><option>Otro</option></select></div>
       <label class="check"><input type="checkbox" required> Confirmo que soy mayor de 18 años y acepto los Términos, el Código de conducta y la Política de privacidad.</label>
-      <button class="btn btn-gold btn-block" type="submit">Continuar al pago seguro</button>
+      <div class="pay-opts">
+        <button class="btn btn-gold btn-block" type="submit" data-pay="epayco"><svg width="18" height="18"><use href="#i-card"/></svg>Pagar con tarjeta, PSE o Nequi</button>
+        <button class="btn btn-ghost btn-block" type="submit" data-pay="zinli">Pagar en dólares con Zinli</button>
+      </div>
+      <p class="pay-note" id="payNote"></p>
     </form>
-    <div class="secure-line"><svg width="14" height="14"><use href="#i-lock"/></svg>Pago cifrado · Cargo discreto · Cancela cuando quieras</div>
+    <div id="zinliBox" class="zinli" hidden>
+      <p>Envía <b id="zAmount"></b> a nuestra cuenta Zinli:</p>
+      <div class="zacc" id="zAcc"></div>
+      <p class="sub">Luego envíanos el comprobante por WhatsApp y activamos tu membresía en minutos.</p>
+      <a class="btn btn-gold btn-block" id="zWa" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
+      <button class="btn btn-ghost btn-block" type="button" id="zBack" style="margin-top:8px">Volver</button>
+    </div>
+    <div class="secure-line"><svg width="14" height="14"><use href="#i-lock"/></svg>Pago procesado por ePayco · Cargo discreto · Cancela cuando quieras</div>
   </div>
 </div>
 
-<!-- ===================== MODAL POSTULACIÓN ===================== -->
-<div class="modal" id="apply" role="dialog" aria-modal="true" aria-labelledby="apTitle">
-  <div class="modal-box">
+<!-- ===================== PAGO RECIBIDO ===================== -->
+<div class="modal" id="paid" role="dialog" aria-modal="true" aria-labelledby="paidTitle">
+  <div class="modal-box" style="text-align:center">
     <button class="modal-close" data-close aria-label="Cerrar"><svg width="16" height="16"><use href="#i-x"/></svg></button>
-    <span class="eyebrow">Postulación</span>
-    <h3 id="apTitle" style="margin-top:12px">Únete como creadora</h3>
-    <p class="sub">Te contactamos en menos de 48 horas. Toda la información es confidencial.</p>
-    <form id="apForm">
-      <div class="field"><label for="apName">Nombre</label><input id="apName" required></div>
-      <div class="field"><label for="apCity">Ciudad</label><select id="apCity"><option>Medellín</option><option>Bogotá</option><option>Cali</option><option>Cartagena</option><option>Barranquilla</option><option>Pereira</option><option>Otra</option></select></div>
-      <div class="field"><label for="apPhone">WhatsApp</label><input id="apPhone" type="tel" required autocomplete="tel" placeholder="+57"></div>
-      <div class="field"><label for="apIg">Instagram (opcional)</label><input id="apIg" placeholder="@usuario"></div>
-      <label class="check"><input type="checkbox" required> Confirmo que soy mayor de 18 años y que presentaré documento de identidad para la verificación.</label>
-      <button class="btn btn-gold btn-block" type="submit">Enviar postulación</button>
-    </form>
+    <span class="eyebrow">Membresía</span>
+    <h3 id="paidTitle" style="margin-top:12px">¡Gracias por tu pago!</h3>
+    <p class="sub">Estamos confirmando la transacción con la pasarela. Recibirás el acceso en tu correo. Si necesitas ayuda, escríbenos.</p>
+    <p class="sub" id="paidRef"></p>
+    <a class="btn btn-gold btn-block" id="paidWa" target="_blank" rel="noopener">Hablar con soporte por WhatsApp</a>
   </div>
 </div>
 
@@ -892,6 +879,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
   </div>
 </div>
 
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/core.js"></script>
 <script>
 /* =========================================================================
    CONFIGURACIÓN
@@ -946,16 +936,25 @@ function planPrice(p){
   return { now:p.price, old:Math.round(p.price / 0.7 / 100) * 100, label:'mes' };
 }
 
-/* Imágenes opcionales: solo se aplican si el archivo existe en /img */
+/* Imágenes: primero las de /img, luego las que subas desde el panel (admin.html) */
 function ifExists(url, cb){ if(!url) return; const im = new Image(); im.onload = () => cb(url); im.src = url; }
-$$('[data-bg]').forEach(s => ifExists(s.dataset.bg.trim(), url => {
-  s.style.setProperty('--sec-bg', `url("${url}")`); s.setAttribute('data-bg-set','');
-}));
-$$('.media[data-src]').forEach(m => ifExists(m.dataset.src, url => {
-  m.style.background = `url("${url}") center/cover`; const pl = m.querySelector('.play'); if(pl) pl.remove();
-}));
+const setBg = (s, url) => { s.style.setProperty('--sec-bg', `url("${url}")`); s.setAttribute('data-bg-set',''); };
+const setMedia = (m, url) => { m.style.background = `url("${url}") center/cover`; const pl = m.querySelector('.play'); if(pl) pl.remove(); };
 const hv = $('#heroVideo');
-fetch(hv.dataset.src, { method:'HEAD' }).then(r => { if(r.ok){ hv.src = hv.dataset.src; hv.play().catch(()=>{}); } }).catch(()=>{});
+const setVideo = url => { hv.src = url; hv.play().catch(()=>{}); };
+const slotOf = path => path.split('/').pop().replace(/\.\w+$/, '');
+$$('[data-bg]').forEach(s => ifExists(s.dataset.bg.trim(), url => setBg(s, url)));
+$$('.media[data-src]').forEach(m => ifExists(m.dataset.src, url => setMedia(m, url)));
+fetch(hv.dataset.src, { method:'HEAD' }).then(r => { if(r.ok) setVideo(hv.dataset.src); }).catch(()=>{});
+
+if(OP.db){
+  OP.db.from('site_media').select('slot,url').then(({ data }) => {
+    const media = Object.fromEntries((data || []).map(r => [r.slot, r.url]));
+    $$('[data-bg]').forEach(s => { const u = media['fondo-' + slotOf(s.dataset.bg)]; if(u) setBg(s, u); });
+    $$('.media[data-src]').forEach(m => { const u = media['galeria-' + slotOf(m.dataset.src)]; if(u) setMedia(m, u); });
+    if(media['video-portada']) setVideo(media['video-portada']);
+  });
+}
 
 /* Verificación de edad */
 const age = $('#ageGate');
@@ -981,40 +980,78 @@ const tickItems = ['Creadoras verificadas','Llamadas privadas','Medellín','Cart
 $('#ticker').innerHTML = [...tickItems, ...tickItems].map(t => `<span class="ticker-item"><svg width="14" height="14"><use href="#i-spark"/></svg>${t}</span>`).join('');
 
 /* Perfiles */
+const esc = OP.esc;
+const GRADS = ['linear-gradient(160deg,#7a3b4a,#2a1219 70%)','linear-gradient(160deg,#a87a4c,#2b1a10 70%)','linear-gradient(160deg,#b65a72,#3a1520 65%)','linear-gradient(160deg,#5a3a5e,#160d18 70%)','linear-gradient(160deg,#c48a6a,#2a1510 70%)','linear-gradient(160deg,#8a4a58,#1f0f14 70%)'];
+function badgeChip(p){
+  if(p.top) return '<span class="chip gold"><svg width="13" height="13"><use href="#i-crown"/></svg>Top</span>';
+  if(p.isNew) return '<span class="chip gold">Nueva</span>';
+  if(p.rating) return `<span class="chip"><svg width="12" height="12" style="color:var(--gold)"><use href="#i-star"/></svg>${p.rating.toFixed(1)}</span>`;
+  return '<span class="chip gold"><svg width="12" height="12"><use href="#i-verified"/></svg>Verificada</span>';
+}
 function cardHTML(p){
-  const photo = p.photo ? `--photo:url('${p.photo}');` : '';
-  return `<article class="card ${p.feature?'feature':''}" data-city="${p.city}" data-online="${p.online}" style="${photo}--g:${p.g}">
+  const photo = p.photo ? `--photo:url('${encodeURI(p.photo)}');` : '';
+  return `<article class="card ${p.feature?'feature':''}" data-city="${esc(p.city)}" data-online="${!!p.online}" style="${photo}--g:${p.g}">
     <div class="photo"><div class="ph"><svg width="64" height="64"><use href="#i-img"/></svg></div></div>
     <div class="card-top">
       ${p.online ? '<span class="chip"><span class="dot"></span>En línea</span>' : '<span class="chip" style="color:var(--muted)">Vuelve pronto</span>'}
-      ${p.top ? '<span class="chip gold"><svg width="13" height="13"><use href="#i-crown"/></svg>Top</span>' : p.isNew ? '<span class="chip gold">Nueva</span>' : `<span class="chip"><svg width="12" height="12" style="color:var(--gold)"><use href="#i-star"/></svg>${p.rating.toFixed(1)}</span>`}
+      ${badgeChip(p)}
     </div>
     <div class="card-body">
-      <div class="card-name">${p.name} <svg class="verified"><use href="#i-verified"/></svg></div>
-      <div class="card-meta"><span>${p.city}</span><span>·</span><span>${p.age} años</span></div>
-      <div class="card-tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
-      <div class="lock"><svg width="13" height="13"><use href="#i-lock"/></svg>Suscríbete para chatear y llamar</div>
+      <div class="card-name">${esc(p.name)} <svg class="verified"><use href="#i-verified"/></svg></div>
+      <div class="card-meta"><span>${esc(p.city)}</span><span>·</span><span>${p.age} años</span></div>
+      ${p.bio ? `<div class="card-meta">${esc(p.bio)}</div>` : ''}
+      <div class="card-tags">${(p.tags || []).map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+      <div class="lock"><svg width="13" height="13"><use href="#i-lock"/></svg>Suscríbete para ver su contenido</div>
       <div class="card-actions">
         <a href="#planes" class="btn btn-gold"><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a>
-        <a href="#planes" class="icon-btn" aria-label="Llamar a ${p.name}"><svg width="18" height="18"><use href="#i-phone"/></svg></a>
+        <a href="#planes" class="icon-btn" aria-label="Verla en vivo"><svg width="18" height="18"><use href="#i-live"/></svg></a>
         <button class="icon-btn like" aria-label="Favorita"><svg width="18" height="18"><use href="#i-heart"/></svg></button>
       </div>
     </div>
   </article>`;
 }
-$('#grid').innerHTML = PROFILES.map(cardHTML).join('');
+function heroHTML(list){
+  const pick = [...list].sort((a, b) => (!!b.photo - !!a.photo)).slice(0, 3);
+  return pick.map((p, i) => `<article class="card" style="${p.photo ? `--photo:url('${encodeURI(p.photo)}');` : ''}--g:${p.g}">
+    <div class="photo"><div class="ph"></div></div>
+    <div class="card-top">${p.online ? '<span class="chip"><span class="dot"></span>En línea</span>' : ''}${badgeChip(p)}</div>
+    <div class="card-body"><div class="card-name">${esc(p.name)} <svg class="verified"><use href="#i-verified"/></svg></div><div class="card-meta">${esc(p.city)} · ${p.age}</div>
+    ${i === 2 ? '<div class="card-actions"><a href="#planes" class="btn btn-gold"><svg width="16" height="16"><use href="#i-chat"/></svg>Chatear</a></div>' : ''}</div>
+  </article>`).join('');
+}
+function renderProfiles(list){
+  $('#grid').innerHTML = list.map(cardHTML).join('');
+  $('#heroStage').innerHTML = heroHTML(list);
+  const cities = [...new Set(list.map(p => p.city).filter(Boolean))];
+  $('#cityFilters').innerHTML = cities.map(c => `<button class="filter" data-f="${esc(c)}">${esc(c)}</button>`).join('');
+}
+renderProfiles(PROFILES);
+
+// Perfiles reales publicados desde el panel (si hay al menos uno)
+if(OP.db){
+  OP.db.rpc('list_public_models').then(({ data }) => {
+    if(!data || !data.length) return;
+    const real = data.map((m, i) => ({ name:m.stage_name, city:m.city || 'Colombia', age:m.age, tags:m.tags || [], bio:m.bio,
+      online:m.online, photo:m.photo_url, feature:m.featured && i === 0, top:m.top, isNew:m.is_new, g:GRADS[i % GRADS.length] }));
+    PROFILES.splice(0, PROFILES.length, ...real);
+    renderProfiles(PROFILES);
+    $$('.sample-note')[0].style.display = 'none';
+  });
+}
+
 $('#grid').addEventListener('click', e => {
   const b = e.target.closest('.like'); if(b) b.classList.toggle('liked');
 });
-$$('.filter').forEach(btn => btn.addEventListener('click', () => {
+$('.filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter'); if(!btn) return;
   $$('.filter').forEach(b => b.classList.remove('active')); btn.classList.add('active');
   const f = btn.dataset.f;
   $$('#grid .card').forEach(c => {
     const show = f === 'all' || (f === 'online' ? c.dataset.online === 'true' : c.dataset.city === f);
     c.classList.toggle('is-hidden', !show);
-    c.classList.toggle('feature', show && f === 'all' && c === $('#grid .card'));
+    c.classList.toggle('feature', show && f === 'all' && c === $('#grid .card') && PROFILES[0].feature);
   });
-}));
+});
 
 /* Planes */
 function renderPlans(){
@@ -1045,24 +1082,73 @@ $$('[data-cur]').forEach(b => b.addEventListener('click', () => {
 /* Modales */
 function openModal(id){ $('#'+id).classList.add('open'); document.body.classList.add('locked'); }
 function closeModal(m){ m.classList.remove('open'); if(!$('.modal.open')) document.body.classList.remove('locked'); }
+let order = null;
 $('#plans').addEventListener('click', e => {
   const b = e.target.closest('[data-plan]'); if(!b) return;
   const p = PLANS.find(x => x.id === b.dataset.plan), pr = planPrice(p);
-  $('#coPlan').textContent = `${p.name} · ${p.once ? p.period : billing === 'quarter' ? 'Trimestral' : 'Mensual'}`;
-  $('#coPrice').textContent = fmt(billing === 'quarter' && !p.once ? pr.now * 3 : pr.now);
+  const total = Math.round(billing === 'quarter' && !p.once ? pr.now * 3 : pr.now);
+  order = { plan:p, total, period: p.once ? p.period : billing === 'quarter' ? 'Trimestral' : 'Mensual' };
+  $('#coPlan').textContent = `${p.name} · ${order.period}`;
+  $('#coPrice').textContent = fmt(total);
+  $('#coForm').hidden = false; $('#zinliBox').hidden = true; $('#payNote').textContent = '';
   openModal('checkout');
 });
+
+/* Pagos: ePayco (COP) y Zinli (USD) */
+const CFG = OP.C;
+function loadScript(src){
+  return new Promise((ok, ko) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+}
+$('#coForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const how = (e.submitter && e.submitter.dataset.pay) || 'epayco';
+  const name = $('#coName').value.trim(), email = $('#coEmail').value.trim();
+  const ref = 'OP-' + Date.now().toString(36).toUpperCase();
+  if(how === 'zinli'){
+    if(!CFG.zinli || !CFG.zinli.cuenta){ $('#payNote').textContent = 'Pago con Zinli disponible muy pronto.'; return; }
+    const usd = Math.ceil(order.total / USD_RATE);
+    $('#zAmount').textContent = `US$${usd}`; $('#zAcc').textContent = CFG.zinli.cuenta;
+    $('#zWa').href = OP.waLink(CFG.whatsapp, `Hola 👋 Pagué por Zinli la membresía *${order.plan.name}* (${order.period}) por *US$${usd}*.\nNombre: ${name}\nCorreo: ${email}\nReferencia: ${ref}\nAdjunto el comprobante.`);
+    $('#coForm').hidden = true; $('#zinliBox').hidden = false;
+    return;
+  }
+  if(!CFG.epayco || !CFG.epayco.publicKey){ $('#payNote').textContent = 'La pasarela de pago se activa en el lanzamiento. Escríbenos por WhatsApp para reservar tu cupo.'; return; }
+  const btn = e.submitter; btn.disabled = true;
+  try{
+    if(!window.ePayco) await loadScript('https://checkout.epayco.co/checkout.js');
+    const handler = ePayco.checkout.configure({ key: CFG.epayco.publicKey, test: !!CFG.epayco.test });
+    handler.open({
+      name: 'Membresía ' + order.plan.name, description: `Membresía ${order.plan.name} · ${order.period}`,
+      invoice: ref, currency: 'cop', amount: String(order.total), tax_base: '0', tax: '0',
+      country: 'co', lang: 'es', external: 'false',
+      response: location.origin + location.pathname + '?pago=1',
+      name_billing: name, email_billing: email,
+      extra1: order.plan.id, extra2: order.period, extra3: $('#coCountry').value
+    });
+  }catch(err){
+    $('#payNote').textContent = 'No se pudo abrir la pasarela. Revisa tu conexión e inténtalo de nuevo.';
+  }finally{ btn.disabled = false; }
+});
+$('#zBack').addEventListener('click', () => { $('#coForm').hidden = false; $('#zinliBox').hidden = true; });
+
+// Regreso desde ePayco
+const qs = new URLSearchParams(location.search);
+if(qs.get('pago') || qs.get('ref_payco')){
+  $('#paidRef').textContent = qs.get('ref_payco') ? 'Referencia ePayco: ' + qs.get('ref_payco') : '';
+  $('#paidWa').href = OP.waLink(CFG.whatsapp, 'Hola, acabo de pagar mi membresía. Referencia: ' + (qs.get('ref_payco') || ''));
+  setTimeout(() => openModal('paid'), 400);
+}
 $$('[data-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openModal(a.dataset.open); }));
 $$('.modal').forEach(m => m.addEventListener('click', e => {
   if(m.id !== 'ageGate' && (e.target === m || e.target.closest('[data-close]'))) closeModal(m);
 }));
 addEventListener('keydown', e => { if(e.key === 'Escape') $$('.modal.open').forEach(m => m.id !== 'ageGate' && closeModal(m)); });
 // Formularios: conectar a tu pasarela de pago / CRM (ver README.md)
-[['coForm','¡Listo! Te redirigimos a la pasarela de pago segura.'],['apForm','¡Gracias! Te escribiremos por WhatsApp en menos de 48 horas.'],['lgForm','Ingreso disponible en el lanzamiento.']].forEach(([id,msg]) => {
+[['lgForm','Ingreso disponible en el lanzamiento.']].forEach(([id,msg]) => {
   $('#'+id).addEventListener('submit', e => {
     e.preventDefault();
     const btn = e.target.querySelector('button[type=submit]'); btn.textContent = msg; btn.disabled = true;
-    setTimeout(() => { closeModal(e.target.closest('.modal')); btn.disabled = false; btn.textContent = id==='apForm'?'Enviar postulación':id==='coForm'?'Continuar al pago seguro':'Ingresar'; e.target.reset(); }, 2200);
+    setTimeout(() => { closeModal(e.target.closest('.modal')); btn.disabled = false; btn.textContent = 'Ingresar'; e.target.reset(); }, 2200);
   });
 });
 

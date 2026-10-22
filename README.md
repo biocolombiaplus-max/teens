@@ -1,17 +1,31 @@
-# Orquídea Privé — Página de inicio
+# Orquídea Privé
 
-Landing page de presentación para la comunidad. Es un solo archivo: `index.html` (ábrelo en cualquier navegador).
+Sitio estático (funciona en Vercel o Cloudflare Pages) con base de datos en Supabase.
 
-## Cómo personalizar
+| Archivo | Qué es |
+|---|---|
+| `index.html` | Landing principal |
+| `registro.html` | Registro de modelos (enlace para compartir). Solo mayores de 18; envía los datos a WhatsApp y al panel |
+| `contrato.html` | Contrato que la modelo lee y firma con el dedo (se abre con el enlace que genera el panel) |
+| `admin.html` | Panel administrativo: modelos, documentos, contratos, fotos de la landing y enlaces |
+| `config.js` | **Único archivo que debes editar**: Supabase, WhatsApp, ePayco, Zinli, datos de la empresa y porcentaje |
+| `assets/contrato.js` | Texto del contrato |
+| `supabase/schema.sql` | Base de datos y reglas de seguridad |
+| `supabase/LEEME.md` | **Guía paso a paso para activar todo** |
+
+## Pagos
+- **ePayco** (tarjeta, PSE, Nequi, Daviplata, en COP): pega tu `PUBLIC_KEY` en `config.js` → `epayco.publicKey`. Deja `test: true` hasta hacer una compra de prueba, luego cámbialo a `false`. Al volver del pago, la landing muestra un mensaje de confirmación con la referencia.
+- **Zinli** (USD): pon el correo o teléfono de tu cuenta en `config.js` → `zinli.cuenta`. El cliente ve el monto en dólares y envía el comprobante por WhatsApp; la activación es manual.
+- La activación automática de membresías (área privada de miembros) es la siguiente fase.
+
+## Cómo personalizar la landing
 
 | Qué | Dónde |
 |---|---|
-| Imagen o GIF de fondo de una sección | atributo `data-bg="img/archivo.jpg"` en cada `<section>` |
-| Video de portada | `<video id="heroVideo" src="...">` en el hero |
-| Fotos de las creadoras | `photo:'img/nombre.jpg'` en el arreglo `PROFILES` del script |
-| Precios y beneficios | arreglo `PLANS` del script (precios mensuales en COP) |
-| Tasa de cambio USD | constante `USD_RATE` |
-| Galería (fotos, videos, GIF) | bloques `.media` de la sección `#galeria` |
+| Fotos de fondo, galería y video | Panel → **Fotos de la landing** (o archivos en `img/`, ver `img/LEEME.md`) |
+| Modelos (tarjetas) | Panel → **Modelos**: foto, nombre artístico, etiquetas, *Publicada* + estado *Activa* |
+| Precios y beneficios | arreglo `PLANS` en `index.html` (precios mensuales en COP) |
+| Tasa de cambio USD | constante `USD_RATE` en `index.html` |
 
 ## Membresías propuestas
 
@@ -34,5 +48,6 @@ Referencias del mercado: suscripciones de creadoras entre US$10 y US$50 al mes; 
 
 - **Actividad en vivo y cifras:** con `DEMO_MODE = true` las notificaciones son de ejemplo (y lo indican). En producción deben venir de suscripciones reales; mostrar actividad inventada como real es publicidad engañosa (Ley 1480, Estatuto del Consumidor).
 - **Testimonios y perfiles de muestra:** reemplazarlos por reales con autorización escrita.
-- **Formularios:** conectar a la pasarela de pagos (que acepte esta categoría de negocio) y al CRM.
-- **Verificación de edad e identidad** de miembros y creadoras, contratos con las creadoras, términos, política de datos (Ley 1581) y revisión legal.
+- **Pasarela:** confirma por escrito con ePayco que aprueba esta categoría de negocio (contenido para adultos) antes de recibir pagos reales; si la rechaza, alternativas especializadas: CCBill, Segpay, Epoch.
+- **Contrato:** `assets/contrato.js` es una plantilla de referencia. Debe revisarla un abogado en Colombia; completa razón social, NIT y representante en `config.js`.
+- **Términos, política de privacidad (Ley 1581) y verificación de edad de los miembros.**
