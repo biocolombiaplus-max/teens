@@ -257,10 +257,29 @@ section{padding:110px 0}
 .plan li svg{flex:none;margin-top:3px;color:var(--gold)}
 .plan li.off{color:var(--dim)}
 .plan li.off svg{color:var(--dim)}
+.unlocks{display:flex;gap:6px;flex-wrap:wrap}
+.unlocks span{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--line);color:var(--dim)}
+.unlocks span.on{color:var(--gold-2);border-color:#d9b77955;background:#d9b77912}
+.unlocks span.live.on{color:#fff;background:linear-gradient(135deg,#c9677f,#8a3a50);border-color:transparent}
 .plan .per-day{font-size:12px;color:var(--dim);text-align:center}
 .guarantee{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 32px;margin-top:40px;color:var(--muted);font-size:14px}
 .guarantee span{display:flex;align-items:center;gap:8px}
 .guarantee svg{color:var(--gold)}
+
+/* Extras a la carta */
+.extras{margin-top:64px}
+.extras h3{text-align:center;margin-bottom:8px}
+.extras>p{text-align:center;color:var(--muted);font-size:15px;margin-bottom:28px}
+.extras-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:720px){.extras-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.extras-grid{grid-template-columns:repeat(4,1fr)}}
+.extra{display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:var(--radius-sm);border:1px solid var(--line);background:#ffffff05;transition:border-color .3s,background .3s}
+.extra:hover{border-color:#d9b77955;background:#d9b7790a}
+.extra .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#d9b7791a;color:var(--gold)}
+.extra h4{font-size:16px;font-weight:600}
+.extra p{color:var(--muted);font-size:14px;flex:1}
+.extra b{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--gold-2)}
+.extra b small{font-family:var(--sans);font-size:13px;color:var(--dim);font-weight:400}
 
 /* Tabla comparativa */
 .compare{margin-top:64px;border:1px solid var(--line);border-radius:var(--radius);overflow:auto}
@@ -408,6 +427,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
   <symbol id="i-refund" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 108-8 8.2 8.2 0 00-6 2.7M4 3.5v3.7h3.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M12 8v4l2.5 2"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
   <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="9" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4 18l5-5 4 4 3-3 4 4"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M3.5 8.5A2 2 0 015.5 6.5h2l1.5-2h6l1.5 2h2a2 2 0 012 2v9a2 2 0 01-2 2h-13a2 2 0 01-2-2z"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M15.5 10.5l6-3.5v10l-6-3.5z"/></symbol>
+  <symbol id="i-live" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M7.8 7.8a6 6 0 000 8.4M16.2 7.8a6 6 0 010 8.4M5 5a10 10 0 000 14M19 5a10 10 0 010 14"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 6v12M6 12h12"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
@@ -469,7 +491,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
     <div class="hero-copy reveal">
       <span class="eyebrow">Comunidad privada · Colombia</span>
       <h1>Conversaciones <em>reales</em> con las mujeres más encantadoras de Colombia</h1>
-      <p class="lead">Un club exclusivo y verificado donde conectas por chat y llamada con creadoras de Medellín, Cartagena, Cali y Bogotá. Privado, seguro y sin intermediarios dudosos: todo ocurre dentro de la plataforma.</p>
+      <p class="lead">Un club exclusivo y verificado con fotos, videos y transmisiones en vivo de creadoras de Medellín, Cartagena, Cali y Bogotá. Privado, seguro y sin intermediarios dudosos: todo ocurre dentro de la plataforma.</p>
       <div class="hero-actions">
         <a href="#planes" class="btn btn-gold">Ver membresías <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
         <a href="#perfiles" class="btn btn-ghost">Explorar perfiles</a>
@@ -564,7 +586,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-crown"/></svg></div><h3>Elige tu membresía</h3><p>Escoge el plan que va contigo. Pago cifrado y cargo discreto en tu extracto.</p></div>
       <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-user"/></svg></div><h3>Verifica tu cuenta</h3><p>Confirmamos que eres mayor de edad. Así la comunidad es segura para todos.</p></div>
       <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-chat"/></svg></div><h3>Rompe el hielo</h3><p>Escríbele a la creadora que te guste. Chat privado, rápido y dentro de la plataforma.</p></div>
-      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg></div><h3>Llámala con un toque</h3><p>Llamada conectada por nuestra línea segura. Ninguno de los dos ve el número del otro.</p></div>
+      <div class="step reveal"><div class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg></div><h3>Mírala en vivo</h3><p>Transmisiones exclusivas y videollamadas privadas 1 a 1 dentro de la plataforma, sin compartir números.</p></div>
     </div>
   </div>
 </section>
@@ -581,7 +603,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <div class="benefit-list">
         <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-verified"/></svg></div><div><h4>Cero perfiles falsos</h4><p>Cada creadora es verificada con documento y videollamada. Si no es real, no está aquí.</p></div></div>
         <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-phone"/></svg></div><div><h4>Llamadas reales y privadas</h4><p>Hablas con ella de verdad, por voz, a través de nuestra línea enmascarada.</p></div></div>
-        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-spark"/></svg></div><div><h4>Contenido exclusivo</h4><p>Fotos, videos y mensajes de voz que solo ven los miembros. Nada se publica fuera.</p></div></div>
+        <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-live"/></svg></div><div><h4>En vivo y a tu medida</h4><p>Transmisiones exclusivas, videollamadas privadas y fotos o videos hechos solo para ti.</p></div></div>
         <div class="benefit"><div class="ic"><svg width="22" height="22"><use href="#i-lock"/></svg></div><div><h4>Discreción total</h4><p>Cargo con nombre neutro, cuenta protegida y opción de borrar tu historial cuando quieras.</p></div></div>
       </div>
     </div>
@@ -627,21 +649,35 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <span><svg width="18" height="18"><use href="#i-x"/></svg>Sin permanencia</span>
     </div>
 
+    <div class="extras reveal">
+      <h3>Extras a la carta</h3>
+      <p>¿Quieres más de tu creadora favorita? Compra solo lo que quieras ver, cuando quieras. Precio especial para miembros.</p>
+      <div class="extras-grid">
+        <div class="extra"><div class="ic"><svg width="22" height="22"><use href="#i-camera"/></svg></div><h4>Set de fotos personalizado</h4><p>5 fotos hechas para ti, con el estilo y el outfit que elijas.</p><b>$49.900 <small>COP</small></b></div>
+        <div class="extra"><div class="ic"><svg width="22" height="22"><use href="#i-video"/></svg></div><h4>Video personalizado</h4><p>Video de hasta 3 minutos dedicado a ti, entregado en 48 horas.</p><b>$89.900 <small>COP</small></b></div>
+        <div class="extra"><div class="ic"><svg width="22" height="22"><use href="#i-live"/></svg></div><h4>Videollamada privada</h4><p>Minutos adicionales en vivo, 1 a 1, solo tú y ella.</p><b>$9.900 <small>COP / min</small></b></div>
+        <div class="extra"><div class="ic"><svg width="22" height="22"><use href="#i-crown"/></svg></div><h4>Show privado agendado</h4><p>30 minutos en vivo, reservados a la hora que prefieras.</p><b>$249.900 <small>COP</small></b></div>
+      </div>
+    </div>
+
     <div class="compare reveal">
       <table>
-        <thead><tr><th>Incluye</th><th>Pase 7 días</th><th>Esencial</th><th class="hl">Premium</th><th>Black VIP</th></tr></thead>
+        <thead><tr><th>Incluye</th><th>Galería</th><th>Cinema</th><th class="hl">Privé Live</th><th>Black Diamond</th></tr></thead>
         <tbody>
-          <tr><td>Ver perfiles completos</td><td>✓</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
-          <tr><td>Chat privado</td><td>3 creadoras</td><td>Ilimitado</td><td class="hl">Ilimitado</td><td>Ilimitado + prioridad</td></tr>
-          <tr><td>Minutos de llamada</td><td>10</td><td>30 / mes</td><td class="hl">120 / mes</td><td>400 / mes</td></tr>
-          <tr><td>Galerías y videos exclusivos</td><td>—</td><td>Básica</td><td class="hl">Completa</td><td>Completa + privados</td></tr>
-          <tr><td>Mensajes de voz</td><td>—</td><td>—</td><td class="hl">✓</td><td>✓</td></tr>
+          <tr><td>Fotos exclusivas</td><td>✓</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+          <tr><td>Videos exclusivos</td><td>—</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+          <tr><td>Transmisiones en vivo</td><td>—</td><td>—</td><td class="hl">Ilimitadas</td><td>Ilimitadas + privadas</td></tr>
+          <tr><td>Videollamada privada 1 a 1</td><td>—</td><td>—</td><td class="hl">30 min / mes</td><td>120 min / mes</td></tr>
+          <tr><td>Fotos personalizadas</td><td>1 / mes</td><td>4 / mes</td><td class="hl">8 / mes</td><td>Ilimitadas*</td></tr>
+          <tr><td>Videos personalizados</td><td>—</td><td>1 / mes</td><td class="hl">3 / mes</td><td>Ilimitados*</td></tr>
+          <tr><td>Chat privado</td><td>Ilimitado</td><td>Ilimitado</td><td class="hl">Ilimitado + prioridad</td><td>Ilimitado + prioridad</td></tr>
+          <tr><td>Llamada de voz</td><td>—</td><td>30 min</td><td class="hl">120 min</td><td>300 min</td></tr>
           <tr><td>Acceso anticipado a nuevas creadoras</td><td>—</td><td>—</td><td class="hl">—</td><td>✓ 72 h antes</td></tr>
           <tr><td>Concierge personal</td><td>—</td><td>—</td><td class="hl">—</td><td>✓ WhatsApp 24/7</td></tr>
-          <tr><td>Insignia de miembro</td><td>—</td><td>—</td><td class="hl">Oro</td><td>Black</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="sample-note">*Uso justo: hasta 2 pedidos personalizados por día, sujetos a la aceptación de cada creadora.</p>
   </div>
 </section>
 
@@ -658,7 +694,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-phone"/></svg><h3>Números enmascarados</h3><p>Las llamadas pasan por nuestra central. Nadie ve el número de nadie, y cada minuto queda registrado.</p></div>
       <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-card"/></svg><h3>Pagos solo en la plataforma</h3><p>Nunca pagues por fuera. Si alguien te pide dinero por otro medio, repórtalo: lo bloqueamos de inmediato.</p></div>
       <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-eye"/></svg><h3>Moderación humana 24/7</h3><p>Un equipo revisa reportes en minutos. Botón de reporte y bloqueo en cada chat y llamada.</p></div>
-      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-lock"/></svg><h3>Datos cifrados</h3><p>Conexión cifrada, protección de datos según la Ley 1581 de Colombia y borrado de cuenta a solicitud.</p></div>
+      <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-lock"/></svg><h3>Contenido protegido</h3><p>Marca de agua con tu usuario en cada foto y video, bloqueo de descargas y prohibición de grabar los en vivo. Datos protegidos según la Ley 1581.</p></div>
       <div class="trust-item reveal"><svg class="ic" width="34" height="34"><use href="#i-shield"/></svg><h3>Respeto ante todo</h3><p>Código de conducta claro. Solo conversación virtual: los encuentros presenciales no hacen parte del servicio.</p></div>
     </div>
     <div class="seals reveal">
@@ -698,9 +734,9 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <h2>Lo que dicen los <em>miembros</em></h2>
     </div>
     <div class="testis">
-      <div class="testi reveal"><div class="stars">★★★★★</div><q>Probé otras plataformas y siempre terminaba hablando con bots. Aquí la primera llamada fue con una persona real, encantadora y muy culta.</q><div class="who"><i style="--g:linear-gradient(135deg,#6b7c93,#2a3340)"></i><div>Daniel R.<small>Miembro Premium · Miami</small></div></div></div>
-      <div class="testi reveal"><div class="stars">★★★★★</div><q>Lo que más valoro es la discreción. El cargo sale con nombre neutro y nunca tuve que dar mi número personal.</q><div class="who"><i style="--g:linear-gradient(135deg,#8a7a5a,#2f2818)"></i><div>Javier M.<small>Miembro Black VIP · Madrid</small></div></div></div>
-      <div class="testi reveal"><div class="stars">★★★★★</div><q>Practico español hablando con ellas cada semana. El concierge me recomienda perfiles según mis intereses. Vale cada peso.</q><div class="who"><i style="--g:linear-gradient(135deg,#5a6b5a,#1f2a1f)"></i><div>Michael T.<small>Miembro Premium · Toronto</small></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Probé otras plataformas y siempre terminaba hablando con bots. Aquí la primera llamada fue con una persona real, encantadora y muy culta.</q><div class="who"><i style="--g:linear-gradient(135deg,#6b7c93,#2a3340)"></i><div>Daniel R.<small>Miembro Privé Live · Miami</small></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Lo que más valoro es la discreción. El cargo sale con nombre neutro y nunca tuve que dar mi número personal.</q><div class="who"><i style="--g:linear-gradient(135deg,#8a7a5a,#2f2818)"></i><div>Javier M.<small>Miembro Black Diamond · Madrid</small></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><q>Practico español hablando con ellas cada semana. El concierge me recomienda perfiles según mis intereses. Vale cada peso.</q><div class="who"><i style="--g:linear-gradient(135deg,#5a6b5a,#1f2a1f)"></i><div>Michael T.<small>Miembro Cinema · Toronto</small></div></div></div>
     </div>
     <p class="sample-note">Testimonios ilustrativos para la presentación del proyecto.</p>
   </div>
@@ -719,6 +755,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Eliges tu horario, con quién hablas y qué compartes. Puedes bloquear a quien quieras.</li>
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Tu número y datos personales nunca se revelan. Llamadas por línea enmascarada.</li>
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Pagos quincenales garantizados y transparentes, con reporte de cada minuto.</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg>Ganas por cada suscripción, transmisión en vivo, videollamada y foto o video personalizado que vendas. Tú decides qué contenido haces.</li>
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Sesión de fotos profesional, perfil producido por nuestra agencia y promoción internacional.</li>
             <li><svg width="18" height="18"><use href="#i-check"/></svg>Solo conversación virtual. Nunca se exigen encuentros presenciales.</li>
           </ul>
@@ -752,9 +789,11 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
     <div class="faq reveal">
       <details open><summary>¿Las mujeres son reales?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Sí. Cada creadora firma contrato, verifica su identidad con documento oficial y prueba de vida, y hace una videollamada con nuestro equipo. Todas son mayores de 18 años. Si un perfil no es auténtico, no se publica.</p></details>
       <details><summary>¿Cómo funcionan las llamadas?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Desde el chat tocas “Llamar”. Nuestra central conecta ambos teléfonos con números enmascarados, así nadie ve el número del otro. Los minutos se descuentan de tu plan y puedes comprar minutos adicionales cuando quieras.</p></details>
+      <details><summary>¿Cómo funciona el en vivo?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Con Privé Live y Black Diamond entras a todas las transmisiones en vivo de las creadoras y tienes minutos de videollamada privada 1 a 1 cada mes. La videollamada se hace dentro de la plataforma: no necesitas compartir tu número ni tus redes. Si se te acaban los minutos, puedes comprar más.</p></details>
+      <details><summary>¿Cómo pido una foto o un video personalizado?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Desde el perfil de la creadora tocas “Pedir contenido”, describes lo que quieres y ella acepta o propone ajustes. Lo recibes en tu bandeja privada en máximo 48 horas. Cada creadora decide qué tipo de contenido hace.</p></details>
       <details><summary>¿Qué aparece en el extracto de mi tarjeta?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Un nombre comercial neutro, sin referencias al contenido de la plataforma.</p></details>
       <details><summary>¿Puedo cancelar en cualquier momento?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Sí, sin permanencia. Cancelas con un clic desde tu cuenta y mantienes el acceso hasta el final del periodo pagado.</p></details>
-      <details><summary>¿Hay encuentros en persona?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>No. Orquídea Privé es una comunidad de conversación virtual por chat y llamada. Pedir encuentros, datos personales o pagos por fuera de la plataforma va contra las normas y conlleva el bloqueo de la cuenta.</p></details>
+      <details><summary>¿Hay encuentros en persona?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>No. Orquídea Privé es una comunidad virtual de contenido, chat, llamadas y transmisiones en vivo. Pedir encuentros, datos personales o pagos por fuera de la plataforma va contra las normas y conlleva el bloqueo de la cuenta.</p></details>
       <details><summary>¿Qué medios de pago aceptan?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Tarjetas de crédito y débito internacionales, PSE, Nequi y PayPal. Todos los pagos se procesan con cifrado y nunca almacenamos los datos completos de tu tarjeta.</p></details>
       <details><summary>Soy mujer, ¿cómo me uno como creadora?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Llena el formulario de postulación. Te contactamos en 48 horas para una entrevista virtual, verificación y sesión de fotos. Debes ser mayor de 18 años y residir en Colombia.</p></details>
     </div>
@@ -809,7 +848,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
     <span class="eyebrow">Paso 1 de 2</span>
     <h3 id="coTitle" style="margin-top:12px">Activa tu membresía</h3>
     <p class="sub">Crea tu cuenta privada. Tus datos están protegidos y nunca se comparten.</p>
-    <div class="summary"><span id="coPlan">Premium · Mensual</span><b id="coPrice">$0</b></div>
+    <div class="summary"><span id="coPlan">Privé Live · Mensual</span><b id="coPrice">$0</b></div>
     <form id="coForm">
       <div class="field"><label for="coName">Nombre o alias</label><input id="coName" required autocomplete="nickname" placeholder="Cómo quieres que te llamen"></div>
       <div class="field"><label for="coEmail">Correo electrónico</label><input id="coEmail" type="email" required autocomplete="email" placeholder="tu@correo.com"></div>
@@ -864,16 +903,18 @@ const DEMO_MODE = true;
 const USD_RATE = 4000; // COP por USD, solo para mostrar precios en dólares
 
 // Precios mensuales en COP. Trimestral aplica -20%.
+// unlocks: qué tipo de contenido abre cada plan (fotos, videos, vivo).
 const PLANS = [
-  { id:'pass', name:'Pase 7 días', desc:'Para conocer el club sin compromiso.', price:39900, period:'7 días', once:true,
-    feats:[['Perfiles completos',1],['Chat con 3 creadoras',1],['10 minutos de llamada',1],['Galerías exclusivas',0],['Mensajes de voz',0]], cta:'Probar 7 días' },
-  { id:'essential', name:'Esencial', desc:'Chatea sin límites y llama cuando quieras.', price:89900,
-    feats:[['Chat ilimitado',1],['30 minutos de llamada al mes',1],['Galería básica',1],['Minutos extra con descuento',1],['Mensajes de voz',0]], cta:'Elegir Esencial' },
-  { id:'premium', name:'Premium', desc:'La experiencia completa. El favorito de los miembros.', price:179900, popular:true,
-    feats:[['Chat ilimitado',1],['120 minutos de llamada al mes',1],['Galerías y videos completos',1],['Mensajes de voz',1],['Insignia Oro en tu perfil',1]], cta:'Quiero Premium' },
-  { id:'vip', name:'Black VIP', desc:'Trato de primera clase y acceso antes que nadie.', price:449900, vip:true,
-    feats:[['Todo lo de Premium',1],['400 minutos de llamada al mes',1],['Contenido privado',1],['Acceso 72 h antes a nuevas creadoras',1],['Concierge personal 24/7',1]], cta:'Ser Black VIP' }
+  { id:'gallery', name:'Galería', desc:'Fotos exclusivas de todas las creadoras y chat privado.', price:69900, unlocks:['fotos'],
+    feats:[['Fotos exclusivas de todas las creadoras',1],['Nuevos sets de fotos cada semana',1],['Chat privado ilimitado',1],['1 foto personalizada al mes',1],['Videos exclusivos',0],['Transmisiones en vivo',0]], cta:'Elegir Galería' },
+  { id:'cinema', name:'Cinema', desc:'Fotos y videos exclusivos, con contenido enviado solo para ti.', price:149900, unlocks:['fotos','videos'],
+    feats:[['Todo lo de Galería',1],['Biblioteca completa de videos exclusivos',1],['4 fotos + 1 video personalizado al mes',1],['Mensajes de voz y 30 min de llamada',1],['Videos en alta definición',1],['Transmisiones en vivo',0]], cta:'Elegir Cinema' },
+  { id:'live', name:'Privé Live', desc:'Mírala en vivo. Transmisiones exclusivas y videollamada privada.', price:299900, popular:true, unlocks:['fotos','videos','vivo'],
+    feats:[['Todo lo de Cinema',1],['Transmisiones en vivo ilimitadas',1],['30 min de videollamada privada 1 a 1 al mes',1],['8 fotos + 3 videos personalizados al mes',1],['120 min de llamada',1],['Insignia Oro y prioridad en el chat',1]], cta:'Quiero Privé Live' },
+  { id:'diamond', name:'Black Diamond', desc:'La experiencia máxima: en vivo, privado y a tu medida.', price:699900, vip:true, unlocks:['fotos','videos','vivo'],
+    feats:[['Todo lo de Privé Live',1],['120 min de videollamada privada 1 a 1 al mes',1],['Shows privados en vivo agendados contigo',1],['Fotos y videos personalizados ilimitados*',1],['Acceso 72 h antes a nuevas creadoras',1],['Concierge personal 24/7 por WhatsApp',1]], cta:'Ser Black Diamond' }
 ];
+const UNLOCK_LABELS = [['fotos','Fotos','camera'],['videos','Videos','video'],['vivo','En vivo','live']];
 
 // Perfiles de muestra. Para usar fotos reales agrega photo:'img/nombre.jpg'
 const PROFILES = [
@@ -982,6 +1023,7 @@ function renderPlans(){
     const daily = p.once ? '' : `Equivale a ${fmt(pr.now/30)} al día`;
     return `<div class="plan ${p.popular?'popular':''} ${p.vip?'vip':''} reveal in">
       ${p.popular ? '<span class="badge">Más elegido</span>' : p.vip ? '<span class="badge">Exclusivo</span>' : ''}
+      <div class="unlocks">${UNLOCK_LABELS.map(([k,l,ic]) => `<span class="${k==='vivo'?'live ':''}${p.unlocks.includes(k)?'on':''}"><svg width="12" height="12"><use href="#i-${ic}"/></svg>${l}</span>`).join('')}</div>
       <div><div class="plan-name">${p.name}</div><p class="plan-desc">${p.desc}</p></div>
       <div><div class="price-old">${pr.old ? fmt(pr.old) : '&nbsp;'}</div><div class="price"><b>${fmt(pr.now)}</b><small>/ ${pr.label}</small></div></div>
       <ul>${p.feats.map(([t,on]) => `<li class="${on?'':'off'}"><svg width="16" height="16"><use href="#i-${on?'check':'x'}"/></svg>${t}</li>`).join('')}</ul>
@@ -1084,10 +1126,11 @@ $$('[data-count]').forEach(el => countIO.observe(el));
 const names = ['Andrés','Michael','Javier','Daniel','Carlos','James','Luis','Roberto','David','Thomas'];
 const places = ['Miami','Madrid','Bogotá','Toronto','Ciudad de México','Nueva York','Medellín','Houston','Barcelona','Panamá'];
 const actions = [
-  n => `<b>${n}</b> se suscribió a <b>Premium</b>`,
-  n => `<b>${n}</b> se unió como <b>Black VIP</b>`,
-  n => `<b>${n}</b> activó el <b>Pase 7 días</b>`,
-  n => `<b>${n}</b> inició una llamada con <b>${PROFILES[Math.floor(Math.random()*PROFILES.length)].name}</b>`
+  n => `<b>${n}</b> se suscribió a <b>Privé Live</b>`,
+  n => `<b>${n}</b> se unió como <b>Black Diamond</b>`,
+  n => `<b>${n}</b> activó el plan <b>Cinema</b>`,
+  n => `<b>${n}</b> pidió un <b>video personalizado</b>`,
+  n => `<b>${n}</b> entró al en vivo de <b>${PROFILES[Math.floor(Math.random()*PROFILES.length)].name}</b>`
 ];
 const grads = ['linear-gradient(135deg,#f3dcaa,#b38d4f)','linear-gradient(135deg,#e48aa0,#8a3a50)','linear-gradient(135deg,#cfc2b8,#7a6a60)'];
 let toastsOn = false;
