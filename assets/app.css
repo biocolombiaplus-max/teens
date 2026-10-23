@@ -26,8 +26,10 @@ h1 em,h2 em{font-style:italic;color:var(--gold-2)}
 .bg-glow{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(50% 40% at 85% 0%,#c9677f2e,transparent 70%),radial-gradient(40% 40% at 0% 100%,#d9b7791a,transparent 70%)}
 
 .logo{display:inline-flex;align-items:center;gap:12px;font-family:var(--serif);font-size:24px;color:var(--text);text-decoration:none}
-.logo svg{width:34px;height:34px}
-.logo small{font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--gold);display:block;margin-top:-4px}
+.logo{gap:10px}
+
+.logo .logo-mark{width:44px;height:44px;border-radius:50%;flex:none}
+.logo .logo-word{height:40px;width:auto}
 
 /* Botones */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 24px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .2s,background .2s,opacity .2s;white-space:nowrap;text-decoration:none;color:var(--text)}

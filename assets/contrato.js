@@ -36,7 +36,7 @@
 
     return `
 <header class="k-head">
-  <p class="k-kicker">${esc(E.sitio || 'Orquídea Privé')} · Versión ${VERSION}</p>
+  <p class="k-kicker">${esc(E.sitio || 'Orquídea Private')} · Versión ${VERSION}</p>
   <h1>Contrato de prestación de servicios independientes, exclusividad y licencia de contenido digital</h1>
 </header>
 

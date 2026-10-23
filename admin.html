@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Panel administrativo — Orquídea Privé</title>
+<title>Panel administrativo — Orquídea Private</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0b0709">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,8 +23,8 @@ body{font-size:14px}
 .side{position:sticky;top:0;z-index:20;background:#0e090bf2;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;gap:12px;overflow-x:auto}
 @media(min-width:960px){.side{height:100vh;flex-direction:column;align-items:stretch;border-bottom:0;border-right:1px solid var(--line);padding:24px 16px}}
 .side .logo{flex:none;font-size:20px}
-.side .logo svg{width:28px;height:28px}
-@media(max-width:959px){.side .logo div{display:none}}
+.side .logo .logo-word{height:34px}
+@media(max-width:959px){.side .logo .logo-word{display:none}}
 .tabs{display:flex;gap:4px}
 @media(min-width:960px){.tabs{flex-direction:column;margin-top:28px;flex:1}}
 .tab{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--muted);font-weight:600;white-space:nowrap}
@@ -158,7 +160,7 @@ body{font-size:14px}
 <!-- ============ INGRESO ============ -->
 <div class="login" id="login">
   <div class="card-box">
-    <div class="logo"><svg><use href="#logo"/></svg><div>Orquídea<small>PRIVÉ · ADMIN</small></div></div>
+    <div class="logo"><img class="logo-mark" src="assets/brand/marca.webp" alt="" width="44" height="44"><img class="logo-word" src="assets/brand/nombre.webp" alt="Orquídea Private" width="136" height="40"></div><p class="dim" style="margin:-14px 0 20px;letter-spacing:.2em;font-size:11px">PANEL ADMINISTRATIVO</p>
     <div id="setupMsg" class="alert info" style="display:none;margin-bottom:16px">Falta conectar la base de datos. Sigue los pasos de <b>supabase/LEEME.md</b> y llena <b>config.js</b>.</div>
     <form id="loginForm">
       <div class="field"><label for="lemail">Correo</label><input id="lemail" type="email" autocomplete="username" required></div>
@@ -172,7 +174,7 @@ body{font-size:14px}
 <!-- ============ PANEL ============ -->
 <div class="shell" id="shell">
   <aside class="side">
-    <a class="logo" href="index.html" target="_blank"><svg><use href="#logo"/></svg><div>Orquídea<small>ADMIN</small></div></a>
+    <a class="logo" href="index.html" target="_blank" title="Ver landing"><img class="logo-mark" src="assets/brand/marca.webp" alt="" width="44" height="44"><img class="logo-word" src="assets/brand/nombre.webp" alt="Orquídea Private" width="136" height="40"></a>
     <nav class="tabs">
       <button class="tab on" data-view="resumen">Resumen</button>
       <button class="tab" data-view="modelos">Modelos <span class="n" id="nNew" style="display:none"></span></button>
@@ -424,7 +426,7 @@ async function openModel(id){
       <h3>Estado</h3>
       <div class="row two">
         <div class="field"><label>Estado del proceso</label><select id="f_status">${Object.entries(STATUS).map(([k, l]) => `<option value="${k}" ${m.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
-        <div class="field"><label>&nbsp;</label>${m.phone ? `<a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="${waLink(m.phone, `Hola ${nameOf(m)} 👋, te escribimos de Orquídea Privé.`)}">Escribirle por WhatsApp</a>` : ''}</div>
+        <div class="field"><label>&nbsp;</label>${m.phone ? `<a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="${waLink(m.phone, `Hola ${nameOf(m)} 👋, te escribimos de Orquídea Private.`)}">Escribirle por WhatsApp</a>` : ''}</div>
       </div>
     </div>
 
@@ -715,7 +717,7 @@ const contractLink = c => url('contrato.html?t=' + c.token);
 function contractMsg(m, c){
   return `Hola ${nameOf(m)} ✨
 
-Te damos la bienvenida a *Orquídea Privé*. Aquí está tu contrato para leerlo y firmarlo desde el celular, con tu dedo:
+Te damos la bienvenida a *Orquídea Private*. Aquí está tu contrato para leerlo y firmarlo desde el celular, con tu dedo:
 
 ${contractLink(c)}
 
@@ -814,7 +816,7 @@ document.addEventListener('click', async e => {
 /* ---------------- Enlaces ---------------- */
 const regUrl = () => url('registro.html');
 const TEMPLATES = {
-  pro: l => `Hola ✨ Te invitamos a ser parte de *Orquídea Privé*, una comunidad privada y exclusiva para creadoras colombianas.
+  pro: l => `Hola ✨ Te invitamos a ser parte de *Orquídea Private*, una comunidad privada y exclusiva para creadoras colombianas.
 
 • Ganas el 55% de cada venta, en pagos quincenales
 • Tú decides qué haces y con quién hablas
@@ -825,13 +827,13 @@ Regístrate aquí en 3 minutos (solo mayores de 18 años):
 ${l}`,
   cercano: l => `Hola, ¿cómo estás? 😊
 
-Te escribo porque estamos armando *Orquídea Privé*, un club privado donde las creadoras ganan en dólares desde casa, con total seguridad y discreción. Tú decides todo: horarios, con quién hablas y qué compartes, y te quedas con el 55% de cada venta.
+Te escribo porque estamos armando *Orquídea Private*, un club privado donde las creadoras ganan en dólares desde casa, con total seguridad y discreción. Tú decides todo: horarios, con quién hablas y qué compartes, y te quedas con el 55% de cada venta.
 
 Si te interesa, el registro toma 3 minutos 👇
 ${l}
 
 Cualquier duda me escribes por aquí 💛`,
-  corto: l => `✨ Únete a *Orquídea Privé*: gana el 55% de cada venta, con pagos quincenales y total privacidad. Solo +18.
+  corto: l => `✨ Únete a *Orquídea Private*: gana el 55% de cada venta, con pagos quincenales y total privacidad. Solo +18.
 Regístrate aquí 👉 ${l}`
 };
 let tpl = 'pro', msgEdited = false;
@@ -882,7 +884,7 @@ document.addEventListener('click', async e => {
   const cm = e.target.closest('[data-copymsg]');
   if(cm){ await copyText(inviteText()); toast('✓ Mensaje con enlace copiado'); flash(cm, '✓ ¡Copiado!'); }
   const sh = e.target.closest('[data-share]');
-  if(sh){ try{ await navigator.share({ title:'Orquídea Privé', text: inviteText() }); }catch(err){} }
+  if(sh){ try{ await navigator.share({ title:'Orquídea Private', text: inviteText() }); }catch(err){} }
 });
 
 let qrFor = null;

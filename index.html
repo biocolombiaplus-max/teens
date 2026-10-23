@@ -3,9 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Orquídea Privé — Comunidad exclusiva</title>
+<title>Orquídea Private — Comunidad exclusiva</title>
 <meta name="description" content="Comunidad privada y verificada para conversar con creadoras colombianas. Solo mayores de 18 años. Chat y llamadas seguras dentro de la plataforma.">
 <meta name="theme-color" content="#0b0709">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orquídea Private">
+<meta property="og:title" content="Orquídea Private · Club privado">
+<meta property="og:description" content="Comunidad exclusiva y verificada con las creadoras más encantadoras de Colombia. Fotos, videos y en vivo. Solo +18.">
+<meta property="og:url" content="https://teens-omega.vercel.app/">
+<meta property="og:image" content="https://teens-omega.vercel.app/assets/brand/og.jpg">
+<meta property="og:image:secure_url" content="https://teens-omega.vercel.app/assets/brand/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Orquídea Private">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://teens-omega.vercel.app/assets/brand/og.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -93,8 +109,14 @@ h1 em,h2 em{font-style:italic;color:var(--gold-2)}
 .nav.scrolled{background:#0b0709e6;backdrop-filter:blur(18px);border-color:var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:16px}
 .logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:26px;letter-spacing:.02em}
-.logo-mark{width:36px;height:36px;flex:none}
-.logo small{font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--gold);display:block;margin-top:-4px}
+.logo{gap:10px}
+
+.logo .logo-mark{width:44px;height:44px;border-radius:50%;flex:none}
+.logo .logo-word{height:40px;width:auto}
+.age-box .brand{display:block;width:210px;margin:-8px auto 10px}
+.foot .brand{width:170px;margin:-10px 0 6px -10px}
+.final .brand{width:130px;height:130px;border-radius:50%;filter:drop-shadow(0 0 40px #9b2f7a66)}
+@media(max-width:400px){.nav .logo .logo-word{height:32px}.nav .logo .logo-mark{width:38px;height:38px}}
 .nav-links{display:none;gap:34px;font-size:14px;color:var(--muted)}
 .nav-links a{transition:color .2s}
 .nav-links a:hover{color:var(--text)}
@@ -497,10 +519,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 <!-- ===================== VERIFICACIÓN DE EDAD ===================== -->
 <div class="modal open" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
   <div class="modal-box age-box">
-    <div class="logo">
-      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg>
-      <div>Orquídea<small>PRIVÉ</small></div>
-    </div>
+    <img class="brand" src="assets/brand/logo.webp" alt="Orquídea Private" width="210" height="210">
     <h3 id="ageTitle">Solo para mayores de 18 años</h3>
     <p class="sub">Esta es una comunidad privada para adultos. Al entrar confirmas que tienes 18 años o más y aceptas nuestros Términos y la Política de privacidad.</p>
     <div class="btns">
@@ -521,9 +540,8 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 <!-- ===================== NAVEGACIÓN ===================== -->
 <header class="nav" id="nav">
   <div class="wrap">
-    <a href="#" class="logo" aria-label="Orquídea Privé, inicio">
-      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg>
-      <div>Orquídea<small>PRIVÉ</small></div>
+    <a href="#" class="logo" aria-label="Orquídea Private, inicio">
+      <img class="logo-mark" src="assets/brand/marca.webp" alt="" width="44" height="44"><img class="logo-word" src="assets/brand/nombre.webp" alt="Orquídea Private" width="136" height="40">
     </a>
     <nav class="nav-links" aria-label="Principal">
       <a href="#perfiles">Creadoras</a>
@@ -829,7 +847,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <details><summary>¿Cómo pido una foto o un video personalizado?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Desde el perfil de la creadora tocas “Pedir contenido”, describes lo que quieres y ella acepta o propone ajustes. Lo recibes en tu bandeja privada en máximo 48 horas. Cada creadora decide qué tipo de contenido hace.</p></details>
       <details><summary>¿Qué aparece en el extracto de mi tarjeta?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Un nombre comercial neutro, sin referencias al contenido de la plataforma.</p></details>
       <details><summary>¿Puedo cancelar en cualquier momento?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Sí, sin permanencia. Cancelas con un clic desde tu cuenta y mantienes el acceso hasta el final del periodo pagado.</p></details>
-      <details><summary>¿Hay encuentros en persona?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>No. Orquídea Privé es una comunidad virtual de contenido, chat, llamadas y transmisiones en vivo. Pedir encuentros, datos personales o pagos por fuera de la plataforma va contra las normas y conlleva el bloqueo de la cuenta.</p></details>
+      <details><summary>¿Hay encuentros en persona?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>No. Orquídea Private es una comunidad virtual de contenido, chat, llamadas y transmisiones en vivo. Pedir encuentros, datos personales o pagos por fuera de la plataforma va contra las normas y conlleva el bloqueo de la cuenta.</p></details>
       <details><summary>¿Qué medios de pago aceptan?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Tarjetas de crédito y débito internacionales, PSE, Nequi y PayPal. Todos los pagos se procesan con cifrado y nunca almacenamos los datos completos de tu tarjeta.</p></details>
       <details><summary>Soy mujer, ¿cómo me uno como creadora?<span class="pm"><svg width="14" height="14"><use href="#i-plus"/></svg></span></summary><p>Llena el formulario de postulación. Te contactamos en 48 horas para una entrevista virtual, verificación y sesión de fotos. Debes ser mayor de 18 años y residir en Colombia.</p></details>
     </div>
@@ -840,6 +858,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
 <section class="final bg-section" data-bg="img/fondos/cierre.jpg">
   <div class="hero-glow"></div>
   <div class="wrap reveal">
+    <img class="brand" src="assets/brand/marca.webp" alt="" width="130" height="130" loading="lazy">
     <span class="eyebrow">Cupos fundadores limitados</span>
     <h2>Tu lugar en el club <em>te espera</em></h2>
     <p class="lead">Únete hoy con precio de lanzamiento y consérvalo mientras mantengas tu membresía activa.</p>
@@ -855,7 +874,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
   <div class="wrap">
     <div class="foot">
       <div>
-        <div class="logo" style="margin-bottom:16px"><svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><use href="#logo"/></svg><div>Orquídea<small>PRIVÉ</small></div></div>
+        <img class="brand" src="assets/brand/logo.webp" alt="Orquídea Private" width="170" height="170" loading="lazy">
         <p style="max-width:320px">Comunidad privada de conversación virtual con creadoras colombianas verificadas. Solo para mayores de 18 años.</p>
       </div>
       <div><h5>Club</h5><ul><li><a href="#perfiles">Creadoras</a></li><li><a href="#planes">Membresías</a></li><li><a href="#como-funciona">Cómo funciona</a></li><li><a href="#faq">Preguntas</a></li></ul></div>
@@ -863,7 +882,7 @@ footer{border-top:1px solid var(--line);padding:64px 0 40px;color:var(--muted);f
       <div><h5>Legal</h5><ul><li><a href="#">Términos y condiciones</a></li><li><a href="#">Política de privacidad</a></li><li><a href="#">Código de conducta</a></li><li><a href="#">Política de reembolsos</a></li><li><a href="#">Reportar un problema</a></li></ul></div>
     </div>
     <div class="legal">
-      <span>© <span id="yr"></span> Orquídea Privé. Todos los derechos reservados. Sitio exclusivo para mayores de 18 años.</span>
+      <span>© <span id="yr"></span> Orquídea Private. Todos los derechos reservados. Sitio exclusivo para mayores de 18 años.</span>
       <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span><span>PAYPAL</span></div>
     </div>
   </div>
@@ -1152,7 +1171,7 @@ function openProfile(p){
   const pub = pItems.filter(x => !x.exclusive).length, exc = pItems.length - pub;
   $('#pName').textContent = p.name;
   $('#pMeta').textContent = `${p.city} · ${p.age} años`;
-  $('#pBio').textContent = p.bio || 'Creadora verificada de Orquídea Privé. Suscríbete para conocerla, ver todo su contenido y hablar con ella en privado.';
+  $('#pBio').textContent = p.bio || 'Creadora verificada de Orquídea Private. Suscríbete para conocerla, ver todo su contenido y hablar con ella en privado.';
   $('#pTags').innerHTML = (p.tags || []).map(t => `<span>${esc(t)}</span>`).join('');
   $('#pChips').innerHTML = (p.online ? '<span class="chip"><span class="dot"></span>En línea ahora</span>' : '<span class="chip" style="color:var(--muted)">Vuelve pronto</span>') + badgeChip(p);
   $('#pStats').innerHTML = `<div><b>${pItems.length}</b><span>Fotos</span></div><div><b>${pub}</b><span>Públicas</span></div><div><b>${exc}</b><span>Exclusivas</span></div>`;

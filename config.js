@@ -1,5 +1,5 @@
 /* =========================================================================
-   CONFIGURACIÓN GENERAL — Orquídea Privé
+   CONFIGURACIÓN GENERAL — Orquídea Private
    Edita solo este archivo. Todos estos valores son públicos por diseño:
    NUNCA pongas aquí la "service_role key" de Supabase ni llaves privadas.
    ========================================================================= */
@@ -25,7 +25,7 @@ window.OP_CONFIG = {
     representante: '[NOMBRE DEL REPRESENTANTE LEGAL]',
     ciudad: 'Medellín',
     correo: '[correo@empresa.com]',
-    sitio: 'Orquídea Privé'
+    sitio: 'Orquídea Private'
   },
 
   // Reparto de ingresos (porcentaje para la creadora)

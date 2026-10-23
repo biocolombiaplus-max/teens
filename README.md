@@ -1,4 +1,4 @@
-# Orquídea Privé
+# Orquídea Private
 
 Sitio estático (funciona en Vercel o Cloudflare Pages) con base de datos en Supabase.
 
