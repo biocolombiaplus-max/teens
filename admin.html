@@ -55,6 +55,10 @@ body{font-size:14px}
 .item .t small{display:block;color:var(--dim);font-size:12px;margin-top:2px}
 .item .r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .pub{font-size:11px;color:var(--ok)}
+.pub.warn{color:var(--warn)}
+.vis{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;font-size:13px;margin-top:12px;border:1px solid}
+.vis.on{background:#4fd18b12;border-color:#4fd18b55;color:#b8f5d2}
+.vis.off{background:#f0b35a12;border-color:#f0b35a55;color:#ffd9a3}
 .empty{padding:40px;text-align:center;color:var(--dim);border:1px dashed var(--line-strong);border-radius:14px}
 
 /* Panel lateral de detalle */
@@ -371,7 +375,7 @@ function itemHTML(m){
     <div class="av" style="${m.photo_url ? `background-image:url('${esc(m.photo_url)}')` : ''}">${m.photo_url ? '' : esc(nameOf(m)[0] || '?')}</div>
     <div class="t"><b>${esc(m.full_name)}</b>${m.stage_name ? ` <span class="dim">· ${esc(m.stage_name)}</span>` : ''}
       <small>${a} años · ${esc(m.city || '—')} · ${esc(m.phone)} · ${fmtDate(m.created_at)}</small></div>
-    <div class="r">${badge(m.status)}${m.published ? '<span class="pub">● En la landing</span>' : ''}</div>
+    <div class="r">${badge(m.status)}${m.published && m.status === 'activa' ? '<span class="pub">● En la landing</span>' : m.status === 'activa' ? '<span class="pub warn">○ Falta marcar Publicada</span>' : ''}</div>
   </button>`;
 }
 
@@ -450,9 +454,10 @@ async function openModel(id){
         <label class="tg"><input type="checkbox" id="f_online" ${m.online ? 'checked' : ''}>En línea</label>
         <label class="tg"><input type="checkbox" id="f_is_new" ${m.is_new ? 'checked' : ''}>Nueva</label>
         <label class="tg"><input type="checkbox" id="f_top" ${m.top ? 'checked' : ''}>Top</label>
-        <label class="tg">Orden <input type="number" id="f_sort" value="${m.sort ?? 100}" style="width:64px;height:30px;border-radius:8px;border:1px solid var(--line-strong);background:#0b0709;color:var(--text);padding:0 8px"></label>
+        <label class="tg" title="1 = primera posición. Déjalo en 100 para ordenar por fecha (las más nuevas primero).">Posición <input type="number" id="f_sort" min="1" value="${m.sort ?? 100}" style="width:64px;height:30px;border-radius:8px;border:1px solid var(--line-strong);background:#0b0709;color:var(--text);padding:0 8px"></label>
       </div>
-      <p class="dim" style="margin-top:8px">Solo aparece en la landing si está <b>Publicada</b> y en estado <b>Activa</b>.</p>
+      <div class="vis" id="visNote"></div>
+      <p class="dim" style="margin-top:8px">Orden en la landing: las más nuevas salen primero. Para fijar una modelo en una posición, ponle un número en <b>Posición</b> (1 = primera); 100 = orden por fecha.</p>
     </div>
 
     <div class="block">
@@ -506,7 +511,32 @@ async function openModel(id){
   $('#f_photo').addEventListener('change', e => uploadPhoto(e.target.files[0]));
   current.gallery = Array.isArray(m.gallery) ? m.gallery.map(g => ({ ...g })) : [];
   renderGallery();
-  $('#f_status').addEventListener('change', e => { current.status = e.target.value; renderGallery(); });
+  const pubBox = $('#f_published'), statusSel = $('#f_status');
+  const updateVis = () => {
+    const ok = pubBox.checked && statusSel.value === 'activa';
+    $('#visNote').className = 'vis ' + (ok ? 'on' : 'off');
+    $('#visNote').textContent = ok ? '✓ Se verá en la landing al guardar los cambios.'
+      : !['verificada','contrato_enviado','firmado','activa'].includes(statusSel.value) ? 'No se verá en la landing: primero verifica a la modelo.'
+      : 'No se verá en la landing: marca “Publicada” para mostrarla.';
+  };
+  statusSel.addEventListener('change', () => {
+    current.status = statusSel.value; renderGallery();
+    if(statusSel.value === 'activa') pubBox.checked = true;
+    if(['postulada','rechazada','retirada'].includes(statusSel.value)) pubBox.checked = false;
+    updateVis();
+  });
+  pubBox.addEventListener('change', () => {
+    if(pubBox.checked && statusSel.value !== 'activa'){
+      if(['verificada','contrato_enviado','firmado'].includes(statusSel.value)){
+        statusSel.value = 'activa'; current.status = 'activa'; renderGallery();
+        toast('Estado cambiado a Activa para que aparezca en la landing.');
+      } else {
+        pubBox.checked = false; toast('Primero verifica a la modelo para poder publicarla.', 4000);
+      }
+    }
+    updateVis();
+  });
+  updateVis();
   if(!isNew){
     renderModelContracts(m);
     $('#newContract').addEventListener('click', () => createContract(m));
@@ -690,14 +720,14 @@ $('#dSave').addEventListener('click', async () => {
   if(!row.full_name || !row.doc_number || !row.phone) return toast('Nombre, documento y WhatsApp son obligatorios.', 4000);
   const a = ageFrom(row.birth_date);
   if(a === null || a < 18) return toast('Fecha de nacimiento obligatoria: solo mayores de 18 años.', 4500);
-  if(row.published && row.status !== 'activa') toast('Nota: solo se verá en la landing cuando el estado sea “Activa”.', 4500);
+  if(row.sort < 1) row.sort = 100;
 
   const btn = $('#dSave'); btn.disabled = true;
   const q = current.isNew ? db.from('models').insert({ ...row, source:'admin' }) : db.from('models').update(row).eq('id', current.id);
   const { error } = await q;
   btn.disabled = false;
   if(error) return toast('No se pudo guardar: ' + error.message, 5000);
-  toast('Cambios guardados ✓'); closeDrawer(); loadAll();
+  toast(row.published && row.status === 'activa' ? 'Guardado ✓ Ya está visible en la landing.' : 'Cambios guardados ✓'); closeDrawer(); loadAll();
 });
 
 $('#dDelete').addEventListener('click', async () => {

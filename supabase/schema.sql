@@ -178,7 +178,7 @@ language sql stable security definer set search_path = public as $$
                    from jsonb_array_elements(m.gallery) with ordinality as t(g, o)), '[]'::jsonb)
   from public.models m
   where m.published and m.status = 'activa'
-  order by m.featured desc, m.sort, m.created_at;
+  order by m.sort, m.created_at desc;  -- posición fija primero; luego las más nuevas
 $$;
 
 -- Leer un contrato por su enlace privado
